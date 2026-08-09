@@ -1,0 +1,614 @@
+Build a complete working academic research prototype called:
+
+"DEA-MedRAG: Deterministic Epistemic Arbitration in Multi-Agent RAG for Polypharmacy Decision Support"
+
+IMPORTANT:
+This is an academic/research prototype for clinical decision support.
+It must NOT claim to diagnose patients, prescribe medication, or replace healthcare professionals.
+
+The system must implement the architecture described below.
+
+==================================================
+1. CORE OBJECTIVE
+==================================================
+
+Build a web-based Clinical Decision Support research prototype that accepts a structured patient profile and uses a Multi-Agent Retrieval-Augmented Generation architecture to retrieve medical evidence from separate knowledge domains.
+
+The system must contain:
+
+1. Query Interpreter
+2. Task Orchestrator
+3. Clinical RAG Agent
+4. Drug Safety RAG Agent
+5. Literature RAG Agent
+6. Conflict Detector
+7. Deterministic Epistemic Arbitration (DEA) Engine
+8. Evidence Ranker
+9. Explanation/Report Generator
+10. Web Dashboard
+
+The final workflow must be:
+
+Patient Input
+    ↓
+Query Interpreter
+    ↓
+Task Orchestrator
+    ↓
+Parallel Specialized Agents
+    ├── Clinical Agent
+    ├── Drug Agent
+    └── Literature Agent
+    ↓
+Structured JSON Evidence
+    ↓
+Conflict Detection
+    ↓
+DEA Arbitration
+    ↓
+Evidence Ranking
+    ↓
+Explanation Generator
+    ↓
+Traceable Clinical Decision Support Report
+
+
+==================================================
+2. TECHNOLOGY STACK
+==================================================
+
+Backend:
+- Python
+- FastAPI
+- Pydantic
+- ChromaDB
+- sentence-transformers or another suitable embedding model
+- PyMuPDF for PDF extraction
+- scikit-learn where useful
+
+Frontend:
+- React
+- Vite
+- Modern responsive dashboard UI
+
+Database/vector storage:
+- ChromaDB
+- Separate collections for:
+  clinical_guidelines
+  drug_information
+  clinical_literature
+
+Use environment variables for API keys.
+
+The application should run completely inside Replit.
+
+
+==================================================
+3. KNOWLEDGE SILO ARCHITECTURE
+==================================================
+
+IMPORTANT:
+
+Do NOT make all three agents retrieve from one common database.
+
+Create three independent knowledge silos:
+
+A. Clinical Knowledge
+Collection:
+clinical_guidelines
+
+Contains:
+- disease guidelines
+- treatment recommendations
+- evidence grades
+- clinical protocols
+
+B. Drug Knowledge
+Collection:
+drug_information
+
+Contains:
+- drug indications
+- contraindications
+- drug-disease interactions
+- renal/hepatic restrictions
+- safety information
+
+C. Literature Knowledge
+Collection:
+clinical_literature
+
+Contains:
+- clinical studies
+- recent research
+- clinical trials
+- emerging treatment evidence
+
+
+==================================================
+4. DATA INGESTION
+==================================================
+
+Create a document ingestion pipeline.
+
+Requirements:
+
+- Accept PDF and TXT documents
+- Extract text
+- Split text into meaningful chunks
+- Generate embeddings
+- Store embeddings in the appropriate ChromaDB collection
+- Store metadata
+
+Metadata should include:
+
+{
+  source,
+  title,
+  year,
+  evidence_grade,
+  domain,
+  page,
+  risk_level
+}
+
+Create a simple admin/data ingestion interface or script so sample documents can be loaded easily.
+
+If external medical documents are not available, create clearly labelled DEMONSTRATION/SYNTHETIC knowledge documents for the prototype.
+
+DO NOT fabricate real medical citations and present them as genuine.
+
+
+==================================================
+5. PATIENT PROFILE
+==================================================
+
+The frontend must allow the user to enter:
+
+- Age
+- Sex
+- Diseases/comorbidities
+- Current medications
+- Symptoms
+- Lab values
+- Allergies
+- Relevant clinical conditions
+
+Example:
+
+Age: 68
+Diseases:
+- Type 2 Diabetes
+- Chronic Kidney Disease
+- Hypertension
+
+Medications:
+- Example Drug A
+- Example Drug B
+
+Lab values:
+- Creatinine
+- eGFR
+- Blood glucose
+
+The system should convert this into a structured patient object.
+
+
+==================================================
+6. QUERY INTERPRETER
+==================================================
+
+Implement a Query Interpreter that converts the patient profile into domain-specific tasks.
+
+Example:
+
+Clinical task:
+"What treatments are recommended for the patient's diseases?"
+
+Drug task:
+"Are the candidate medications contraindicated or high-risk given the patient's conditions and laboratory values?"
+
+Literature task:
+"What recent evidence exists for safer alternatives?"
+
+
+==================================================
+7. SPECIALIZED AGENTS
+==================================================
+
+Implement three independent agents.
+
+------------------------------
+CLINICAL AGENT
+------------------------------
+
+Retrieve evidence only from clinical_guidelines.
+
+Return strictly structured JSON:
+
+{
+  "agent": "clinical",
+  "claims": [],
+  "recommendations": [],
+  "evidence": [],
+  "evidence_grade": 0,
+  "relevance": 0,
+  "recency": 0,
+  "source": "",
+  "year": 0
+}
+
+
+------------------------------
+DRUG SAFETY AGENT
+------------------------------
+
+Retrieve evidence only from drug_information.
+
+Return:
+
+{
+  "agent": "drug",
+  "drug": "",
+  "contraindications": [],
+  "interactions": [],
+  "risk_level": "",
+  "patient_specific_risk": 0,
+  "evidence_grade": 0,
+  "source": "",
+  "year": 0
+}
+
+
+------------------------------
+LITERATURE AGENT
+------------------------------
+
+Retrieve evidence only from clinical_literature.
+
+Return:
+
+{
+  "agent": "literature",
+  "findings": [],
+  "alternative_treatments": [],
+  "evidence_grade": 0,
+  "relevance": 0,
+  "recency": 0,
+  "source": "",
+  "year": 0
+}
+
+
+==================================================
+8. ORCHESTRATOR
+==================================================
+
+Implement an orchestration layer that:
+
+1. receives patient profile
+2. invokes Query Interpreter
+3. creates specialized tasks
+4. executes Clinical, Drug and Literature retrieval
+5. collects their structured JSON outputs
+6. passes outputs to Conflict Detector
+
+
+==================================================
+9. CONFLICT DETECTOR
+==================================================
+
+Implement deterministic conflict detection.
+
+Detect conflicts such as:
+
+- recommended treatment vs contraindication
+- treatment vs renal impairment
+- treatment vs allergy
+- drug-drug interaction
+- high-risk medication vs patient condition
+- conflicting treatment recommendations
+
+Return:
+
+{
+  "conflict_detected": true,
+  "conflict_type": "",
+  "severity": "",
+  "description": "",
+  "affected_treatment": "",
+  "risk_factor": ""
+}
+
+
+==================================================
+10. DEA ARBITRATION ENGINE
+==================================================
+
+THIS IS THE CORE RESEARCH CONTRIBUTION.
+
+Do NOT allow the LLM to make the final arbitration decision.
+
+Implement DEA as deterministic Python code.
+
+Formula:
+
+V_score =
+(alpha * Q_grade)
++
+(beta * S_rel)
++
+(gamma * T_recent)
+-
+(delta * P_risk)
+
+Where:
+
+Q_grade = evidence quality
+S_rel = patient-specific relevance
+T_recent = evidence recency
+P_risk = patient-specific risk
+
+Normalize all parameters to a consistent range such as 0-1.
+
+Make the weights configurable.
+
+Default:
+
+alpha = 0.35
+beta  = 0.30
+gamma = 0.15
+delta = 0.20
+
+IMPORTANT:
+The system must display the values used for every candidate.
+
+Example:
+
+Treatment A:
+Q_grade = 0.90
+S_rel = 0.80
+T_recent = 0.70
+P_risk = 0.90
+
+Treatment B:
+Q_grade = 0.80
+S_rel = 0.90
+T_recent = 0.95
+P_risk = 0.20
+
+Calculate both scores using Python.
+
+The LLM must not override the DEA result.
+
+
+==================================================
+11. EVIDENCE RANKER
+==================================================
+
+Rank candidate evidence using DEA score.
+
+Display:
+
+- candidate
+- evidence quality
+- relevance
+- recency
+- patient risk
+- DEA score
+- ranking
+- source
+
+
+==================================================
+12. EXPLANATION MODULE
+==================================================
+
+After DEA has selected/ranked the evidence, generate a human-readable explanation.
+
+The explanation must be based ONLY on:
+
+- retrieved evidence
+- conflict detection results
+- DEA results
+
+Do not allow the explanation LLM to change the DEA decision.
+
+Report structure:
+
+1. Patient summary
+2. Retrieved clinical evidence
+3. Drug safety findings
+4. Literature findings
+5. Detected conflicts
+6. DEA arbitration
+7. Evidence ranking
+8. Final decision-support recommendation
+9. Safety considerations
+10. Evidence/source references
+11. Limitations
+12. Disclaimer
+
+
+==================================================
+13. FRONTEND
+==================================================
+
+Create a professional medical research dashboard.
+
+Pages/components:
+
+1. Dashboard
+2. Patient Case Input
+3. Analyze Case button
+4. Agent Processing Status
+5. Clinical Evidence panel
+6. Drug Safety panel
+7. Literature panel
+8. Conflict Detection panel
+9. DEA Arbitration panel
+10. Evidence Ranking table
+11. Final Explanation
+12. Sources
+13. System disclaimer
+
+The DEA panel should visually show:
+
+Clinical evidence
+       ↓
+Drug evidence
+       ↓
+Conflict
+       ↓
+DEA scoring
+       ↓
+Ranking
+
+Make the UI suitable for a college project demonstration.
+
+Do not make it look like a generic ChatGPT clone.
+
+
+==================================================
+14. DEMONSTRATION MODE
+==================================================
+
+Create a "Demo Case" feature.
+
+Include at least 3 synthetic demonstration cases designed to show:
+
+Case 1:
+No major conflict
+
+Case 2:
+Clinical recommendation conflicts with drug safety evidence
+
+Case 3:
+Multiple conflicting treatments where DEA produces a ranking
+
+Clearly label these cases as DEMONSTRATION/SYNTHETIC.
+
+
+==================================================
+15. RESEARCH EVALUATION
+==================================================
+
+Create an evaluation module.
+
+Compare:
+
+A. Single-Agent RAG
+B. Multi-Agent RAG
+C. Multi-Agent RAG + DEA
+
+Create a framework that can calculate:
+
+- Context Precision
+- Context Recall
+- Faithfulness
+- Answer Relevance
+- Conflict Detection Accuracy
+- High-risk contraindication violation rate
+- DEA arbitration accuracy
+
+Do not invent results.
+
+If no real benchmark dataset is available, create the evaluation framework and clearly mark results as pending until actual experiments are run.
+
+
+==================================================
+16. API ENDPOINTS
+==================================================
+
+Create clean FastAPI endpoints:
+
+POST /api/analyze
+POST /api/ingest
+GET /api/health
+GET /api/demo-cases
+POST /api/evaluate
+
+Use Pydantic models.
+
+
+==================================================
+17. CODE QUALITY
+==================================================
+
+Use a modular architecture.
+
+Separate:
+
+agents/
+rag/
+dea/
+orchestration/
+models/
+evaluation/
+api/
+
+Add:
+
+- comments for important research logic
+- README
+- setup instructions
+- .env.example
+- requirements.txt
+- tests for DEA scoring
+- tests for conflict detection
+- API tests where practical
+
+
+==================================================
+18. CRITICAL SAFETY REQUIREMENTS
+==================================================
+
+This is a research prototype.
+
+The application must clearly state:
+
+"This system is a research prototype for clinical decision-support research. It does not provide medical diagnosis or autonomous treatment decisions and must not replace qualified healthcare professionals."
+
+Never claim:
+- guaranteed safety
+- guaranteed prevention of lethal interactions
+- autonomous prescribing
+- clinical deployment readiness
+
+The DEA layer should be described as a deterministic arbitration mechanism designed to reduce evidence conflicts and risk, not as a guarantee of clinical safety.
+
+
+==================================================
+19. FINAL DELIVERABLE
+==================================================
+
+The final Replit project must:
+
+1. Run successfully
+2. Have working frontend
+3. Have working FastAPI backend
+4. Have working RAG pipeline
+5. Have three separate knowledge silos
+6. Have three specialized agents
+7. Have structured JSON outputs
+8. Have deterministic conflict detection
+9. Have working DEA scoring
+10. Have evidence ranking
+11. Have explainable output
+12. Have demo cases
+13. Have tests
+14. Have README
+15. Be deployable
+
+Before finishing:
+
+- run the application
+- test all major endpoints
+- test the demo cases
+- fix runtime errors
+- ensure frontend communicates with backend
+- ensure DEA calculations are performed by deterministic Python code
+- ensure no fake citations are presented as real sources
+
+Do not stop at generating code.
+Actually run, test, debug and complete the application.

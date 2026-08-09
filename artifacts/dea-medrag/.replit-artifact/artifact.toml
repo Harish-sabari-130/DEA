@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "DEA-MedRAG"
+description = "A research prototype for traceable, deterministic evidence arbitration in multi-agent clinical decision support, with synthetic demo cases and an evaluation workspace."
+version = "1.0.0"
+id = "artifacts/dea-medrag"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23357
+
+[services.development]
+run = "pnpm --filter @workspace/dea-medrag run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dea-medrag", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dea-medrag/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23357"
+BASE_PATH = "/"

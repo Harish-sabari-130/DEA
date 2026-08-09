@@ -10,6 +10,14 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: analysis
+    description: Clinical decision-support research analysis
+  - name: demos
+    description: Synthetic demonstration cases
+  - name: evaluation
+    description: Research evaluation framework
+  - name: ingestion
+    description: Knowledge silo ingestion
 paths:
   /healthz:
     get:
@@ -24,6 +32,76 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /analyze:
+    post:
+      operationId: analyzeCase
+      tags: [analysis]
+      summary: Analyze a patient case through the multi-agent DEA pipeline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientProfileInput"
+      responses:
+        "200":
+          description: Traceable analysis report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisReport"
+        "400":
+          description: Invalid patient profile
+  /demo-cases:
+    get:
+      operationId: listDemoCases
+      tags: [demos]
+      summary: List synthetic demonstration cases
+      responses:
+        "200":
+          description: Synthetic cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DemoCase"
+  /evaluate:
+    post:
+      operationId: evaluateFramework
+      tags: [evaluation]
+      summary: Return the evaluation framework with pending benchmark status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EvaluationInput"
+      responses:
+        "200":
+          description: Evaluation framework result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationResult"
+  /ingest:
+    post:
+      operationId: ingestDocument
+      tags: [ingestion]
+      summary: Register a document in one independent knowledge silo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IngestDocumentInput"
+      responses:
+        "201":
+          description: Ingestion receipt
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngestReceipt"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +111,204 @@ components:
           type: string
       required:
         - status
+    PatientProfileInput:
+      type: object
+      required: [age, sex, diseases, medications, symptoms, lab_values, allergies, conditions]
+      properties:
+        age:
+          type: number
+          minimum: 0
+          maximum: 130
+        sex:
+          type: string
+        diseases:
+          type: array
+          items: { type: string }
+        medications:
+          type: array
+          items: { type: string }
+        symptoms:
+          type: array
+          items: { type: string }
+        lab_values:
+          type: object
+          additionalProperties: { type: string }
+        allergies:
+          type: array
+          items: { type: string }
+        conditions:
+          type: array
+          items: { type: string }
+    Evidence:
+      type: object
+      required: [id, title, source, year, domain, excerpt, evidence_grade, relevance, recency, risk_level]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        source: { type: string }
+        year: { type: number }
+        domain: { type: string }
+        excerpt: { type: string }
+        evidence_grade: { type: number }
+        relevance: { type: number }
+        recency: { type: number }
+        risk_level: { type: string }
+        page:
+          type: ["number", "null"]
+    AgentStatus:
+      type: object
+      required: [agent, status, summary]
+      properties:
+        agent: { type: string }
+        status: { type: string }
+        summary: { type: string }
+    ClinicalAgentOutput:
+      type: object
+      required: [agent, claims, recommendations, evidence, evidence_grade, relevance, recency, source, year]
+      properties:
+        agent: { type: string }
+        claims: { type: array, items: { type: string } }
+        recommendations: { type: array, items: { type: string } }
+        evidence: { type: array, items: { $ref: "#/components/schemas/Evidence" } }
+        evidence_grade: { type: number }
+        relevance: { type: number }
+        recency: { type: number }
+        source: { type: string }
+        year: { type: number }
+    DrugAgentOutput:
+      type: object
+      required: [agent, drug, contraindications, interactions, risk_level, patient_specific_risk, evidence_grade, source, year]
+      properties:
+        agent: { type: string }
+        drug: { type: string }
+        contraindications: { type: array, items: { type: string } }
+        interactions: { type: array, items: { type: string } }
+        risk_level: { type: string }
+        patient_specific_risk: { type: number }
+        evidence_grade: { type: number }
+        source: { type: string }
+        year: { type: number }
+    LiteratureAgentOutput:
+      type: object
+      required: [agent, findings, alternative_treatments, evidence_grade, relevance, recency, source, year]
+      properties:
+        agent: { type: string }
+        findings: { type: array, items: { type: string } }
+        alternative_treatments: { type: array, items: { type: string } }
+        evidence_grade: { type: number }
+        relevance: { type: number }
+        recency: { type: number }
+        source: { type: string }
+        year: { type: number }
+    Conflict:
+      type: object
+      required: [conflict_detected, conflict_type, severity, description, affected_treatment, risk_factor]
+      properties:
+        conflict_detected: { type: boolean }
+        conflict_type: { type: string }
+        severity: { type: string }
+        description: { type: string }
+        affected_treatment: { type: string }
+        risk_factor: { type: string }
+    CandidateScore:
+      type: object
+      required: [candidate, q_grade, s_rel, t_recent, p_risk, score, ranking, source]
+      properties:
+        candidate: { type: string }
+        q_grade: { type: number }
+        s_rel: { type: number }
+        t_recent: { type: number }
+        p_risk: { type: number }
+        score: { type: number }
+        ranking: { type: number }
+        source: { type: string }
+    DEAResult:
+      type: object
+      required: [weights, candidates, method_note]
+      properties:
+        weights:
+          type: object
+          required: [alpha, beta, gamma, delta]
+          properties:
+            alpha: { type: number }
+            beta: { type: number }
+            gamma: { type: number }
+            delta: { type: number }
+        candidates: { type: array, items: { $ref: "#/components/schemas/CandidateScore" } }
+        method_note: { type: string }
+    AnalysisReport:
+      type: object
+      required: [id, mode, patient_summary, query_tasks, agent_statuses, clinical, drug, literature, conflicts, dea, explanation, limitations, disclaimer, generated_at]
+      properties:
+        id: { type: string }
+        mode: { type: string }
+        patient_summary: { type: string }
+        query_tasks:
+          type: object
+          required: [clinical, drug, literature]
+          properties:
+            clinical: { type: string }
+            drug: { type: string }
+            literature: { type: string }
+        agent_statuses: { type: array, items: { $ref: "#/components/schemas/AgentStatus" } }
+        clinical: { $ref: "#/components/schemas/ClinicalAgentOutput" }
+        drug: { $ref: "#/components/schemas/DrugAgentOutput" }
+        literature: { $ref: "#/components/schemas/LiteratureAgentOutput" }
+        conflicts: { type: array, items: { $ref: "#/components/schemas/Conflict" } }
+        dea: { $ref: "#/components/schemas/DEAResult" }
+        explanation: { type: string }
+        safety_considerations: { type: array, items: { type: string } }
+        limitations: { type: array, items: { type: string } }
+        disclaimer: { type: string }
+        generated_at: { type: string }
+    DemoCase:
+      type: object
+      required: [id, title, description, conflict_profile, patient]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        description: { type: string }
+        conflict_profile: { type: string }
+        patient: { $ref: "#/components/schemas/PatientProfileInput" }
+    EvaluationInput:
+      type: object
+      required: [dataset_name]
+      properties:
+        dataset_name: { type: string }
+    EvaluationMetric:
+      type: object
+      required: [name, description, status, value]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        status: { type: string }
+        value:
+          type: ["number", "null"]
+    EvaluationResult:
+      type: object
+      required: [dataset_name, benchmark_status, metrics]
+      properties:
+        dataset_name: { type: string }
+        benchmark_status: { type: string }
+        metrics: { type: array, items: { $ref: "#/components/schemas/EvaluationMetric" } }
+    IngestDocumentInput:
+      type: object
+      required: [title, domain, source, year, evidence_grade, risk_level, content]
+      properties:
+        title: { type: string }
+        domain: { type: string }
+        source: { type: string }
+        year: { type: number }
+        evidence_grade: { type: number }
+        risk_level: { type: string }
+        content: { type: string }
+    IngestReceipt:
+      type: object
+      required: [document_id, collection, chunk_count, status, synthetic_notice]
+      properties:
+        document_id: { type: string }
+        collection: { type: string }
+        chunk_count: { type: number }
+        status: { type: string }
+        synthetic_notice: { type: string }
 

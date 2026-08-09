@@ -1,0 +1,1 @@
+- [Workspace compatibility](workspace-compatibility.md) — OpenAPI integer schemas and complex CSS data-URI textures need compatibility-safe representations in this workspace.
