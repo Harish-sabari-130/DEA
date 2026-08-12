@@ -7,6 +7,7 @@
  */
 import type { AgentStatus } from './agentStatus';
 import type { AnalysisReportQueryTasks } from './analysisReportQueryTasks';
+import type { AnalysisReportRetrievalStatus } from './analysisReportRetrievalStatus';
 import type { ClinicalAgentOutput } from './clinicalAgentOutput';
 import type { Conflict } from './conflict';
 import type { DEAResult } from './dEAResult';
@@ -29,4 +30,5 @@ export interface AnalysisReport {
   limitations: string[];
   disclaimer: string;
   generated_at: string;
+  retrieval_status: AnalysisReportRetrievalStatus;
 }

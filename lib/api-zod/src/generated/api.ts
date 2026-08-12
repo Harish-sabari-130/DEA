@@ -18,6 +18,14 @@ export const HealthCheckResponse = zod.object({
 
 
 /**
+ * @summary Health check alias
+ */
+export const HealthCheckAliasResponse = zod.object({
+  "status": zod.string()
+})
+
+
+/**
  * @summary Analyze a patient case through the multi-agent DEA pipeline
  */
 export const analyzeCaseBodyAgeMin = 0;
@@ -65,7 +73,10 @@ export const AnalyzeCaseResponse = zod.object({
   "relevance": zod.number(),
   "recency": zod.number(),
   "risk_level": zod.string(),
-  "page": zod.number().nullish()
+  "page": zod.number().nullish(),
+  "chunk": zod.string().optional(),
+  "similarity": zod.number().optional(),
+  "metadata": zod.record(zod.string(), zod.unknown()).optional()
 })),
   "evidence_grade": zod.number(),
   "relevance": zod.number(),
@@ -82,7 +93,23 @@ export const AnalyzeCaseResponse = zod.object({
   "patient_specific_risk": zod.number(),
   "evidence_grade": zod.number(),
   "source": zod.string(),
-  "year": zod.number()
+  "year": zod.number(),
+  "evidence": zod.array(zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "source": zod.string(),
+  "year": zod.number(),
+  "domain": zod.string(),
+  "excerpt": zod.string(),
+  "evidence_grade": zod.number(),
+  "relevance": zod.number(),
+  "recency": zod.number(),
+  "risk_level": zod.string(),
+  "page": zod.number().nullish(),
+  "chunk": zod.string().optional(),
+  "similarity": zod.number().optional(),
+  "metadata": zod.record(zod.string(), zod.unknown()).optional()
+}))
 }),
   "literature": zod.object({
   "agent": zod.string(),
@@ -92,7 +119,23 @@ export const AnalyzeCaseResponse = zod.object({
   "relevance": zod.number(),
   "recency": zod.number(),
   "source": zod.string(),
-  "year": zod.number()
+  "year": zod.number(),
+  "evidence": zod.array(zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "source": zod.string(),
+  "year": zod.number(),
+  "domain": zod.string(),
+  "excerpt": zod.string(),
+  "evidence_grade": zod.number(),
+  "relevance": zod.number(),
+  "recency": zod.number(),
+  "risk_level": zod.string(),
+  "page": zod.number().nullish(),
+  "chunk": zod.string().optional(),
+  "similarity": zod.number().optional(),
+  "metadata": zod.record(zod.string(), zod.unknown()).optional()
+}))
 }),
   "conflicts": zod.array(zod.object({
   "conflict_detected": zod.boolean(),
@@ -125,7 +168,13 @@ export const AnalyzeCaseResponse = zod.object({
   "safety_considerations": zod.array(zod.string()).optional(),
   "limitations": zod.array(zod.string()),
   "disclaimer": zod.string(),
-  "generated_at": zod.string()
+  "generated_at": zod.string(),
+  "retrieval_status": zod.object({
+  "database": zod.string(),
+  "embedding_provider": zod.string(),
+  "silo_isolation": zod.boolean(),
+  "top_k": zod.number()
+})
 })
 
 
@@ -185,7 +234,9 @@ export const IngestDocumentBody = zod.object({
   "year": zod.number(),
   "evidence_grade": zod.number(),
   "risk_level": zod.string(),
-  "content": zod.string()
+  "content": zod.string(),
+  "file_name": zod.string().optional(),
+  "file_content_base64": zod.string().optional()
 })
 
 export const IngestDocumentResponse = zod.object({
@@ -193,7 +244,28 @@ export const IngestDocumentResponse = zod.object({
   "collection": zod.string(),
   "chunk_count": zod.number(),
   "status": zod.string(),
-  "synthetic_notice": zod.string()
+  "synthetic_notice": zod.string(),
+  "indexed_at": zod.string().optional()
+})
+
+
+/**
+ * @summary Return persisted ChromaDB knowledge-silo status
+ */
+export const GetKnowledgeStatsResponse = zod.object({
+  "database": zod.string(),
+  "database_path": zod.string(),
+  "embedding_provider": zod.string(),
+  "silos": zod.array(zod.object({
+  "domain": zod.string(),
+  "collection": zod.string(),
+  "document_count": zod.number(),
+  "chunk_count": zod.number(),
+  "source_names": zod.array(zod.string()),
+  "status": zod.string(),
+  "embedding_model": zod.string(),
+  "last_indexed_at": zod.string().nullish()
+}))
 })
 
 

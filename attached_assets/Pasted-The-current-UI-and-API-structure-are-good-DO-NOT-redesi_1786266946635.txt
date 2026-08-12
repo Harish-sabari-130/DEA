@@ -1,0 +1,487 @@
+The current UI and API structure are good. DO NOT redesign or replace the existing frontend.
+
+The next task is to turn the current synthetic research prototype into a genuinely functioning RAG-based prototype.
+
+IMPORTANT:
+Keep the existing:
+- Case Workspace
+- Evaluation page
+- Knowledge Silos page
+- visual design
+- API structure where possible
+- DEA UI
+- safety disclaimer
+
+Do not rebuild the application from scratch.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Replace the current synthetic/in-memory evidence flow with a real local RAG pipeline.
+
+The final workflow must be:
+
+Patient Profile
+    ↓
+Query Interpreter
+    ↓
+Task Orchestrator
+    ↓
+Clinical RAG
+Drug Safety RAG
+Literature RAG
+    ↓
+Structured Evidence JSON
+    ↓
+Deterministic Conflict Detector
+    ↓
+Deterministic DEA Engine
+    ↓
+Evidence Ranking
+    ↓
+Explanation
+    ↓
+Traceable Report
+
+
+==================================================
+1. REAL LOCAL KNOWLEDGE BASE
+==================================================
+
+Create actual local knowledge documents inside:
+
+data/clinical/
+data/drug/
+data/literature/
+
+Use only:
+- public-domain/openly licensed sources,
+- documents explicitly supplied by the user,
+- or clearly labelled synthetic demonstration documents.
+
+Do NOT fabricate citations.
+
+If internet retrieval of authoritative sources is unavailable, use clearly labelled synthetic documents, but implement the SAME ingestion/retrieval architecture that will work with real PDFs later.
+
+The system must support PDF/TXT ingestion.
+
+==================================================
+2. CHROMADB
+==================================================
+
+Implement actual ChromaDB collections:
+
+clinical_guidelines
+drug_information
+clinical_literature
+
+Do not use a single shared collection.
+
+Each agent must only retrieve from its own collection.
+
+Persist the vector database so that data survives application restart where possible.
+
+==================================================
+3. EMBEDDINGS
+==================================================
+
+Use a real embedding model.
+
+Preferred:
+
+sentence-transformers
+
+Use a lightweight model suitable for Replit.
+
+If model download is impractical in the deployment environment, create a configurable embedding provider with a clear fallback.
+
+Do not fake embeddings.
+
+==================================================
+4. DOCUMENT INGESTION
+==================================================
+
+Implement:
+
+PDF/TXT
+ ↓
+Text extraction
+ ↓
+Cleaning
+ ↓
+Chunking
+ ↓
+Embedding
+ ↓
+ChromaDB
+ ↓
+Metadata
+
+Metadata:
+
+{
+    "source": "...",
+    "title": "...",
+    "year": ...,
+    "domain": "...",
+    "evidence_grade": ...,
+    "risk_level": ...,
+    "page": ...
+}
+
+Show ingestion status in Knowledge Silos.
+
+The document counts displayed in the UI must correspond to actual indexed documents/chunks.
+
+Do not hardcode numbers such as 128, 74, or 216.
+
+==================================================
+5. RETRIEVAL
+==================================================
+
+Implement semantic retrieval using ChromaDB.
+
+For every patient query:
+
+Clinical Agent:
+retrieve top-k from clinical_guidelines only.
+
+Drug Agent:
+retrieve top-k from drug_information only.
+
+Literature Agent:
+retrieve top-k from clinical_literature only.
+
+Return:
+- retrieved chunk
+- source
+- page
+- similarity/relevance score
+- metadata
+
+==================================================
+6. STRUCTURED AGENT OUTPUT
+==================================================
+
+Every agent must produce structured JSON.
+
+Clinical:
+
+{
+  "agent": "clinical",
+  "claims": [],
+  "recommendations": [],
+  "evidence": [],
+  "evidence_grade": 0,
+  "relevance": 0,
+  "recency": 0,
+  "source": "",
+  "year": 0
+}
+
+Drug:
+
+{
+  "agent": "drug",
+  "drug": "",
+  "contraindications": [],
+  "interactions": [],
+  "risk_level": "",
+  "patient_specific_risk": 0,
+  "evidence_grade": 0,
+  "source": "",
+  "year": 0
+}
+
+Literature:
+
+{
+  "agent": "literature",
+  "findings": [],
+  "alternative_treatments": [],
+  "evidence_grade": 0,
+  "relevance": 0,
+  "recency": 0,
+  "source": "",
+  "year": 0
+}
+
+The final DEA layer must receive these structured objects.
+
+==================================================
+7. QUERY INTERPRETER
+==================================================
+
+Implement a real Query Interpreter.
+
+Input:
+structured patient profile.
+
+Output:
+
+{
+  "clinical_query": "...",
+  "drug_query": "...",
+  "literature_query": "..."
+}
+
+The queries must be generated from:
+- diseases
+- medications
+- symptoms
+- lab values
+- allergies
+- age/sex where relevant
+
+==================================================
+8. ORCHESTRATION
+==================================================
+
+The three retrieval agents should execute independently.
+
+The orchestrator should collect:
+
+clinical_output
+drug_output
+literature_output
+
+and pass them to conflict detection.
+
+==================================================
+9. CONFLICT DETECTOR
+==================================================
+
+Keep conflict detection deterministic.
+
+Do NOT ask the LLM to decide whether a conflict exists.
+
+Implement explicit rule-based checks.
+
+Examples:
+
+IF clinical recommendation contains drug X
+AND drug evidence marks drug X as high-risk/contraindicated
+THEN conflict = true.
+
+Also detect:
+
+- drug-disease conflicts
+- drug-drug interactions
+- allergy conflicts
+- renal/hepatic restrictions
+- conflicting treatment recommendations
+
+Return structured conflict objects.
+
+==================================================
+10. DEA
+==================================================
+
+KEEP THE CURRENT DEA IMPLEMENTATION.
+
+Do not allow an LLM to override it.
+
+Formula:
+
+V_score =
+(alpha * Q_grade)
++
+(beta * S_rel)
++
+(gamma * T_recent)
+-
+(delta * P_risk)
+
+Default:
+
+alpha = 0.35
+beta = 0.30
+gamma = 0.15
+delta = 0.20
+
+Make the weights configurable.
+
+Display all four components and the final score.
+
+The score MUST be calculated in deterministic Python.
+
+Add unit tests proving the same inputs always produce the same score.
+
+==================================================
+11. TRACEABILITY
+==================================================
+
+Every final recommendation must be traceable to:
+
+Agent
+↓
+Retrieved chunk
+↓
+Source
+↓
+Page
+↓
+Metadata
+↓
+DEA score
+
+The user must be able to click/view the evidence behind a result.
+
+No evidence = no unsupported recommendation.
+
+==================================================
+12. EXPLANATION
+==================================================
+
+The explanation layer can use an LLM if configured.
+
+However:
+
+THE EXPLANATION MODEL MUST NOT MODIFY:
+
+- conflict status
+- DEA scores
+- ranking
+- evidence metadata
+
+It can only explain the already-computed result.
+
+==================================================
+13. DEMO CASES
+==================================================
+
+Keep the three existing synthetic demo cases.
+
+But make them go through the actual RAG pipeline.
+
+Label them:
+
+"SYNTHETIC DEMONSTRATION"
+
+Do not claim these represent real clinical recommendations.
+
+==================================================
+14. EVALUATION
+==================================================
+
+Keep the existing Evaluation page.
+
+Now connect it to actual experiment execution.
+
+Implement three configurations:
+
+A. Single-Agent RAG
+B. Multi-Agent RAG
+C. Multi-Agent RAG + DEA
+
+Do not invent benchmark values.
+
+The Evaluate button should run actual available benchmark cases.
+
+At minimum measure:
+
+- retrieval relevance
+- evidence attribution
+- conflict detection accuracy
+- contraindication violation rate
+- DEA ranking consistency
+
+If a metric cannot yet be calculated reliably, display:
+
+"Pending"
+
+rather than fabricating a number.
+
+==================================================
+15. KNOWLEDGE SILOS UI
+==================================================
+
+The existing Knowledge Silos page should show:
+
+Clinical:
+actual indexed document/chunk count
+
+Drug:
+actual indexed document/chunk count
+
+Literature:
+actual indexed document/chunk count
+
+Add:
+
+- source name
+- ingestion timestamp
+- document count
+- chunk count
+- domain
+- status
+
+==================================================
+16. TESTING
+==================================================
+
+Create tests for:
+
+1. PDF ingestion
+2. chunking
+3. retrieval
+4. silo isolation
+5. conflict detection
+6. DEA calculation
+7. ranking
+8. API analysis endpoint
+
+Most important test:
+
+A Clinical Agent request MUST NOT retrieve from the Drug collection.
+
+A Drug Agent request MUST NOT retrieve from the Clinical collection.
+
+==================================================
+17. IMPORTANT RESEARCH INTEGRITY
+==================================================
+
+Do NOT fabricate:
+
+- journal names
+- DOIs
+- medical guidelines
+- clinical trial results
+- evaluation scores
+- benchmark improvements
+
+Synthetic data must always be visibly labelled.
+
+The application is a research prototype and must not provide autonomous medical diagnosis or prescribing.
+
+==================================================
+18. FINAL VERIFICATION
+==================================================
+
+After implementation:
+
+1. Start backend.
+2. Start frontend.
+3. Run ingestion.
+4. Verify ChromaDB collections.
+5. Run all three agents.
+6. Run at least one conflict case.
+7. Verify DEA calculation.
+8. Verify evidence traceability.
+9. Run evaluation.
+10. Run tests.
+11. Fix runtime errors.
+12. Verify the existing UI still works.
+
+At the end, report:
+
+- files created/modified
+- actual RAG implementation status
+- vector database status
+- number of indexed documents/chunks
+- tests passed
+- demo case results
+- remaining limitations
+
+Do not claim completion if any of these are only mocked.

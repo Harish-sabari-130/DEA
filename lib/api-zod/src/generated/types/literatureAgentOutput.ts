@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { Evidence } from './evidence';
 
 export interface LiteratureAgentOutput {
   agent: string;
@@ -15,4 +16,5 @@ export interface LiteratureAgentOutput {
   recency: number;
   source: string;
   year: number;
+  evidence: Evidence[];
 }

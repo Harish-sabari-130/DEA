@@ -12,4 +12,5 @@ export interface IngestReceipt {
   chunk_count: number;
   status: string;
   synthetic_notice: string;
+  indexed_at?: string;
 }

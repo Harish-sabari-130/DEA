@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { EvidenceMetadata } from './evidenceMetadata';
 
 export interface Evidence {
   id: string;
@@ -19,4 +20,7 @@ export interface Evidence {
   risk_level: string;
   /** @nullable */
   page?: number | null;
+  chunk?: string;
+  similarity?: number;
+  metadata?: EvidenceMetadata;
 }

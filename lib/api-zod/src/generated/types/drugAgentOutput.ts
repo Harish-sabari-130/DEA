@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { Evidence } from './evidence';
 
 export interface DrugAgentOutput {
   agent: string;
@@ -16,4 +17,5 @@ export interface DrugAgentOutput {
   evidence_grade: number;
   source: string;
   year: number;
+  evidence: Evidence[];
 }

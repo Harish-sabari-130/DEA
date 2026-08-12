@@ -27,6 +27,7 @@ import type {
   HealthStatus,
   IngestDocumentInput,
   IngestReceipt,
+  KnowledgeStats,
   PatientProfileInput
 } from './api.schemas';
 
@@ -123,6 +124,83 @@ export function useHealthCheck<TData = Awaited<ReturnType<typeof healthCheck>>, 
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getHealthCheckQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getHealthCheckAliasUrl = () => {
+
+
+
+
+  return `/api/health`
+}
+
+/**
+ * @summary Health check alias
+ */
+export const healthCheckAlias = async ( options?: Parameters<typeof customFetch>[1]): Promise<HealthStatus> => {
+
+  return customFetch<HealthStatus>(getHealthCheckAliasUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getHealthCheckAliasQueryKey = () => {
+    return [
+    `/api/health`
+    ] as const;
+    }
+
+
+export const getHealthCheckAliasQueryOptions = <TData = Awaited<ReturnType<typeof healthCheckAlias>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof healthCheckAlias>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getHealthCheckAliasQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof healthCheckAlias>>> = ({ signal }) => healthCheckAlias({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof healthCheckAlias>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type HealthCheckAliasQueryResult = NonNullable<Awaited<ReturnType<typeof healthCheckAlias>>>
+export type HealthCheckAliasQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Health check alias
+ */
+
+export function useHealthCheckAlias<TData = Awaited<ReturnType<typeof healthCheckAlias>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof healthCheckAlias>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getHealthCheckAliasQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
@@ -424,4 +502,81 @@ export const useIngestDocument = <TError = ErrorType<unknown>,
       > => {
       return useMutation(getIngestDocumentMutationOptions(options));
     }
+
+export const getGetKnowledgeStatsUrl = () => {
+
+
+
+
+  return `/api/knowledge-stats`
+}
+
+/**
+ * @summary Return persisted ChromaDB knowledge-silo status
+ */
+export const getKnowledgeStats = async ( options?: Parameters<typeof customFetch>[1]): Promise<KnowledgeStats> => {
+
+  return customFetch<KnowledgeStats>(getGetKnowledgeStatsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetKnowledgeStatsQueryKey = () => {
+    return [
+    `/api/knowledge-stats`
+    ] as const;
+    }
+
+
+export const getGetKnowledgeStatsQueryOptions = <TData = Awaited<ReturnType<typeof getKnowledgeStats>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getKnowledgeStats>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetKnowledgeStatsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKnowledgeStats>>> = ({ signal }) => getKnowledgeStats({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKnowledgeStats>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetKnowledgeStatsQueryResult = NonNullable<Awaited<ReturnType<typeof getKnowledgeStats>>>
+export type GetKnowledgeStatsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Return persisted ChromaDB knowledge-silo status
+ */
+
+export function useGetKnowledgeStats<TData = Awaited<ReturnType<typeof getKnowledgeStats>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getKnowledgeStats>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetKnowledgeStatsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 

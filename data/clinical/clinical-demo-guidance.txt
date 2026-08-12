@@ -1,0 +1,19 @@
+SYNTHETIC DEMONSTRATION DOCUMENT — not clinical guidance and not a real citation.
+Title: Multimorbidity care pathways (demonstration)
+Source: DEA-MedRAG synthetic corpus / clinical_guidelines
+Year: 2025
+
+For adults with hypertension and hyperlipidemia, the demonstration pathway prioritizes
+continued blood-pressure control, medication reconciliation, and periodic monitoring.
+Treatment changes require clinician review of symptoms, laboratory trends, allergies,
+patient goals, and the complete medication list.
+
+For adults with type 2 diabetes and chronic kidney disease, the demonstration pathway
+describes an SGLT2-inhibitor cardio-renal pathway as a possible topic for clinician
+review. The text does not authorize prescribing and does not replace renal dosing
+assessment.
+
+For atrial fibrillation with chronic kidney disease, anticoagulation decisions should
+be individualized using renal function, bleeding history, fall history, concurrent
+medications, and patient preferences. A recent fall or dizziness should trigger a
+careful safety review before any treatment change.

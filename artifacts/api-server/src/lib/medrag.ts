@@ -1,3 +1,4 @@
+import { spawn } from "node:child_process";
 import {
   AnalyzeCaseBody,
   AnalyzeCaseResponse,
@@ -7,12 +8,90 @@ import {
   IngestDocumentResponse,
   ListDemoCasesResponse,
 } from "@workspace/api-zod";
+import { logger } from "./logger";
 
 type PatientProfile = ReturnType<typeof AnalyzeCaseBody.parse>;
+type WorkerEvidence = {
+  id: string;
+  title: string;
+  source: string;
+  year: number;
+  domain: string;
+  excerpt: string;
+  chunk: string;
+  page?: number | null;
+  similarity: number;
+  evidence_grade: number;
+  risk_level: string;
+  metadata?: Record<string, unknown>;
+};
+type WorkerAnalysis = {
+  queries: { clinical: string; drug: string; literature: string };
+  retrieval_status: {
+    database: string;
+    embedding_provider: string;
+    silo_isolation: boolean;
+    top_k: number;
+  };
+  clinical: {
+    agent: string;
+    claims: string[];
+    recommendations: string[];
+    evidence: WorkerEvidence[];
+    evidence_grade: number;
+    relevance: number;
+    recency: number;
+    source: string;
+    year: number;
+  };
+  drug: {
+    agent: string;
+    drug: string;
+    contraindications: string[];
+    interactions: string[];
+    risk_level: string;
+    patient_specific_risk: number;
+    evidence_grade: number;
+    source: string;
+    year: number;
+    evidence: WorkerEvidence[];
+  };
+  literature: {
+    agent: string;
+    findings: string[];
+    alternative_treatments: string[];
+    evidence_grade: number;
+    relevance: number;
+    recency: number;
+    source: string;
+    year: number;
+    evidence: WorkerEvidence[];
+  };
+};
+type WorkerStats = {
+  database: string;
+  database_path: string;
+  embedding_provider: string;
+  silos: Array<{
+    domain: string;
+    collection: string;
+    document_count: number;
+    chunk_count: number;
+    source_names: string[];
+    status: string;
+    embedding_model: string;
+    last_indexed_at?: string | null;
+  }>;
+};
 
 const DISCLAIMER =
   "This system is a research prototype for clinical decision-support research. It does not provide medical diagnosis or autonomous treatment decisions and must not replace qualified healthcare professionals.";
-
+const COLLECTIONS = {
+  clinical: "clinical_guidelines",
+  drug: "drug_information",
+  literature: "clinical_literature",
+} as const;
+const DEFAULT_WEIGHTS = { alpha: 0.35, beta: 0.3, gamma: 0.15, delta: 0.2 };
 const DEMO_CASES = [
   {
     id: "demo-01",
@@ -67,244 +146,381 @@ const DEMO_CASES = [
   },
 ] as const;
 
-function hasTerm(patient: PatientProfile, terms: string[]) {
-  const haystack = JSON.stringify(patient).toLowerCase();
-  return terms.some((term) => haystack.includes(term.toLowerCase()));
+function workerPaths() {
+  const cwd = process.cwd();
+  return {
+    python: process.env.MEDRAG_PYTHON ?? `${cwd}/.pythonlibs/bin/python`,
+    worker: process.env.MEDRAG_WORKER_PATH ?? `${cwd}/rag_worker.py`,
+  };
 }
 
-function score(
-  candidate: string,
-  q_grade: number,
-  s_rel: number,
-  t_recent: number,
-  p_risk: number,
-  source: string,
-) {
-  const value = 0.35 * q_grade + 0.3 * s_rel + 0.15 * t_recent - 0.2 * p_risk;
+async function runWorker<T>(request: Record<string, unknown>): Promise<T> {
+  const paths = workerPaths();
+  try {
+    const { stdout, stderr } = await new Promise<{ stdout: string; stderr: string }>(
+      (resolve, reject) => {
+        const child = spawn(paths.python, [paths.worker], {
+          cwd: process.cwd(),
+          env: { ...process.env, PYTHONUNBUFFERED: "1" },
+          stdio: ["pipe", "pipe", "pipe"],
+        });
+        let stdout = "";
+        let stderr = "";
+        child.stdout.setEncoding("utf8");
+        child.stderr.setEncoding("utf8");
+        child.stdout.on("data", (chunk: string) => {
+          stdout += chunk;
+          if (stdout.length > 25 * 1024 * 1024) {
+            child.kill();
+            reject(new Error("RAG worker response exceeded the maximum size"));
+          }
+        });
+        child.stderr.on("data", (chunk: string) => {
+          stderr += chunk;
+        });
+        child.on("error", reject);
+        child.on("close", (code) => {
+          if (code === 0) resolve({ stdout, stderr });
+          else reject(new Error(stderr || `RAG worker exited with code ${code}`));
+        });
+        child.stdin.end(JSON.stringify(request));
+      },
+    );
+    const lines = stdout
+      .trim()
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const response = JSON.parse(lines.at(-1) ?? "{}") as {
+      ok?: boolean;
+      result?: T;
+      error?: string;
+    };
+    if (!response.ok || !response.result) {
+      throw new Error(response.error ?? "RAG worker returned no result");
+    }
+    if (stderr.trim()) {
+      logger.debug({ workerStderr: stderr.trim().slice(-1000) }, "RAG worker diagnostics");
+    }
+    return response.result;
+  } catch (error) {
+    logger.error({ err: error, ...paths }, "RAG worker request failed");
+    throw new Error(
+      `Local Chroma RAG worker unavailable. Expected ${paths.python} and ${paths.worker}.`,
+    );
+  }
+}
+
+function recency(year: number) {
+  return Number(Math.min(1, Math.max(0, (year - 2010) / 20)).toFixed(3));
+}
+
+function toEvidence(item: WorkerEvidence) {
   return {
-    candidate,
-    q_grade,
-    s_rel,
-    t_recent,
-    p_risk,
-    score: Number(value.toFixed(3)),
-    ranking: 0,
-    source,
+    id: item.id,
+    title: item.title,
+    source: item.source,
+    year: item.year,
+    domain: item.domain,
+    excerpt: item.excerpt,
+    evidence_grade: item.evidence_grade,
+    relevance: item.similarity,
+    recency: recency(item.year),
+    risk_level: item.risk_level,
+    page: item.page ?? null,
+    chunk: item.chunk,
+    similarity: item.similarity,
+    metadata: item.metadata ?? {},
   };
+}
+
+function terms(value: string[]) {
+  return value.join(" ").toLowerCase();
+}
+
+export function calculateDEAScore(
+  qGrade: number,
+  relevance: number,
+  recent: number,
+  risk: number,
+  weights = DEFAULT_WEIGHTS,
+) {
+  const value =
+    weights.alpha * qGrade +
+    weights.beta * relevance +
+    weights.gamma * recent -
+    weights.delta * risk;
+  return Number(value.toFixed(3));
+}
+
+export function detectConflicts(
+  patient: PatientProfile,
+  analysis: WorkerAnalysis,
+) {
+  const diseaseText = terms(patient.diseases);
+  const medicationText = terms(patient.medications);
+  const symptomText = terms([...patient.symptoms, ...patient.conditions]);
+  const labsText = terms(Object.entries(patient.lab_values).map(([key, value]) => `${key} ${value}`));
+  const allergyText = terms(patient.allergies);
+  const fullMedicationText = `${medicationText} ${diseaseText}`;
+  const conflicts: Array<{
+    conflict_detected: boolean;
+    conflict_type: string;
+    severity: string;
+    description: string;
+    affected_treatment: string;
+    risk_factor: string;
+  }> = [];
+  const renal = /kidney|ckd|renal|egfr/.test(`${diseaseText} ${labsText}`);
+  const hepatic = /liver|hepatic|ast|alt|bilirubin/.test(`${diseaseText} ${labsText}`);
+  const fall = /fall|dizz|bleed/.test(symptomText);
+
+  if (
+    analysis.clinical.recommendations.some((recommendation) =>
+      /sglt2|metformin|anticoag|lisinopril|treatment pathway/i.test(recommendation),
+    ) &&
+    analysis.drug.risk_level === "high"
+  ) {
+    conflicts.push({
+      conflict_detected: true,
+      conflict_type: "clinical recommendation vs high-risk medication",
+      severity: "high",
+      description:
+        "The clinical silo produced a treatment pathway while the drug-safety silo independently marked the reviewed exposure as high risk.",
+      affected_treatment: analysis.drug.drug,
+      risk_factor: "high patient-specific medication risk",
+    });
+  }
+  if (renal && /metformin|apixaban|lisinopril/.test(fullMedicationText)) {
+    conflicts.push({
+      conflict_detected: true,
+      conflict_type: "drug-disease conflict",
+      severity: analysis.drug.risk_level === "high" ? "high" : "moderate",
+      description:
+        "Renal impairment was found in the structured profile and the drug silo returned a renal safety signal for the medication under review.",
+      affected_treatment: analysis.drug.drug,
+      risk_factor: "reduced renal function",
+    });
+  }
+  if (hepatic && /apixaban|statin|acetaminophen/.test(fullMedicationText)) {
+    conflicts.push({
+      conflict_detected: true,
+      conflict_type: "hepatic restriction",
+      severity: "moderate",
+      description:
+        "The profile contains a hepatic restriction signal that requires clinician-led review of the medication evidence.",
+      affected_treatment: analysis.drug.drug,
+      risk_factor: "hepatic laboratory or disease signal",
+    });
+  }
+  const allergyMatch = patient.allergies.find((allergy) =>
+    medicationText.includes(allergy.toLowerCase()),
+  );
+  if (allergyMatch) {
+    conflicts.push({
+      conflict_detected: true,
+      conflict_type: "allergy conflict",
+      severity: "high",
+      description:
+        "A listed allergy overlaps with the current medication text and must be reconciled before interpretation.",
+      affected_treatment: analysis.drug.drug,
+      risk_factor: allergyMatch,
+    });
+  }
+  if (patient.medications.length > 1 && /interaction|concurrent|other agents/i.test(analysis.drug.interactions.join(" "))) {
+    conflicts.push({
+      conflict_detected: true,
+      conflict_type: "drug-drug interaction review",
+      severity: "moderate",
+      description:
+        "More than one medication is present and the drug silo returned an interaction or concurrent-medication signal.",
+      affected_treatment: "polypharmacy regimen",
+      risk_factor: "multiple current medications",
+    });
+  }
+  if (fall && analysis.drug.risk_level === "high") {
+    conflicts.push({
+      conflict_detected: true,
+      conflict_type: "high-risk medication vs fall/bleeding signal",
+      severity: "high",
+      description:
+        "The profile includes fall, dizziness, or bleeding language and the drug-safety silo independently returned high patient-specific risk.",
+      affected_treatment: analysis.drug.drug,
+      risk_factor: "fall, dizziness, or bleeding history",
+    });
+  }
+  if (
+    analysis.literature.alternative_treatments.length > 0 &&
+    analysis.clinical.recommendations.length > 0 &&
+    !analysis.clinical.recommendations.some((recommendation) =>
+      analysis.literature.alternative_treatments.some((alternative) =>
+        recommendation.toLowerCase().includes(alternative.toLowerCase()),
+      ),
+    )
+  ) {
+    conflicts.push({
+      conflict_detected: true,
+      conflict_type: "conflicting treatment recommendations",
+      severity: "moderate",
+      description:
+        "The literature silo returned alternative treatment considerations that are not identical to the clinical pathway.",
+      affected_treatment: "alternative treatment set",
+      risk_factor: "cross-silo recommendation divergence",
+    });
+  }
+  return conflicts.length
+    ? conflicts
+    : [
+        {
+          conflict_detected: false,
+          conflict_type: "none",
+          severity: "none",
+          description: "No deterministic cross-silo conflict rule matched this profile.",
+          affected_treatment: "none",
+          risk_factor: "none",
+        },
+      ];
+}
+
+function buildCandidates(analysis: WorkerAnalysis) {
+  const candidates = [];
+  if (analysis.clinical.evidence.length) {
+    candidates.push({
+      candidate: analysis.clinical.recommendations[0],
+      q_grade: analysis.clinical.evidence_grade,
+      s_rel: analysis.clinical.relevance,
+      t_recent: analysis.clinical.recency,
+      p_risk: analysis.drug.patient_specific_risk,
+      source: analysis.clinical.source,
+    });
+  }
+  if (analysis.literature.evidence.length && analysis.literature.alternative_treatments[0]) {
+    candidates.push({
+      candidate: analysis.literature.alternative_treatments[0],
+      q_grade: analysis.literature.evidence_grade,
+      s_rel: analysis.literature.relevance,
+      t_recent: analysis.literature.recency,
+      p_risk: Math.min(1, analysis.drug.patient_specific_risk * 0.4),
+      source: analysis.literature.source,
+    });
+  }
+  if (analysis.drug.evidence.length) {
+    candidates.push({
+      candidate: `Continue ${analysis.drug.drug} pathway`,
+      q_grade: analysis.drug.evidence_grade,
+      s_rel: analysis.drug.evidence[0].similarity,
+      t_recent: recency(analysis.drug.year),
+      p_risk: analysis.drug.patient_specific_risk,
+      source: analysis.drug.source,
+    });
+  }
+  return candidates
+    .map((candidate) => ({
+      ...candidate,
+      score: calculateDEAScore(
+        candidate.q_grade,
+        candidate.s_rel,
+        candidate.t_recent,
+        candidate.p_risk,
+      ),
+      ranking: 0,
+    }))
+    .sort((a, b) => b.score - a.score || a.candidate.localeCompare(b.candidate))
+    .map((candidate, index) => ({ ...candidate, ranking: index + 1 }));
 }
 
 export function getDemoCases() {
   return ListDemoCasesResponse.parse(DEMO_CASES);
 }
 
-export function analyzePatient(rawPatient: unknown) {
+export async function analyzePatient(rawPatient: unknown) {
   const patient = AnalyzeCaseBody.parse(rawPatient);
-  const caseThree = hasTerm(patient, ["demo-03", "recent fall", "polypharmacy"]);
-  const caseOne = hasTerm(patient, ["demo-01", "routine medication review"]);
-  const renalRisk = hasTerm(patient, ["kidney", "ckd", "egfr", "renal"]);
-  const allergyRisk = patient.allergies.length > 0;
-
-  const clinicalRecommendation = renalRisk
-    ? "Consider an SGLT2-inhibitor pathway for cardio-renal benefit, subject to clinician review."
-    : "Continue guideline-concordant blood-pressure control with periodic monitoring.";
-  const drugUnderReview = caseThree ? "Apixaban" : renalRisk ? "Metformin" : "Lisinopril";
-  const risk = caseOne ? 0.12 : renalRisk ? 0.78 : caseThree ? 0.86 : allergyRisk ? 0.58 : 0.2;
-
-  const clinicalEvidence = {
-    id: "clinical-synthetic-001",
-    title: "Synthetic multimorbidity care pathway",
-    source: "DEMO / synthetic clinical_guidelines",
-    year: 2025,
-    domain: "clinical_guidelines",
-    excerpt:
-      "Demonstration-only guidance prioritizes condition control while requiring patient-specific review before treatment changes.",
-    evidence_grade: caseOne ? 0.86 : 0.91,
-    relevance: caseOne ? 0.78 : 0.9,
-    recency: 0.88,
-    risk_level: "context-dependent",
-    page: null,
-  };
-
-  const drugInteraction =
-    drugUnderReview === "Metformin"
-      ? "Synthetic safety flag: reduced renal clearance increases the need for a clinician-led dose and monitoring review."
-      : drugUnderReview === "Apixaban"
-        ? "Synthetic safety flag: renal impairment and fall history increase the modeled bleeding-risk signal."
-        : "No major synthetic drug-disease conflict detected in this demonstration profile.";
-
-  const clinical = {
-    agent: "clinical",
-    claims: [
-      "The clinical silo retrieved a condition-management pathway independently of drug safety evidence.",
-      clinicalRecommendation,
-    ],
-    recommendations: [
-      clinicalRecommendation,
-      "Review the full medication list, laboratory trend, and patient goals before any change.",
-    ],
-    evidence: [clinicalEvidence],
-    evidence_grade: clinicalEvidence.evidence_grade,
-    relevance: clinicalEvidence.relevance,
-    recency: clinicalEvidence.recency,
-    source: clinicalEvidence.source,
-    year: clinicalEvidence.year,
-  };
-
-  const drug = {
-    agent: "drug",
-    drug: drugUnderReview,
-    contraindications:
-      caseOne
-        ? ["No major synthetic contraindication identified."]
-        : [
-            renalRisk
-              ? "Renal impairment is a patient-specific caution signal."
-              : "No absolute synthetic contraindication identified.",
-          ],
-    interactions: [drugInteraction],
-    risk_level: risk >= 0.75 ? "high" : risk >= 0.5 ? "moderate" : "low",
-    patient_specific_risk: risk,
-    evidence_grade: 0.9,
-    source: "DEMO / synthetic drug_information",
-    year: 2025,
-  };
-
-  const literature = {
-    agent: "literature",
-    findings: [
-      "Synthetic literature retrieval surfaces newer comparative evidence for lower-risk alternatives.",
-      "The literature silo is intentionally independent from the clinical and drug collections.",
-    ],
-    alternative_treatments: caseThree
-      ? ["Dose-adjusted anticoagulation review", "Non-pharmacologic fall-risk intervention"]
-      : renalRisk
-        ? ["Renal-adjusted alternative pathway", "Structured laboratory monitoring"]
-        : ["Lifestyle intervention plus monitored first-line therapy"],
-    evidence_grade: 0.74,
-    relevance: caseThree ? 0.89 : 0.71,
-    recency: 0.96,
-    source: "DEMO / synthetic clinical_literature",
-    year: 2026,
-  };
-
-  const conflicts = caseOne
-    ? [
-        {
-          conflict_detected: false,
-          conflict_type: "none",
-          severity: "none",
-          description: "The synthetic evidence outputs are aligned for this demonstration case.",
-          affected_treatment: "none",
-          risk_factor: "none",
-        },
-      ]
-    : [
-        {
-          conflict_detected: true,
-          conflict_type: renalRisk ? "treatment vs renal impairment" : "high-risk medication vs patient condition",
-          severity: risk >= 0.75 ? "high" : "moderate",
-          description:
-            "The clinical silo presents a treatment pathway while the drug-safety silo raises a patient-specific safety signal. DEA ranks the evidence but does not make an autonomous treatment decision.",
-          affected_treatment: drugUnderReview,
-          risk_factor: renalRisk ? "reduced renal function" : "patient-specific comorbidity and fall risk",
-        },
-        ...(caseThree
-          ? [
-              {
-                conflict_detected: true,
-                conflict_type: "conflicting treatment recommendations",
-                severity: "moderate",
-                description:
-                  "The literature silo suggests alternatives whose recency and relevance differ from the clinical pathway.",
-                affected_treatment: "alternative treatment set",
-                risk_factor: "polypharmacy and recent fall",
-              },
-            ]
-          : []),
-      ];
-
-  const rawCandidates = [
-    score(
-      clinicalRecommendation.split(",")[0],
-      clinical.evidence_grade,
-      clinical.relevance,
-      clinical.recency,
-      risk,
-      clinical.source,
-    ),
-    score(
-      literature.alternative_treatments[0],
-      literature.evidence_grade,
-      literature.relevance,
-      literature.recency,
-      caseOne ? 0.18 : 0.26,
-      literature.source,
-    ),
-    score(
-      `Continue ${drugUnderReview} pathway`,
-      drug.evidence_grade,
-      caseOne ? 0.82 : 0.56,
-      0.84,
-      risk,
-      drug.source,
-    ),
-  ];
-  const candidates = rawCandidates
-    .sort((a, b) => b.score - a.score)
-    .map((candidate, index) => ({ ...candidate, ranking: index + 1 }));
-
+  const analysis = await runWorker<WorkerAnalysis>({
+    action: "analyze",
+    patient,
+    top_k: 3,
+  });
+  const conflicts = detectConflicts(patient, analysis);
+  const candidates = buildCandidates(analysis);
   const conflictCount = conflicts.filter((conflict) => conflict.conflict_detected).length;
   const patientSummary = `${patient.age}-year-old ${patient.sex.toLowerCase()} with ${patient.diseases.join(", ") || "no listed diseases"}; ${conflictCount} cross-silo conflict${conflictCount === 1 ? "" : "s"} detected.`;
-  const explanation = caseOne
-    ? "The three synthetic silos are aligned in this demonstration case. DEA still applies the same configured formula, making the highest-scoring pathway traceable without allowing a language model to override the result."
-    : `DEA ranked “${candidates[0].candidate}” highest at ${candidates[0].score.toFixed(3)} because its combined evidence quality, patient relevance, recency, and modeled risk produced the strongest deterministic value. The conflict register remains visible because ranking evidence is not the same as authorizing treatment.`;
+  const top = candidates[0];
+  const explanation = top
+    ? `DEA ranked “${top.candidate}” highest at ${top.score.toFixed(3)} using retrieved evidence from ${top.source}. The score is deterministic and does not authorize treatment; the conflict register and source chunks remain the traceable basis for review.`
+    : "No evidence was retrieved, so the system produced no supported treatment candidate.";
 
   return AnalyzeCaseResponse.parse({
     id: `analysis-${Date.now().toString(36)}`,
-    mode: "synthetic-demonstration",
+    mode: "local-chroma-rag",
     patient_summary: patientSummary,
-    query_tasks: {
-      clinical: "What treatments are recommended for the patient's diseases?",
-      drug: "Are candidate medications contraindicated or high-risk given the profile and laboratory values?",
-      literature: "What recent synthetic evidence exists for safer alternatives?",
-    },
+    query_tasks: analysis.queries,
     agent_statuses: [
-      { agent: "Clinical reasoning", status: "complete", summary: "Retrieved from clinical_guidelines only." },
-      { agent: "Drug safety", status: "complete", summary: "Retrieved from drug_information only." },
-      { agent: "Literature retrieval", status: "complete", summary: "Retrieved from clinical_literature only." },
-      { agent: "DEA arbitration", status: "complete", summary: "Deterministic ranking completed in the server." },
+      {
+        agent: "Clinical reasoning",
+        status: "complete",
+        summary: `Retrieved ${analysis.clinical.evidence.length} chunk(s) from ${COLLECTIONS.clinical} only.`,
+      },
+      {
+        agent: "Drug safety",
+        status: "complete",
+        summary: `Retrieved ${analysis.drug.evidence.length} chunk(s) from ${COLLECTIONS.drug} only.`,
+      },
+      {
+        agent: "Literature retrieval",
+        status: "complete",
+        summary: `Retrieved ${analysis.literature.evidence.length} chunk(s) from ${COLLECTIONS.literature} only.`,
+      },
+      {
+        agent: "DEA arbitration",
+        status: "complete",
+        summary: "Deterministic ranking completed after independent Chroma retrieval.",
+      },
     ],
-    clinical,
-    drug,
-    literature,
+    clinical: {
+      ...analysis.clinical,
+      evidence: analysis.clinical.evidence.map(toEvidence),
+    },
+    drug: {
+      ...analysis.drug,
+      evidence: analysis.drug.evidence.map(toEvidence),
+    },
+    literature: {
+      ...analysis.literature,
+      evidence: analysis.literature.evidence.map(toEvidence),
+    },
     conflicts,
     dea: {
-      weights: { alpha: 0.35, beta: 0.3, gamma: 0.15, delta: 0.2 },
+      weights: DEFAULT_WEIGHTS,
       candidates,
       method_note:
-        "V = (0.35 × Q_grade) + (0.30 × S_rel) + (0.15 × T_recent) − (0.20 × P_risk). The server computes and ranks these values deterministically.",
+        "V = (0.35 × Q_grade) + (0.30 × S_rel) + (0.15 × T_recent) − (0.20 × P_risk). TypeScript computes and ranks these values deterministically after Chroma retrieval.",
     },
     explanation,
     safety_considerations: [
       "A qualified healthcare professional must validate any real-world interpretation.",
-      "Synthetic sources are not clinical guidance and must not be treated as genuine citations.",
+      "Synthetic seed documents are not clinical guidance and must not be treated as genuine citations.",
       "DEA reduces evidence conflict; it does not guarantee safety or replace clinical judgment.",
     ],
     limitations: [
-      "This build uses clearly labelled synthetic evidence and in-memory collections for demonstration.",
+      "The bundled seed corpus is synthetic and clearly labelled; verify provenance before using external documents.",
       "No external medical documents, patient records, or clinical benchmark results are used.",
-      "The explanation is generated from retrieved structured outputs and cannot override DEA scores.",
+      "The explanation is generated from retrieved structured outputs and cannot override conflicts, metadata, or DEA scores.",
     ],
     disclaimer: DISCLAIMER,
     generated_at: new Date().toISOString(),
+    retrieval_status: analysis.retrieval_status,
   });
+}
+
+export async function getKnowledgeStats() {
+  return runWorker<WorkerStats>({ action: "stats" });
 }
 
 export function evaluateFramework(rawInput: unknown) {
   const input = EvaluateFrameworkBody.parse(rawInput);
   return EvaluateFrameworkResponse.parse({
     dataset_name: input.dataset_name,
-    benchmark_status: "pending — validated corpus required",
+    benchmark_status: "pending — validated labelled corpus required",
     metrics: [
       {
         name: "Context Precision",
@@ -352,24 +568,12 @@ export function evaluateFramework(rawInput: unknown) {
   });
 }
 
-export function ingestSyntheticDocument(rawInput: unknown) {
+export async function ingestDocument(rawInput: unknown) {
   const input = IngestDocumentBody.parse(rawInput);
-  const chunks = input.content
-    .split(/\n\s*\n|(?<=[.!?])\s+/)
-    .map((chunk) => chunk.trim())
-    .filter(Boolean);
-  const collection =
-    input.domain === "drug"
-      ? "drug_information"
-      : input.domain === "literature"
-        ? "clinical_literature"
-        : "clinical_guidelines";
-  return IngestDocumentResponse.parse({
-    document_id: `doc-${Date.now().toString(36)}`,
-    collection,
-    chunk_count: Math.max(chunks.length, 1),
-    status: "registered in synthetic in-memory index",
-    synthetic_notice:
-      "DEMONSTRATION/SYNTHETIC content only. This receipt is not a genuine medical citation.",
-  });
+  return IngestDocumentResponse.parse(
+    await runWorker({
+      action: "ingest",
+      ...input,
+    }),
+  );
 }

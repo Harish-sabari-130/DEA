@@ -26,6 +26,8 @@ export interface PatientProfileInput {
   conditions: string[];
 }
 
+export type EvidenceMetadata = { [key: string]: unknown };
+
 export interface Evidence {
   id: string;
   title: string;
@@ -39,6 +41,9 @@ export interface Evidence {
   risk_level: string;
   /** @nullable */
   page?: number | null;
+  chunk?: string;
+  similarity?: number;
+  metadata?: EvidenceMetadata;
 }
 
 export interface AgentStatus {
@@ -69,6 +74,7 @@ export interface DrugAgentOutput {
   evidence_grade: number;
   source: string;
   year: number;
+  evidence: Evidence[];
 }
 
 export interface LiteratureAgentOutput {
@@ -80,6 +86,7 @@ export interface LiteratureAgentOutput {
   recency: number;
   source: string;
   year: number;
+  evidence: Evidence[];
 }
 
 export interface Conflict {
@@ -121,6 +128,13 @@ export type AnalysisReportQueryTasks = {
   literature: string;
 };
 
+export type AnalysisReportRetrievalStatus = {
+  database: string;
+  embedding_provider: string;
+  silo_isolation: boolean;
+  top_k: number;
+};
+
 export interface AnalysisReport {
   id: string;
   mode: string;
@@ -137,6 +151,7 @@ export interface AnalysisReport {
   limitations: string[];
   disclaimer: string;
   generated_at: string;
+  retrieval_status: AnalysisReportRetrievalStatus;
 }
 
 export interface DemoCase {
@@ -173,6 +188,8 @@ export interface IngestDocumentInput {
   evidence_grade: number;
   risk_level: string;
   content: string;
+  file_name?: string;
+  file_content_base64?: string;
 }
 
 export interface IngestReceipt {
@@ -181,5 +198,25 @@ export interface IngestReceipt {
   chunk_count: number;
   status: string;
   synthetic_notice: string;
+  indexed_at?: string;
+}
+
+export interface KnowledgeSilo {
+  domain: string;
+  collection: string;
+  document_count: number;
+  chunk_count: number;
+  source_names: string[];
+  status: string;
+  embedding_model: string;
+  /** @nullable */
+  last_indexed_at?: string | null;
+}
+
+export interface KnowledgeStats {
+  database: string;
+  database_path: string;
+  embedding_provider: string;
+  silos: KnowledgeSilo[];
 }
 

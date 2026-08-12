@@ -1,0 +1,20 @@
+SYNTHETIC DEMONSTRATION DOCUMENT — not drug information and not a real citation.
+Title: Medication safety signals (demonstration)
+Source: DEA-MedRAG synthetic corpus / drug_information
+Year: 2025
+
+Metformin: reduced renal function is a patient-specific safety signal. The demonstration
+rule calls for clinician-led review of kidney function, dose, hydration, and laboratory
+monitoring. Do not infer a dose change from this synthetic text.
+
+Apixaban: renal impairment, older age, anemia, dizziness, or a recent fall can increase
+the modeled bleeding-risk signal. Review concurrent medicines and bleeding history with
+a qualified clinician before any decision.
+
+Lisinopril: potassium and renal function should be monitored in the demonstration
+scenario. A medication review should consider other agents that affect potassium or
+kidney function.
+
+Allergy conflicts: an allergy should be checked against every proposed medication and
+its ingredients. The absence of a matching allergy in this document is not proof of
+safety.

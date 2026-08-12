@@ -1,0 +1,17 @@
+SYNTHETIC DEMONSTRATION DOCUMENT — not a journal article and not a real citation.
+Title: Comparative treatment considerations (demonstration)
+Source: DEA-MedRAG synthetic corpus / clinical_literature
+Year: 2026
+
+The demonstration review describes structured laboratory monitoring, medication
+reconciliation, and non-pharmacologic fall-risk intervention as alternative treatment
+considerations for complex polypharmacy profiles.
+
+For diabetes with chronic kidney disease, a renal-adjusted alternative pathway and
+cardio-renal treatment discussion may be relevant topics for clinician review. This
+synthetic paragraph contains no trial result, DOI, journal name, or clinical claim.
+
+For atrial fibrillation with kidney disease and a recent fall, the review recommends
+that anticoagulation options, dose-adjusted therapy, and fall-risk intervention be
+compared using patient-specific evidence. It does not rank a treatment or authorize
+prescribing.

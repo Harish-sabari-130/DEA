@@ -14,4 +14,6 @@ export interface IngestDocumentInput {
   evidence_grade: number;
   risk_level: string;
   content: string;
+  file_name?: string;
+  file_content_base64?: string;
 }
