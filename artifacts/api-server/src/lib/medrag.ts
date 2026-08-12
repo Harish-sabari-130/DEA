@@ -1,4 +1,6 @@
 import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import {
   AnalyzeCaseBody,
   AnalyzeCaseResponse,
@@ -148,9 +150,14 @@ const DEMO_CASES = [
 
 function workerPaths() {
   const cwd = process.cwd();
+  const workspaceRoot =
+    [cwd, resolve(cwd, ".."), resolve(cwd, "../..")].find((candidate) =>
+      existsSync(resolve(candidate, "rag_worker.py")),
+    ) ?? cwd;
   return {
-    python: process.env.MEDRAG_PYTHON ?? `${cwd}/.pythonlibs/bin/python`,
-    worker: process.env.MEDRAG_WORKER_PATH ?? `${cwd}/rag_worker.py`,
+    cwd: workspaceRoot,
+    python: process.env.MEDRAG_PYTHON ?? resolve(workspaceRoot, ".pythonlibs/bin/python"),
+    worker: process.env.MEDRAG_WORKER_PATH ?? resolve(workspaceRoot, "rag_worker.py"),
   };
 }
 
@@ -160,7 +167,7 @@ async function runWorker<T>(request: Record<string, unknown>): Promise<T> {
     const { stdout, stderr } = await new Promise<{ stdout: string; stderr: string }>(
       (resolve, reject) => {
         const child = spawn(paths.python, [paths.worker], {
-          cwd: process.cwd(),
+          cwd: paths.cwd,
           env: { ...process.env, PYTHONUNBUFFERED: "1" },
           stdio: ["pipe", "pipe", "pipe"],
         });
