@@ -26,6 +26,16 @@ type WorkerEvidence = {
   evidence_grade: number;
   risk_level: string;
   metadata?: Record<string, unknown>;
+  // Phase 1 DEA enrichment fields (populated by enrich_evidence_item in Python)
+  source_type?: string;
+  identifier?: string | null;  // PMID / NCT ID / DailyMed setid
+  url?: string | null;
+  agent?: string;
+  claim?: string;
+  evidence_level?: string;
+  risk_flag?: boolean;
+  risk_severity?: string;
+  contraindication?: boolean;
 };
 type WorkerAnalysis = {
   queries: { clinical: string; drug: string; literature: string };
@@ -69,6 +79,31 @@ type WorkerAnalysis = {
     year: number;
     evidence: WorkerEvidence[];
   };
+  // Phase 1: Python DEA results — TypeScript is pass-through only
+  conflicts: Array<{
+    conflict_detected: boolean;
+    conflict_type: string;
+    severity: string;
+    description: string;
+    affected_treatment: string;
+    risk_factor: string;
+  }>;
+  dea: {
+    weights: { alpha: number; beta: number; gamma: number; delta: number };
+    candidates: Array<{
+      candidate: string;
+      q_grade: number;
+      s_rel: number;
+      t_recent: number;
+      p_risk: number;
+      score: number;
+      ranking: number;
+      source: string;
+    }>;
+    method_note: string;
+  };
+  patient_summary: string;
+  explanation: string;
 };
 type WorkerStats = {
   database: string;
@@ -156,7 +191,9 @@ function workerPaths() {
     ) ?? cwd;
   return {
     cwd: workspaceRoot,
-    python: process.env.MEDRAG_PYTHON ?? resolve(workspaceRoot, ".pythonlibs/bin/python"),
+    python:
+      process.env.MEDRAG_PYTHON ??
+      resolve(workspaceRoot, ".venv/Scripts/python.exe"),
     worker: process.env.MEDRAG_WORKER_PATH ?? resolve(workspaceRoot, "rag_worker.py"),
   };
 }
@@ -245,6 +282,12 @@ function terms(value: string[]) {
   return value.join(" ").toLowerCase();
 }
 
+/**
+ * @deprecated Phase 1: DEA scoring has moved to the authoritative Python
+ * implementation (calculate_dea_score in rag_worker.py).  This function is
+ * retained for unit-test and reference purposes only.  It MUST NOT be called
+ * in the analyzePatient() production path.
+ */
 export function calculateDEAScore(
   qGrade: number,
   relevance: number,
@@ -260,6 +303,12 @@ export function calculateDEAScore(
   return Number(value.toFixed(3));
 }
 
+/**
+ * @deprecated Phase 1: Conflict detection has moved to the authoritative Python
+ * implementation (detect_conflicts_python in rag_worker.py).  This function is
+ * retained for unit-test and reference purposes only.  It MUST NOT be called
+ * in the analyzePatient() production path.
+ */
 export function detectConflicts(
   patient: PatientProfile,
   analysis: WorkerAnalysis,
@@ -389,6 +438,12 @@ export function detectConflicts(
       ];
 }
 
+/**
+ * @deprecated Phase 1: Candidate building and DEA scoring have moved to the
+ * authoritative Python implementation (build_dea_candidates in rag_worker.py).
+ * This function is retained for unit-test and reference purposes only.
+ * It MUST NOT be called in the analyzePatient() production path.
+ */
 function buildCandidates(analysis: WorkerAnalysis) {
   const candidates = [];
   if (analysis.clinical.evidence.length) {
@@ -447,19 +502,17 @@ export async function analyzePatient(rawPatient: unknown) {
     patient,
     top_k: 3,
   });
-  const conflicts = detectConflicts(patient, analysis);
-  const candidates = buildCandidates(analysis);
-  const conflictCount = conflicts.filter((conflict) => conflict.conflict_detected).length;
-  const patientSummary = `${patient.age}-year-old ${patient.sex.toLowerCase()} with ${patient.diseases.join(", ") || "no listed diseases"}; ${conflictCount} cross-silo conflict${conflictCount === 1 ? "" : "s"} detected.`;
-  const top = candidates[0];
-  const explanation = top
-    ? `DEA ranked “${top.candidate}” highest at ${top.score.toFixed(3)} using retrieved evidence from ${top.source}. The score is deterministic and does not authorize treatment; the conflict register and source chunks remain the traceable basis for review.`
-    : "No evidence was retrieved, so the system produced no supported treatment candidate.";
+
+  // Phase 1: DEA scoring, conflict detection, patient_summary, and explanation
+  // are now computed by the authoritative Python DEA layer (rag_worker.py).
+  // TypeScript is a pass-through validator only — it does NOT re-score.
+  const conflicts  = analysis.conflicts;
+  const candidates = analysis.dea.candidates;
 
   return AnalyzeCaseResponse.parse({
     id: `analysis-${Date.now().toString(36)}`,
     mode: "local-chroma-rag",
-    patient_summary: patientSummary,
+    patient_summary: analysis.patient_summary,
     query_tasks: analysis.queries,
     agent_statuses: [
       {
@@ -480,7 +533,7 @@ export async function analyzePatient(rawPatient: unknown) {
       {
         agent: "DEA arbitration",
         status: "complete",
-        summary: "Deterministic ranking completed after independent Chroma retrieval.",
+        summary: "Python DEA v1.0 — deterministic ranking; no LLM scoring.",
       },
     ],
     clinical: {
@@ -496,13 +549,8 @@ export async function analyzePatient(rawPatient: unknown) {
       evidence: analysis.literature.evidence.map(toEvidence),
     },
     conflicts,
-    dea: {
-      weights: DEFAULT_WEIGHTS,
-      candidates,
-      method_note:
-        "V = (0.35 × Q_grade) + (0.30 × S_rel) + (0.15 × T_recent) − (0.20 × P_risk). TypeScript computes and ranks these values deterministically after Chroma retrieval.",
-    },
-    explanation,
+    dea: analysis.dea,
+    explanation: analysis.explanation,
     safety_considerations: [
       "A qualified healthcare professional must validate any real-world interpretation.",
       "Synthetic seed documents are not clinical guidance and must not be treated as genuine citations.",
