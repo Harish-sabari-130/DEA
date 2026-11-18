@@ -1,0 +1,2419 @@
+{
+  "metadata": {
+    "benchmark_path": "C:\\Users\\2024\\Downloads\\Research-Prototype-Builder\\Research-Prototype-Builder\\data\\benchmarks\\guideline_collision_v1.json",
+    "frozen_evidence_path": "C:\\Users\\2024\\Downloads\\Research-Prototype-Builder\\Research-Prototype-Builder\\data\\benchmarks\\frozen_evidence_v1.json",
+    "total_cases_audited": 23,
+    "binary_cases_count": 21,
+    "true_collision_count": 14,
+    "no_collision_count": 7,
+    "potential_collision_count": 2
+  },
+  "overall_metrics": {
+    "system": "DEA-MedRAG (detect_conflicts_python)",
+    "total_binary_cases": 21,
+    "true_positives": 14,
+    "false_positives": 0,
+    "true_negatives": 7,
+    "false_negatives": 0,
+    "sensitivity": 1.0,
+    "specificity": 1.0,
+    "precision": 1.0,
+    "false_positive_rate": 0.0,
+    "status_aware_diagnostics": {
+      "total_verified_conflicts_fired": 0,
+      "total_coverage_gap_advisories_fired": 0,
+      "total_data_quality_advisories_fired": 0,
+      "total_unknown_alerts_fired": 22,
+      "verified_only_sensitivity": 0.0,
+      "treatment_policy_note": "Historical sensitivity counts any active rule detection (conflicts + advisories). Verified-only sensitivity restricts positive detection strictly to records with CONFIRMED_CONFLICT and VERIFIED evidence linkage."
+    }
+  },
+  "rule_definitions": [
+    {
+      "rule_id": "rule_1",
+      "name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+      "conflict_type": "clinical recommendation vs high-risk medication",
+      "description": "Fires if clinical recommendations contain pathway keywords and drug silo risk level is 'high'."
+    },
+    {
+      "rule_id": "rule_2",
+      "name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+      "conflict_type": "drug-disease conflict",
+      "description": "Fires on quantified laboratory threshold contraindications (e.g. eGFR < 30, CrCl < 15, QTc > 500ms) or severe organ impairment."
+    },
+    {
+      "rule_id": "rule_3",
+      "name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+      "conflict_type": "hepatic restriction",
+      "description": "Fires if transaminases exceed threshold (>3x ULN or ALT > 100 U/L) or decompensated cirrhosis in patient on hepatically-restricted drug."
+    },
+    {
+      "rule_id": "rule_4",
+      "name": "Rule 4 \u2014 Documented Allergy Overlap",
+      "conflict_type": "allergy conflict",
+      "description": "Fires if any listed allergy appears in current medication text."
+    },
+    {
+      "rule_id": "rule_5",
+      "name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+      "conflict_type": "drug-drug interaction review",
+      "description": "Fires if co-prescribed medications match high-risk pairwise interaction mechanisms documented in evidence."
+    },
+    {
+      "rule_id": "rule_6",
+      "name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+      "conflict_type": "high-risk medication vs fall/bleeding signal",
+      "description": "Fires if high bleeding/fall risk profile coincides with high-risk antithrombotic or psychoactive exposure."
+    },
+    {
+      "rule_id": "rule_7",
+      "name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+      "conflict_type": "conflicting treatment recommendations",
+      "description": "Fires if literature evidence demonstrates direct harm, contraindication, or failure of clinical recommendation pathway."
+    }
+  ],
+  "rule_metrics": {
+    "rule_1": {
+      "rule_id": "rule_1",
+      "total_binary_cases": 21,
+      "true_positives": 0,
+      "false_positives": 0,
+      "true_negatives": 7,
+      "false_negatives": 14,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "precision": 0.0,
+      "false_positive_rate": 0.0
+    },
+    "rule_2": {
+      "rule_id": "rule_2",
+      "total_binary_cases": 21,
+      "true_positives": 8,
+      "false_positives": 0,
+      "true_negatives": 7,
+      "false_negatives": 6,
+      "sensitivity": 0.5714,
+      "specificity": 1.0,
+      "precision": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "rule_3": {
+      "rule_id": "rule_3",
+      "total_binary_cases": 21,
+      "true_positives": 1,
+      "false_positives": 0,
+      "true_negatives": 7,
+      "false_negatives": 13,
+      "sensitivity": 0.0714,
+      "specificity": 1.0,
+      "precision": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "rule_4": {
+      "rule_id": "rule_4",
+      "total_binary_cases": 21,
+      "true_positives": 0,
+      "false_positives": 0,
+      "true_negatives": 7,
+      "false_negatives": 14,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "precision": 0.0,
+      "false_positive_rate": 0.0
+    },
+    "rule_5": {
+      "rule_id": "rule_5",
+      "total_binary_cases": 21,
+      "true_positives": 8,
+      "false_positives": 0,
+      "true_negatives": 7,
+      "false_negatives": 6,
+      "sensitivity": 0.5714,
+      "specificity": 1.0,
+      "precision": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "rule_6": {
+      "rule_id": "rule_6",
+      "total_binary_cases": 21,
+      "true_positives": 1,
+      "false_positives": 0,
+      "true_negatives": 7,
+      "false_negatives": 13,
+      "sensitivity": 0.0714,
+      "specificity": 1.0,
+      "precision": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "rule_7": {
+      "rule_id": "rule_7",
+      "total_binary_cases": 21,
+      "true_positives": 0,
+      "false_positives": 0,
+      "true_negatives": 7,
+      "false_negatives": 14,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "precision": 0.0,
+      "false_positive_rate": 0.0
+    }
+  },
+  "case_audits": [
+    {
+      "case_id": "COL-001",
+      "title": "Metformin Lactic Acidosis Collision in CKD Stage 4",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m\u00b2 or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m\u00b2).",
+            "affected_treatment": "metformin",
+            "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m\u00b2)"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m\u00b2 or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m\u00b2).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m\u00b2)"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "lab_values": {
+          "eGFR": "22 mL/min/1.73m\u00b2",
+          "serum_creatinine": "2.4 mg/dL",
+          "HbA1c": "8.4%"
+        },
+        "symptoms": [
+          "Fatigue",
+          "Persistent hyperglycemia"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-002",
+      "title": "NSAID-Induced Decompensation Collision in HFrEF",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 2,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 2,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "NSAID therapy (naproxen) is contraindicated / harmful in heart failure due to prostaglandin inhibition causing sodium/water retention, worsening renal hemodynamics, and blunting of diuretic/ACEi efficacy.",
+            "affected_treatment": "naproxen",
+            "risk_factor": "fluid retention and renal decompensation in heart failure"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "moderate",
+            "description": "Concomitant NSAID with ACE inhibitor / loop diuretic blunts antihypertensive and diuretic efficacy, promotes fluid retention, and elevates risk of acute kidney injury.",
+            "affected_treatment": "NSAID + Loop Diuretic / ACEi combination",
+            "risk_factor": "hemodynamic and natriuretic blunting"
+          }
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "NSAID therapy (naproxen) is contraindicated / harmful in heart failure due to prostaglandin inhibition causing sodium/water retention, worsening renal hemodynamics, and blunting of diuretic/ACEi efficacy.",
+          "affected_treatment": "naproxen",
+          "risk_factor": "fluid retention and renal decompensation in heart failure"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "moderate",
+          "description": "Concomitant NSAID with ACE inhibitor / loop diuretic blunts antihypertensive and diuretic efficacy, promotes fluid retention, and elevates risk of acute kidney injury.",
+          "affected_treatment": "NSAID + Loop Diuretic / ACEi combination",
+          "risk_factor": "hemodynamic and natriuretic blunting"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Heart failure with reduced ejection fraction",
+          "Bilateral knee osteoarthritis"
+        ],
+        "medications": [
+          "Furosemide 40 mg daily",
+          "Carvedilol 25 mg twice daily",
+          "Lisinopril 20 mg daily",
+          "Naproxen 500 mg twice daily"
+        ],
+        "lab_values": {
+          "LVEF": "28%",
+          "eGFR": "52 mL/min/1.73m\u00b2",
+          "serum_creatinine": "1.3 mg/dL",
+          "BNP": "480 pg/mL"
+        },
+        "symptoms": [
+          "Severe bilateral knee pain",
+          "Mild exertional dyspnea",
+          "Trace pedal edema"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-003",
+      "title": "Dabigatran Clearance Collision in ESRD Hemodialysis",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "Dabigatran relies on renal elimination for 80% of clearance and is contraindicated / not recommended in end-stage renal disease (CrCl < 15 mL/min or maintenance hemodialysis) due to extreme accumulation and fatal hemorrhage risk.",
+            "affected_treatment": "dabigatran",
+            "risk_factor": "end-stage renal disease / CrCl < 15 mL/min"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Dabigatran relies on renal elimination for 80% of clearance and is contraindicated / not recommended in end-stage renal disease (CrCl < 15 mL/min or maintenance hemodialysis) due to extreme accumulation and fatal hemorrhage risk.",
+          "affected_treatment": "dabigatran",
+          "risk_factor": "end-stage renal disease / CrCl < 15 mL/min"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Non-valvular atrial fibrillation",
+          "End-stage renal disease on hemodialysis",
+          "Hypertension"
+        ],
+        "medications": [
+          "Dabigatran etexilate 150 mg twice daily",
+          "Amlodipine 10 mg daily",
+          "Sevelamer 800 mg three times daily with meals"
+        ],
+        "lab_values": {
+          "CrCl": "12 mL/min",
+          "serum_creatinine": "6.8 mg/dL",
+          "potassium": "4.9 mEq/L"
+        },
+        "symptoms": [
+          "Palpitations",
+          "Fatigue during dialysis"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-004",
+      "title": "Dual RAS Blockade Collision in Diabetic Nephropathy",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "high",
+            "description": "Dual renin-angiotensin system (RAS) blockade (ACE inhibitor + ARB) is contraindicated / advised against: increases risk of severe hypotension, hyperkalemia, and acute renal impairment without additional benefit.",
+            "affected_treatment": "ACE inhibitor + ARB combination",
+            "risk_factor": "dual RAS blockade"
+          }
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Dual renin-angiotensin system (RAS) blockade (ACE inhibitor + ARB) is contraindicated / advised against: increases risk of severe hypotension, hyperkalemia, and acute renal impairment without additional benefit.",
+          "affected_treatment": "ACE inhibitor + ARB combination",
+          "risk_factor": "dual RAS blockade"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Diabetic nephropathy with macroalbuminuria",
+          "Essential hypertension"
+        ],
+        "medications": [
+          "Lisinopril 40 mg daily",
+          "Losartan 100 mg daily",
+          "Amlodipine 10 mg daily",
+          "Atorvastatin 20 mg daily"
+        ],
+        "lab_values": {
+          "eGFR": "35 mL/min/1.73m\u00b2",
+          "serum_creatinine": "1.9 mg/dL",
+          "potassium": "4.8 mEq/L",
+          "urine_albumin_creatinine_ratio": "680 mg/g"
+        },
+        "symptoms": [
+          "Headache",
+          "Persistent proteinuria"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-005",
+      "title": "High-Intensity Statin Collision in Decompensated Cirrhosis",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": true,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "hepatic restriction",
+            "severity": "high",
+            "description": "Statin therapy (atorvastatin) is contraindicated / restricted in decompensated cirrhosis or unexplained persistent transaminase elevation (documented decompensated cirrhosis; ALT (142 U/L) > 100 U/L fallback threshold (ULN unavailable); AST (168 U/L) > 100 U/L fallback threshold (ULN unavailable)).",
+            "affected_treatment": "atorvastatin",
+            "risk_factor": "active liver disease / decompensated cirrhosis / severe transaminitis",
+            "status": "CONFIRMED_CONFLICT",
+            "heuristic_fallback": true,
+            "transaminase_evaluation_method": "FALLBACK_THRESHOLD_100_UL",
+            "engineering_assumption": "Unverified engineering heuristic: transaminases > 100 U/L used because laboratory-specific ULN was unavailable"
+          }
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "hepatic restriction",
+          "severity": "high",
+          "description": "Statin therapy (atorvastatin) is contraindicated / restricted in decompensated cirrhosis or unexplained persistent transaminase elevation (documented decompensated cirrhosis; ALT (142 U/L) > 100 U/L fallback threshold (ULN unavailable); AST (168 U/L) > 100 U/L fallback threshold (ULN unavailable)).",
+          "affected_treatment": "atorvastatin",
+          "risk_factor": "active liver disease / decompensated cirrhosis / severe transaminitis",
+          "status": "CONFIRMED_CONFLICT",
+          "heuristic_fallback": true,
+          "transaminase_evaluation_method": "FALLBACK_THRESHOLD_100_UL",
+          "engineering_assumption": "Unverified engineering heuristic: transaminases > 100 U/L used because laboratory-specific ULN was unavailable"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Decompensated liver cirrhosis",
+          "Severe mixed hyperlipidemia",
+          "Ascites"
+        ],
+        "medications": [
+          "Atorvastatin 40 mg daily",
+          "Spironolactone 100 mg daily",
+          "Furosemide 40 mg daily",
+          "Lactulose 20 g twice daily"
+        ],
+        "lab_values": {
+          "ALT": "142 U/L",
+          "AST": "168 U/L",
+          "total_bilirubin": "2.8 mg/dL",
+          "INR": "1.6",
+          "albumin": "2.9 g/dL"
+        },
+        "symptoms": [
+          "Scleral icterus",
+          "Abdominal distension",
+          "Fatigue"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-006",
+      "title": "Fatal Colchicine-Clarithromycin Triad Collision in CKD Stage 4",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 3,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 3,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "Allopurinol in severe renal impairment (24 mL/min/1.73m\u00b2): standard doses carry high risk of severe oxypurinol accumulation and life-threatening Allopurinol Hypersensitivity Syndrome (AHS); dosage must be reduced.",
+            "affected_treatment": "allopurinol",
+            "risk_factor": "reduced renal clearance (eGFR < 30 mL/min/1.73m\u00b2)"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "high",
+            "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'amlodipine'.",
+            "affected_treatment": "Amlodipine",
+            "risk_factor": "evidence-documented drug interaction"
+          }
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Allopurinol in severe renal impairment (24 mL/min/1.73m\u00b2): standard doses carry high risk of severe oxypurinol accumulation and life-threatening Allopurinol Hypersensitivity Syndrome (AHS); dosage must be reduced.",
+          "affected_treatment": "allopurinol",
+          "risk_factor": "reduced renal clearance (eGFR < 30 mL/min/1.73m\u00b2)"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Concomitant colchicine and strong CYP3A4/P-gp inhibitors (e.g. clarithromycin) is contraindicated in renal impairment due to life-threatening, potentially fatal colchicine accumulation and multiorgan failure.",
+          "affected_treatment": "Colchicine + Clarithromycin combination",
+          "risk_factor": "P-gp and CYP3A4 inhibition with colchicine accumulation"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'amlodipine'.",
+          "affected_treatment": "Amlodipine",
+          "risk_factor": "evidence-documented drug interaction"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Chronic kidney disease, stage 4",
+          "Acute gouty arthritis (podagra)",
+          "Community-acquired pneumonia"
+        ],
+        "medications": [
+          "Clarithromycin 500 mg twice daily",
+          "Colchicine 0.6 mg orally",
+          "Allopurinol 100 mg daily",
+          "Amlodipine 5 mg daily"
+        ],
+        "lab_values": {
+          "eGFR": "24 mL/min/1.73m\u00b2",
+          "serum_creatinine": "2.6 mg/dL",
+          "uric_acid": "8.8 mg/dL"
+        },
+        "symptoms": [
+          "Severe right first metatarsophalangeal erythema and pain",
+          "Cough",
+          "Dysuria absent"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-007",
+      "title": "Nitrofurantoin Neuro-Pulmonary Toxicity Collision in Advanced CKD",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 2,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 2,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "Nitrofurantoin is contraindicated in renal impairment with CrCl < 30 mL/min (patient CrCl: 24 mL/min) due to lack of efficacy in the urinary tract and risk of severe peripheral neuropathy and pulmonary toxicity.",
+            "affected_treatment": "nitrofurantoin",
+            "risk_factor": "renal clearance failure (CrCl < 30 mL/min)"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "high",
+            "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'vitamin'.",
+            "affected_treatment": "Vitamin",
+            "risk_factor": "evidence-documented drug interaction"
+          }
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Nitrofurantoin is contraindicated in renal impairment with CrCl < 30 mL/min (patient CrCl: 24 mL/min) due to lack of efficacy in the urinary tract and risk of severe peripheral neuropathy and pulmonary toxicity.",
+          "affected_treatment": "nitrofurantoin",
+          "risk_factor": "renal clearance failure (CrCl < 30 mL/min)"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'vitamin'.",
+          "affected_treatment": "Vitamin",
+          "risk_factor": "evidence-documented drug interaction"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Acute uncomplicated cystitis",
+          "Chronic kidney disease, stage 4",
+          "Osteopenia"
+        ],
+        "medications": [
+          "Nitrofurantoin monohydrate/macrocrystals 100 mg twice daily",
+          "Calcium carbonate 500 mg daily",
+          "Vitamin D3 1000 IU daily"
+        ],
+        "lab_values": {
+          "CrCl": "24 mL/min",
+          "serum_creatinine": "2.1 mg/dL",
+          "urinalysis": "Positive leukocyte esterase and nitrites"
+        },
+        "symptoms": [
+          "Dysuria",
+          "Urinary frequency",
+          "Suprapubic tenderness"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-008",
+      "title": "Spironolactone Initiation Collision in HFrEF with Baseline Hyperkalemia",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "Spironolactone is contraindicated / unsafe when baseline potassium > 5.0 mEq/L (5.4 mEq/L) and severe renal impairment (28 mL/min/1.73m\u00b2) due to high risk of life-threatening hyperkalemic cardiotoxicity.",
+            "affected_treatment": "spironolactone",
+            "risk_factor": "hyperkalemia / severe renal impairment"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Spironolactone is contraindicated / unsafe when baseline potassium > 5.0 mEq/L (5.4 mEq/L) and severe renal impairment (28 mL/min/1.73m\u00b2) due to high risk of life-threatening hyperkalemic cardiotoxicity.",
+          "affected_treatment": "spironolactone",
+          "risk_factor": "hyperkalemia / severe renal impairment"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Heart failure with reduced ejection fraction",
+          "Chronic kidney disease, stage 3b",
+          "Hypertension"
+        ],
+        "medications": [
+          "Lisinopril 20 mg daily",
+          "Metoprolol succinate 100 mg daily",
+          "Furosemide 40 mg daily",
+          "Spironolactone 25 mg daily"
+        ],
+        "lab_values": {
+          "potassium": "5.4 mEq/L",
+          "eGFR": "28 mL/min/1.73m\u00b2",
+          "serum_creatinine": "2.2 mg/dL",
+          "LVEF": "25%"
+        },
+        "symptoms": [
+          "Mild shortness of breath on exertion",
+          "Ankle swelling improved"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-009",
+      "title": "Prolonged Triple Antithrombotic Therapy Collision in AFib Post-PCI",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 3,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 3,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "high",
+            "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'aspirin'.",
+            "affected_treatment": "Aspirin",
+            "risk_factor": "evidence-documented drug interaction"
+          }
+        },
+        "rule_6": {
+          "fired": true,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "high-risk medication vs fall/bleeding signal",
+            "severity": "high",
+            "description": "The patient profile documents elevated bleeding risk (HAS-BLED >= 3, active bruising, or prior hemorrhage) while prescribed intensive antithrombotic therapy (3 antithrombotic agents).",
+            "affected_treatment": "Aspirin, Clopidogrel, Apixaban, Pantoprazole, Metoprolol",
+            "risk_factor": "bleeding risk vs intensive antithrombotic therapy"
+          }
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Triple antithrombotic therapy (oral anticoagulant + aspirin + P2Y12 inhibitor) markedly elevates fatal major and intracranial bleeding without clinical ischemic benefit.",
+          "affected_treatment": "Triple antithrombotic regimen",
+          "risk_factor": "bleeding cascade potentiation"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'aspirin'.",
+          "affected_treatment": "Aspirin",
+          "risk_factor": "evidence-documented drug interaction"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "severity": "high",
+          "description": "The patient profile documents elevated bleeding risk (HAS-BLED >= 3, active bruising, or prior hemorrhage) while prescribed intensive antithrombotic therapy (3 antithrombotic agents).",
+          "affected_treatment": "Aspirin, Clopidogrel, Apixaban, Pantoprazole, Metoprolol",
+          "risk_factor": "bleeding risk vs intensive antithrombotic therapy"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Non-valvular atrial fibrillation",
+          "Coronary artery disease s/p drug-eluting stent",
+          "Prior peptic ulcer bleeding"
+        ],
+        "medications": [
+          "Aspirin 81 mg daily",
+          "Clopidogrel 75 mg daily",
+          "Apixaban 5 mg twice daily",
+          "Pantoprazole 40 mg daily",
+          "Metoprolol succinate 50 mg daily"
+        ],
+        "lab_values": {
+          "HAS-BLED": "4",
+          "hemoglobin": "10.8 g/dL",
+          "platelets": "210,000 /mcL",
+          "eGFR": "64 mL/min/1.73m\u00b2"
+        },
+        "symptoms": [
+          "Epigastric discomfort",
+          "Easy bruising"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-010",
+      "title": "High-Dose Citalopram Collision with Baseline Long QT Syndrome",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "Cardiac repolarization safety alert for Citalopram: citalopram dose (40 mg/day) exceeds 20 mg/day limit for age > 60 (age: 66); baseline QTc interval (515 ms) exceeds 500 ms safety threshold. FDA safety labeling warns of dose-dependent QT interval prolongation and elevated risk of fatal Torsades de Pointes.",
+            "affected_treatment": "Citalopram",
+            "risk_factor": "prolonged QTc / cardiac repolarization risk",
+            "status": "CONFIRMED_CONFLICT",
+            "engineering_assumption": "FDA Citalopram 20mg age>60 dose limit & QTc > 500ms threshold",
+            "evidence_linkage": "VERIFIED"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Cardiac repolarization safety alert for Citalopram: citalopram dose (40 mg/day) exceeds 20 mg/day limit for age > 60 (age: 66); baseline QTc interval (515 ms) exceeds 500 ms safety threshold. FDA safety labeling warns of dose-dependent QT interval prolongation and elevated risk of fatal Torsades de Pointes.",
+          "affected_treatment": "Citalopram",
+          "risk_factor": "prolonged QTc / cardiac repolarization risk",
+          "status": "CONFIRMED_CONFLICT",
+          "engineering_assumption": "FDA Citalopram 20mg age>60 dose limit & QTc > 500ms threshold",
+          "evidence_linkage": "VERIFIED"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Major depressive disorder, recurrent",
+          "Acquired QTc prolongation",
+          "Osteoarthritis"
+        ],
+        "medications": [
+          "Citalopram 40 mg daily",
+          "Acetaminophen 500 mg as needed"
+        ],
+        "lab_values": {
+          "QTc": "515 ms",
+          "potassium": "4.1 mEq/L",
+          "magnesium": "2.0 mg/dL",
+          "eGFR": "72 mL/min/1.73m\u00b2"
+        },
+        "symptoms": [
+          "Depressed mood",
+          "Intermittent palpitations",
+          "Dizziness on standing"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-011",
+      "title": "ACE Inhibitor-Induced Lithium Neurotoxicity Collision",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "high",
+            "description": "Concomitant ACE inhibitor / diuretic reduces renal clearance of lithium, leading to toxic serum lithium accumulation and severe neurotoxicity.",
+            "affected_treatment": "Lithium + ACEi/diuretic combination",
+            "risk_factor": "reduced renal clearance of lithium"
+          }
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Concomitant ACE inhibitor / diuretic reduces renal clearance of lithium, leading to toxic serum lithium accumulation and severe neurotoxicity.",
+          "affected_treatment": "Lithium + ACEi/diuretic combination",
+          "risk_factor": "reduced renal clearance of lithium"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Bipolar I disorder, euthymic",
+          "Primary essential hypertension, stage 2"
+        ],
+        "medications": [
+          "Lithium carbonate 600 mg twice daily",
+          "Lisinopril 20 mg daily"
+        ],
+        "lab_values": {
+          "serum_lithium": "0.9 mEq/L",
+          "serum_creatinine": "1.1 mg/dL",
+          "eGFR": "78 mL/min/1.73m\u00b2",
+          "potassium": "4.4 mEq/L"
+        },
+        "symptoms": [
+          "Mild coarse hand tremor",
+          "Nausea",
+          "Headache"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-012",
+      "title": "Omeprazole CYP2C19 Antagonism Collision in Stented Patient",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "high",
+            "description": "Omeprazole inhibits CYP2C19-mediated metabolic activation of clopidogrel, significantly attenuating antiplatelet effect and elevating stent thrombosis risk.",
+            "affected_treatment": "Clopidogrel + Omeprazole combination",
+            "risk_factor": "CYP2C19 bioactivation inhibition"
+          }
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Omeprazole inhibits CYP2C19-mediated metabolic activation of clopidogrel, significantly attenuating antiplatelet effect and elevating stent thrombosis risk.",
+          "affected_treatment": "Clopidogrel + Omeprazole combination",
+          "risk_factor": "CYP2C19 bioactivation inhibition"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Coronary artery disease s/p drug-eluting stent (DES)",
+          "Severe GERD with erosive esophagitis"
+        ],
+        "medications": [
+          "Clopidogrel 75 mg daily",
+          "Aspirin 81 mg daily",
+          "Omeprazole 40 mg daily",
+          "Atorvastatin 40 mg daily"
+        ],
+        "lab_values": {
+          "hemoglobin": "13.6 g/dL",
+          "platelets": "230,000 /mcL",
+          "eGFR": "82 mL/min/1.73m\u00b2"
+        },
+        "symptoms": [
+          "Severe heartburn",
+          "Acid regurgitation",
+          "No chest pain"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-013",
+      "title": "Fatal Vasodilatory Hypotension Collision: Nitroglycerin & Sildenafil",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 3,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 3,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": true,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-drug interaction review",
+            "severity": "high",
+            "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'nitroglycerin'.",
+            "affected_treatment": "Nitroglycerin",
+            "risk_factor": "evidence-documented drug interaction"
+          }
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Concomitant administration of PDE5 inhibitor with nitrates is strictly contraindicated due to profound, potentially fatal synergistic vasodilatory hypotension.",
+          "affected_treatment": "PDE5 inhibitor + Nitrate combination",
+          "risk_factor": "synergistic vasodilatory hypotension"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'sildenafil'.",
+          "affected_treatment": "Sildenafil",
+          "risk_factor": "evidence-documented drug interaction"
+        },
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-drug interaction review",
+          "severity": "high",
+          "description": "Retrieved DailyMed evidence documents documented adverse interaction / contraindication concerning co-prescribed medication 'nitroglycerin'.",
+          "affected_treatment": "Nitroglycerin",
+          "risk_factor": "evidence-documented drug interaction"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Chronic stable angina pectoris",
+          "Erectile dysfunction",
+          "Hyperlipidemia"
+        ],
+        "medications": [
+          "Isosorbide mononitrate 60 mg daily",
+          "Nitroglycerin 0.4 mg SL PRN",
+          "Atenolol 50 mg daily",
+          "Sildenafil 50 mg PRN"
+        ],
+        "lab_values": {
+          "blood_pressure": "118/74 mmHg",
+          "heart_rate": "62 bpm",
+          "eGFR": "75 mL/min/1.73m\u00b2"
+        },
+        "symptoms": [
+          "Exertional chest tightness relieved by nitroglycerin",
+          "Erectile difficulty"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "COL-014",
+      "title": "Negative Inotrope Decompensation Collision: Diltiazem in HFrEF",
+      "classification": "TRUE_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "high",
+            "description": "Non-dihydropyridine calcium channel blocker (diltiazem) is contraindicated in heart failure with reduced ejection fraction (HFrEF) (patient LVEF: 22%) due to negative inotropic effects leading to worsening cardiac decompensation.",
+            "affected_treatment": "diltiazem",
+            "risk_factor": "negative inotrope in reduced ejection fraction heart failure"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Non-dihydropyridine calcium channel blocker (diltiazem) is contraindicated in heart failure with reduced ejection fraction (HFrEF) (patient LVEF: 22%) due to negative inotropic effects leading to worsening cardiac decompensation.",
+          "affected_treatment": "diltiazem",
+          "risk_factor": "negative inotrope in reduced ejection fraction heart failure"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Heart failure with reduced ejection fraction",
+          "Atrial fibrillation with rapid ventricular response"
+        ],
+        "medications": [
+          "Diltiazem CD 240 mg daily",
+          "Furosemide 40 mg daily",
+          "Sacubitril/Valsartan 49/51 mg twice daily",
+          "Apixaban 5 mg twice daily"
+        ],
+        "lab_values": {
+          "heart_rate": "124 bpm",
+          "blood_pressure": "104/68 mmHg",
+          "LVEF": "22%",
+          "BNP": "860 pg/mL",
+          "eGFR": "55 mL/min/1.73m\u00b2"
+        },
+        "symptoms": [
+          "Rapid irregular heartbeat",
+          "Orthopnea",
+          "Bilateral pedal edema"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "NC-001",
+      "title": "Concordant Management: Metformin & ACEi in Mild CKD Stage 2",
+      "classification": "NO_COLLISION",
+      "has_collision": false,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Essential hypertension",
+          "Chronic kidney disease, stage 2"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily",
+          "Lisinopril 20 mg daily"
+        ],
+        "lab_values": {
+          "eGFR": "74 mL/min/1.73m\u00b2",
+          "serum_creatinine": "1.0 mg/dL",
+          "potassium": "4.3 mEq/L",
+          "HbA1c": "7.6%"
+        },
+        "symptoms": [
+          "Asymptomatic routine checkup"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "NC-002",
+      "title": "Concordant Management: Quadruple GDMT in HFrEF & CAD",
+      "classification": "NO_COLLISION",
+      "has_collision": false,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Heart failure with reduced ejection fraction",
+          "Coronary artery disease",
+          "Hypertension"
+        ],
+        "medications": [
+          "Sacubitril/Valsartan 49/51 mg twice daily",
+          "Carvedilol 25 mg twice daily",
+          "Dapagliflozin 10 mg daily",
+          "Spironolactone 25 mg daily"
+        ],
+        "lab_values": {
+          "blood_pressure": "122/76 mmHg",
+          "heart_rate": "64 bpm",
+          "eGFR": "58 mL/min/1.73m\u00b2",
+          "potassium": "4.2 mEq/L",
+          "serum_creatinine": "1.2 mg/dL"
+        },
+        "symptoms": [
+          "No shortness of breath at rest",
+          "Normal exercise tolerance for age"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "NC-003",
+      "title": "Concordant Management: Apixaban & Statin in Normal Renal Function",
+      "classification": "NO_COLLISION",
+      "has_collision": false,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Non-valvular atrial fibrillation",
+          "Primary hyperlipidemia",
+          "Mild osteoarthritis"
+        ],
+        "medications": [
+          "Apixaban 5 mg twice daily",
+          "Atorvastatin 40 mg daily",
+          "Acetaminophen 500 mg PRN"
+        ],
+        "lab_values": {
+          "CrCl": "88 mL/min",
+          "serum_creatinine": "0.8 mg/dL",
+          "ALT": "22 U/L",
+          "AST": "20 U/L",
+          "platelets": "240,000 /mcL"
+        },
+        "symptoms": [
+          "Occasional mild joint ache"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "NC-004",
+      "title": "Concordant Management: Levothyroxine & Amlodipine in HTN",
+      "classification": "NO_COLLISION",
+      "has_collision": false,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Primary hypothyroidism",
+          "Essential hypertension"
+        ],
+        "medications": [
+          "Levothyroxine 75 mcg daily on empty stomach",
+          "Amlodipine 5 mg daily"
+        ],
+        "lab_values": {
+          "TSH": "2.1 mIU/L",
+          "free_T4": "1.2 ng/dL",
+          "blood_pressure": "126/80 mmHg",
+          "serum_creatinine": "0.9 mg/dL"
+        },
+        "symptoms": [
+          "Asymptomatic",
+          "Energy level normal"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "NC-005",
+      "title": "Concordant Management: Escitalopram & Metformin",
+      "classification": "NO_COLLISION",
+      "has_collision": false,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Major depressive disorder, single episode",
+          "Type 2 diabetes mellitus"
+        ],
+        "medications": [
+          "Escitalopram 10 mg daily",
+          "Metformin 1000 mg twice daily"
+        ],
+        "lab_values": {
+          "eGFR": "88 mL/min/1.73m\u00b2",
+          "HbA1c": "7.4%",
+          "QTc": "410 ms",
+          "potassium": "4.4 mEq/L"
+        },
+        "symptoms": [
+          "Improved mood",
+          "Stable appetite"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "NC-006",
+      "title": "Concordant Management: Inhaled Corticosteroid & Antihistamine",
+      "classification": "NO_COLLISION",
+      "has_collision": false,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Moderate persistent asthma",
+          "Seasonal allergic rhinitis"
+        ],
+        "medications": [
+          "Fluticasone propionate / Salmeterol 250/50 mcg DPI twice daily",
+          "Cetirizine 10 mg daily",
+          "Albuterol HFA inhaler 90 mcg PRN"
+        ],
+        "lab_values": {
+          "FEV1": "82% predicted",
+          "eosinophils": "220 /mcL"
+        },
+        "symptoms": [
+          "Infrequent daytime asthma symptoms (<1/month)",
+          "Rhinitis symptoms controlled"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "NC-007",
+      "title": "Concordant Management: Alendronate & Thiazide Diuretic",
+      "classification": "NO_COLLISION",
+      "has_collision": false,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Postmenopausal osteoporosis",
+          "Essential hypertension"
+        ],
+        "medications": [
+          "Alendronate sodium 70 mg weekly with full glass of water",
+          "Chlorthalidone 25 mg daily",
+          "Calcium carbonate 500 mg daily",
+          "Vitamin D3 1000 IU daily"
+        ],
+        "lab_values": {
+          "eGFR": "65 mL/min/1.73m\u00b2",
+          "serum_calcium": "9.4 mg/dL",
+          "DXA_T_score_lumbar_spine": "-2.7",
+          "DXA_T_score_femoral_neck": "-2.5"
+        },
+        "symptoms": [
+          "Asymptomatic",
+          "No gastroesophageal reflux",
+          "No history of fragility fractures"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "AMB-001",
+      "title": "Dosing Boundary Ambiguity: Metformin in CKD Stage 3b (eGFR 38)",
+      "classification": "POTENTIAL_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": true,
+      "total_rules_fired": 1,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 1,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": true,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": {
+            "conflict_detected": true,
+            "conflict_type": "drug-disease conflict",
+            "severity": "moderate",
+            "description": "Metformin in moderate renal impairment (eGFR: 38 mL/min/1.73m\u00b2): dose reduction and frequent renal monitoring (every 3-6 months) required; maximum 1000 mg/day.",
+            "affected_treatment": "metformin",
+            "risk_factor": "moderate renal impairment (eGFR 30-44 mL/min/1.73m\u00b2)"
+          }
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin in moderate renal impairment (eGFR: 38 mL/min/1.73m\u00b2): dose reduction and frequent renal monitoring (every 3-6 months) required; maximum 1000 mg/day.",
+          "affected_treatment": "metformin",
+          "risk_factor": "moderate renal impairment (eGFR 30-44 mL/min/1.73m\u00b2)"
+        }
+      ],
+      "patient_summary": {
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 3b",
+          "Hypertension"
+        ],
+        "medications": [
+          "Metformin 500 mg twice daily",
+          "Lisinopril 10 mg daily",
+          "Amlodipine 5 mg daily"
+        ],
+        "lab_values": {
+          "eGFR": "38 mL/min/1.73m\u00b2",
+          "serum_creatinine": "1.8 mg/dL",
+          "HbA1c": "7.8%",
+          "potassium": "4.5 mEq/L"
+        },
+        "symptoms": [
+          "Fatigue",
+          "No gastrointestinal upset"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    },
+    {
+      "case_id": "AMB-002",
+      "title": "Efficacy Ambiguity: Digoxin in HFpEF with Mild Renal Impairment",
+      "classification": "POTENTIAL_COLLISION",
+      "has_collision": true,
+      "overall_conflict_detected": false,
+      "total_rules_fired": 0,
+      "confirmed_conflicts_count": 0,
+      "coverage_gap_advisories_count": 0,
+      "data_quality_advisories_count": 0,
+      "unknown_conflicts_count": 0,
+      "false_positive": false,
+      "false_negative": false,
+      "rule_results": {
+        "rule_1": {
+          "fired": false,
+          "rule_name": "Rule 1 \u2014 Clinical Recommendation vs. High Drug Risk",
+          "conflict_type": "clinical recommendation vs high-risk medication",
+          "details": null
+        },
+        "rule_2": {
+          "fired": false,
+          "rule_name": "Rule 2 \u2014 Renal / Organ Impairment & Medication Safety",
+          "conflict_type": "drug-disease conflict",
+          "details": null
+        },
+        "rule_3": {
+          "fired": false,
+          "rule_name": "Rule 3 \u2014 Hepatic Impairment & Hepatically-Cleared Medication",
+          "conflict_type": "hepatic restriction",
+          "details": null
+        },
+        "rule_4": {
+          "fired": false,
+          "rule_name": "Rule 4 \u2014 Documented Allergy Overlap",
+          "conflict_type": "allergy conflict",
+          "details": null
+        },
+        "rule_5": {
+          "fired": false,
+          "rule_name": "Rule 5 \u2014 Pairwise Drug-Drug Interaction Safety Review",
+          "conflict_type": "drug-drug interaction review",
+          "details": null
+        },
+        "rule_6": {
+          "fired": false,
+          "rule_name": "Rule 6 \u2014 Fall/Bleeding Signal & High Drug Risk",
+          "conflict_type": "high-risk medication vs fall/bleeding signal",
+          "details": null
+        },
+        "rule_7": {
+          "fired": false,
+          "rule_name": "Rule 7 \u2014 Cross-Silo Treatment Divergence",
+          "conflict_type": "conflicting treatment recommendations",
+          "details": null
+        }
+      },
+      "all_detected_conflicts": [],
+      "patient_summary": {
+        "diseases": [
+          "Heart failure with preserved ejection fraction (HFpEF)",
+          "Paroxysmal atrial fibrillation",
+          "Chronic kidney disease, stage 3a"
+        ],
+        "medications": [
+          "Digoxin 0.125 mg daily",
+          "Empagliflozin 10 mg daily",
+          "Apixaban 5 mg twice daily",
+          "Amlodipine 5 mg daily"
+        ],
+        "lab_values": {
+          "serum_digoxin": "0.8 ng/mL",
+          "eGFR": "46 mL/min/1.73m\u00b2",
+          "serum_creatinine": "1.4 mg/dL",
+          "potassium": "4.3 mEq/L",
+          "LVEF": "54%"
+        },
+        "symptoms": [
+          "Occasional dyspnea on heavy exertion",
+          "Heart rate well-controlled at 74 bpm"
+        ],
+        "risk_level": "high",
+        "p_risk": 0.9
+      }
+    }
+  ]
+}

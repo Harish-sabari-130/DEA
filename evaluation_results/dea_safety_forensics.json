@@ -1,0 +1,1373 @@
+{
+  "audit_scope": "Phase 2.5 DEA Safety Forensics across 14 TRUE_COLLISION cases",
+  "authoritative_weights": {
+    "alpha": 0.35,
+    "beta": 0.3,
+    "gamma": 0.15,
+    "delta": 0.2
+  },
+  "total_true_collision_cases": 14,
+  "total_safety_violations": 0,
+  "total_safe_cases": 14,
+  "failure_mode_counts": {},
+  "forensics_records": [
+    {
+      "case_id": "COL-001",
+      "title": "Metformin Lactic Acidosis Collision in CKD Stage 4",
+      "category": null,
+      "contraindicated_tokens": [
+        "metformin",
+        "glucophage"
+      ],
+      "unacceptable_pathways": [
+        "Continue Metformin 1000 mg twice daily",
+        "Titrate Metformin dose upward"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.467,
+      "q_grade": 0.82,
+      "s_rel": 0.343,
+      "t_recent": 0.65,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.1029,
+        "gamma_t": 0.0975,
+        "delta_p": 0.02,
+        "net_v_score": 0.467
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "SAFE",
+        "primary_mode": "NONE",
+        "contributing_modes": [],
+        "explanation": "KDIGO guideline won safely because high relevance (S=0.343) and quality (Q=0.820) overcame the drug candidate (S=0.014)."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.467,
+          "q_grade": 0.82,
+          "s_rel": 0.343,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.1029,
+            "gamma_t": 0.0975,
+            "delta_p": 0.02,
+            "net_score": 0.467
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "domain": "drug",
+          "ranking": 2,
+          "v_score": 0.197,
+          "q_grade": 0.75,
+          "s_rel": 0.014,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.0042,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.197
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Metformin is one of the most popular oral glucose-lowering medications, widely considered to be the optimal initial therapy for patients with type 2 diabetes mellitus.",
+          "domain": "literature",
+          "ranking": 3,
+          "v_score": 0.177,
+          "q_grade": 0.55,
+          "s_rel": 0.28,
+          "t_recent": 0.6,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.1925,
+            "beta_s": 0.084,
+            "gamma_t": 0.09,
+            "delta_p": 0.19,
+            "net_score": 0.177
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-002",
+      "title": "NSAID-Induced Decompensation Collision in HFrEF",
+      "category": null,
+      "contraindicated_tokens": [
+        "naproxen",
+        "ibuprofen",
+        "nsaid",
+        "aleve",
+        "advil",
+        "motrin",
+        "diclofenac",
+        "meloxicam",
+        "celecoxib"
+      ],
+      "unacceptable_pathways": [
+        "Continue Naproxen 500 mg twice daily",
+        "Switch to Ibuprofen 800 mg three times daily"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.428,
+      "q_grade": 0.82,
+      "s_rel": 0.163,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0489,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.428
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate similarity (S=0.328) provided +0.098 boost, overcoming Clinical guideline (S=0.163). Risk penalty (delta*P = 0.180) was identical on Clinical and Drug, providing zero relative protection."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.428,
+          "q_grade": 0.82,
+          "s_rel": 0.163,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0489,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.428
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.251,
+          "q_grade": 0.703,
+          "s_rel": 0.115,
+          "t_recent": 0.0,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.246,
+            "beta_s": 0.0345,
+            "gamma_t": 0.0,
+            "delta_p": 0.03,
+            "net_score": 0.25
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Furosemide, Carvedilol, Lisinopril, Naproxen pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.291,
+          "q_grade": 0.75,
+          "s_rel": 0.328,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.0984,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.291
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-003",
+      "title": "Dabigatran Clearance Collision in ESRD Hemodialysis",
+      "category": null,
+      "contraindicated_tokens": [
+        "dabigatran",
+        "pradaxa"
+      ],
+      "unacceptable_pathways": [
+        "Continue Dabigatran 150 mg twice daily",
+        "Empiric half-dose Dabigatran 75 mg twice daily without approval"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.407,
+      "q_grade": 0.82,
+      "s_rel": 0.091,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0273,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.407
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "SAFE",
+        "primary_mode": "NONE",
+        "contributing_modes": [],
+        "explanation": "Literature candidate won safely due to discounted risk (P=0.360 vs 0.900), outscoring Drug candidate."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.407,
+          "q_grade": 0.82,
+          "s_rel": 0.091,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0273,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.407
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.325,
+          "q_grade": 0.673,
+          "s_rel": 0.173,
+          "t_recent": 0.45,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.2356,
+            "beta_s": 0.0519,
+            "gamma_t": 0.0675,
+            "delta_p": 0.03,
+            "net_score": 0.325
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Dabigatran, Amlodipine, Sevelamer pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.227,
+          "q_grade": 0.75,
+          "s_rel": 0.114,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.0342,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.227
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-004",
+      "title": "Dual RAS Blockade Collision in Diabetic Nephropathy",
+      "category": null,
+      "contraindicated_tokens": [
+        "lisinopril and losartan",
+        "dual ras blockade",
+        "dual acei arb"
+      ],
+      "unacceptable_pathways": [
+        "Continue combination Lisinopril 40 mg and Losartan 100 mg",
+        "Add third renin-angiotensin blocker (Aliskiren)"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.474,
+      "q_grade": 0.82,
+      "s_rel": 0.315,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0945,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.474
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate had high similarity (S=0.442, +0.133 boost), beating Clinical guideline (S=0.315, +0.095 boost). Both bore identical P_risk=0.900."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.474,
+          "q_grade": 0.82,
+          "s_rel": 0.315,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0945,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.474
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.318,
+          "q_grade": 0.55,
+          "s_rel": 0.219,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.1925,
+            "beta_s": 0.0657,
+            "gamma_t": 0.09,
+            "delta_p": 0.03,
+            "net_score": 0.318
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "Continue Lisinopril, Losartan, Amlodipine, Atorvastatin pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.325,
+          "q_grade": 0.75,
+          "s_rel": 0.442,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.1326,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.325
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-005",
+      "title": "High-Intensity Statin Collision in Decompensated Cirrhosis",
+      "category": null,
+      "contraindicated_tokens": [
+        "atorvastatin",
+        "lipitor",
+        "simvastatin",
+        "zocor"
+      ],
+      "unacceptable_pathways": [
+        "Continue Atorvastatin 40 mg daily",
+        "Increase Atorvastatin to 80 mg daily"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "Renin-angiotensin-aldosterone system inhibitors (RAASi) and mineralocorticoid receptor antagonists (MRAs) are key drugs in the management of patients with cardiovascular diseases (CVD), particularly those with hypertension, diabetes, chronic kidney disease and heart failure (HF), given their demonstrated effectiveness in reducing the risk of both surrogate and hard endpoints.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.379,
+      "q_grade": 0.82,
+      "s_rel": 0.0,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.379
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "SAFE",
+        "primary_mode": "NONE",
+        "contributing_modes": [],
+        "explanation": "Evolocumab trial literature won safely with high Q=0.827 and discounted P_risk=0.360, providing a genuine clinical alternative."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "Renin-angiotensin-aldosterone system inhibitors (RAASi) and mineralocorticoid receptor antagonists (MRAs) are key drugs in the management of patients with cardiovascular diseases (CVD), particularly those with hypertension, diabetes, chronic kidney disease and heart failure (HF), given their demonstrated effectiveness in reducing the risk of both surrogate and hard endpoints.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.379,
+          "q_grade": 0.82,
+          "s_rel": 0.0,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.379
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "BACKGROUND: Evolocumab, a monoclonal antibody that inhibits proprotein convertase subtilisin/kexin type 9 (PCSK9), significantly reduced low-density lipoprotein (LDL) cholesterol levels in phase 2 studies.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.327,
+          "q_grade": 0.827,
+          "s_rel": 0.0,
+          "t_recent": 0.45,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.2894,
+            "beta_s": 0.0,
+            "gamma_t": 0.0675,
+            "delta_p": 0.03,
+            "net_score": 0.327
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Atorvastatin, Spironolactone, Furosemide, Lactulose pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.246,
+          "q_grade": 0.75,
+          "s_rel": 0.179,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.0537,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.246
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-006",
+      "title": "Fatal Colchicine-Clarithromycin Triad Collision in CKD Stage 4",
+      "category": null,
+      "contraindicated_tokens": [
+        "colchicine",
+        "colcrys"
+      ],
+      "unacceptable_pathways": [
+        "Continue full-dose Colchicine with Clarithromycin",
+        "Dose-escalate Colchicine for persistent pain"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.431,
+      "q_grade": 0.82,
+      "s_rel": 0.172,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0516,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.431
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate similarity (S=0.330) provided +0.099 boost, beating Clinical guideline (S=0.172, +0.052). Both bore identical P_risk=0.900."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.431,
+          "q_grade": 0.82,
+          "s_rel": 0.172,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0516,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.431
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.287,
+          "q_grade": 0.627,
+          "s_rel": 0.0,
+          "t_recent": 0.65,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.2194,
+            "beta_s": 0.0,
+            "gamma_t": 0.0975,
+            "delta_p": 0.03,
+            "net_score": 0.287
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Clarithromycin, Colchicine, Allopurinol, Amlodipine pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.292,
+          "q_grade": 0.75,
+          "s_rel": 0.33,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.099,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.292
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-007",
+      "title": "Nitrofurantoin Neuro-Pulmonary Toxicity Collision in Advanced CKD",
+      "category": null,
+      "contraindicated_tokens": [
+        "nitrofurantoin",
+        "macrobid",
+        "macrodantin"
+      ],
+      "unacceptable_pathways": [
+        "Continue Nitrofurantoin 100 mg twice daily for 7 days",
+        "Double Nitrofurantoin dose for low urinary concentration"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.39,
+      "q_grade": 0.82,
+      "s_rel": 0.036,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0108,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.39
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate similarity (S=0.464, +0.139 boost) crushed Clinical guideline (S=0.036, +0.011 boost) by +0.128 points, far exceeding the guideline quality advantage (+0.0245)."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.39,
+          "q_grade": 0.82,
+          "s_rel": 0.036,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0108,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.39
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.274,
+          "q_grade": 0.55,
+          "s_rel": 0.048,
+          "t_recent": 0.65,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.1925,
+            "beta_s": 0.0144,
+            "gamma_t": 0.0975,
+            "delta_p": 0.03,
+            "net_score": 0.274
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Nitrofurantoin, Carbonate, Vitamin pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.332,
+          "q_grade": 0.75,
+          "s_rel": 0.464,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.1392,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.332
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-008",
+      "title": "Spironolactone Initiation Collision in HFrEF with Baseline Hyperkalemia",
+      "category": null,
+      "contraindicated_tokens": [
+        "spironolactone",
+        "aldactone",
+        "eplerenone",
+        "inspra"
+      ],
+      "unacceptable_pathways": [
+        "Initiate Spironolactone 25 mg daily immediately",
+        "Initiate Eplerenone 25 mg daily"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.465,
+      "q_grade": 0.82,
+      "s_rel": 0.286,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0858,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.465
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate similarity (S=0.425, +0.128 boost) outscored Clinical guideline (S=0.286, +0.086 boost). Both candidates bore identical P_risk=0.900."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.465,
+          "q_grade": 0.82,
+          "s_rel": 0.286,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0858,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.465
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.287,
+          "q_grade": 0.703,
+          "s_rel": 0.238,
+          "t_recent": 0.0,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.246,
+            "beta_s": 0.0714,
+            "gamma_t": 0.0,
+            "delta_p": 0.03,
+            "net_score": 0.287
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Lisinopril, Metoprolol, Furosemide, Spironolactone pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.32,
+          "q_grade": 0.75,
+          "s_rel": 0.425,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.1275,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.32
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-009",
+      "title": "Prolonged Triple Antithrombotic Therapy Collision in AFib Post-PCI",
+      "category": null,
+      "contraindicated_tokens": [
+        "triple antithrombotic therapy",
+        "triple therapy",
+        "aspirin and clopidogrel and apixaban"
+      ],
+      "unacceptable_pathways": [
+        "Continue triple therapy for 6 months",
+        "Add third antiplatelet agent (Prasugrel/Ticagrelor) to DOAC"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.425,
+      "q_grade": 0.82,
+      "s_rel": 0.178,
+      "t_recent": 0.7,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0534,
+        "gamma_t": 0.105,
+        "delta_p": 0.02,
+        "net_v_score": 0.425
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate similarity (S=0.306, +0.092 boost) beat Clinical guideline (S=0.178, +0.053 boost). Both candidates bore identical P_risk=0.900."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.425,
+          "q_grade": 0.82,
+          "s_rel": 0.178,
+          "t_recent": 0.7,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0534,
+            "gamma_t": 0.105,
+            "delta_p": 0.02,
+            "net_score": 0.425
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.263,
+          "q_grade": 0.703,
+          "s_rel": 0.155,
+          "t_recent": 0.0,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.246,
+            "beta_s": 0.0465,
+            "gamma_t": 0.0,
+            "delta_p": 0.03,
+            "net_score": 0.262
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Aspirin, Clopidogrel, Apixaban, Pantoprazole, Metoprolol pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.284,
+          "q_grade": 0.75,
+          "s_rel": 0.306,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.0918,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.284
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-010",
+      "title": "High-Dose Citalopram Collision with Baseline Long QT Syndrome",
+      "category": null,
+      "contraindicated_tokens": [
+        "citalopram",
+        "celexa"
+      ],
+      "unacceptable_pathways": [
+        "Maintain Citalopram 40 mg daily",
+        "Increase Citalopram to 60 mg daily"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.379,
+      "q_grade": 0.82,
+      "s_rel": 0.0,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.379
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "RETRIEVAL_FAILURE"
+        ],
+        "explanation": "Clinical guideline retrieved for depression had S=0.000 (heart failure text). Drug candidate similarity (S=0.346, +0.104 boost) easily won. P_risk was identical."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.379,
+          "q_grade": 0.82,
+          "s_rel": 0.0,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.379
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.303,
+          "q_grade": 0.673,
+          "s_rel": 0.0,
+          "t_recent": 0.65,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.2356,
+            "beta_s": 0.0,
+            "gamma_t": 0.0975,
+            "delta_p": 0.03,
+            "net_score": 0.303
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Citalopram, Acetaminophen pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.296,
+          "q_grade": 0.75,
+          "s_rel": 0.346,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.1038,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.296
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-011",
+      "title": "ACE Inhibitor-Induced Lithium Neurotoxicity Collision",
+      "category": null,
+      "contraindicated_tokens": [
+        "lisinopril with lithium",
+        "ace inhibitor with lithium"
+      ],
+      "unacceptable_pathways": [
+        "Continue standard Lisinopril 20 mg without lithium level monitoring",
+        "Add thiazide diuretic to regimen"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.379,
+      "q_grade": 0.82,
+      "s_rel": 0.0,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.379
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "RETRIEVAL_FAILURE"
+        ],
+        "explanation": "Clinical guideline retrieved had S=0.000 (heart failure text). Drug candidate similarity (S=0.348, +0.104 boost) dominated. P_risk was identical."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.379,
+          "q_grade": 0.82,
+          "s_rel": 0.0,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.379
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "Hypertension is the leading cause of death worldwide, affecting 1.4 billion people.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.26,
+          "q_grade": 0.55,
+          "s_rel": 0.0,
+          "t_recent": 0.65,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.1925,
+            "beta_s": 0.0,
+            "gamma_t": 0.0975,
+            "delta_p": 0.03,
+            "net_score": 0.26
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Lithium, Lisinopril pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.297,
+          "q_grade": 0.75,
+          "s_rel": 0.348,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.1044,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.297
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-012",
+      "title": "Omeprazole CYP2C19 Antagonism Collision in Stented Patient",
+      "category": null,
+      "contraindicated_tokens": [
+        "omeprazole",
+        "prilosec",
+        "esomeprazole",
+        "nexium"
+      ],
+      "unacceptable_pathways": [
+        "Continue Omeprazole 40 mg with Clopidogrel",
+        "Switch to Esomeprazole 40 mg"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.364,
+      "q_grade": 0.82,
+      "s_rel": 0.0,
+      "t_recent": 0.65,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0,
+        "gamma_t": 0.0975,
+        "delta_p": 0.02,
+        "net_v_score": 0.364
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RECENCY_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "RELEVANCE_DOMINANCE"
+        ],
+        "explanation": "Clinical guideline had S=0.000 and T=0.650. Drug candidate had T=0.800 (+0.0225 recency advantage) and S=0.195 (+0.0585 relevance advantage)."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.364,
+          "q_grade": 0.82,
+          "s_rel": 0.0,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0,
+            "gamma_t": 0.0975,
+            "delta_p": 0.02,
+            "net_score": 0.364
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.273,
+          "q_grade": 0.627,
+          "s_rel": 0.105,
+          "t_recent": 0.35,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.2194,
+            "beta_s": 0.0315,
+            "gamma_t": 0.0525,
+            "delta_p": 0.03,
+            "net_score": 0.273
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Clopidogrel, Aspirin, Omeprazole, Atorvastatin pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.251,
+          "q_grade": 0.75,
+          "s_rel": 0.195,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.0585,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.251
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-013",
+      "title": "Fatal Vasodilatory Hypotension Collision: Nitroglycerin & Sildenafil",
+      "category": null,
+      "contraindicated_tokens": [
+        "sildenafil",
+        "viagra",
+        "tadalafil",
+        "cialis",
+        "vardenafil",
+        "levitra"
+      ],
+      "unacceptable_pathways": [
+        "Co-prescribe Sildenafil with Isosorbide mononitrate",
+        "Advise taking Sildenafil 1 hour before scheduled nitrate"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.382,
+      "q_grade": 0.82,
+      "s_rel": 0.009,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0027,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.382
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate similarity (S=0.351, +0.105 boost) beat Literature candidate (S=0.013, +0.004) and Clinical guideline (S=0.009)."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.382,
+          "q_grade": 0.82,
+          "s_rel": 0.009,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0027,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.382
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.331,
+          "q_grade": 0.827,
+          "s_rel": 0.013,
+          "t_recent": 0.45,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.2894,
+            "beta_s": 0.0039,
+            "gamma_t": 0.0675,
+            "delta_p": 0.03,
+            "net_score": 0.331
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Isosorbide, Nitroglycerin, Atenolol, Sildenafil pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.298,
+          "q_grade": 0.75,
+          "s_rel": 0.351,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.1053,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.298
+          },
+          "is_selected": false
+        }
+      ]
+    },
+    {
+      "case_id": "COL-014",
+      "title": "Negative Inotrope Decompensation Collision: Diltiazem in HFrEF",
+      "category": null,
+      "contraindicated_tokens": [
+        "diltiazem",
+        "cardizem",
+        "tiazac",
+        "verapamil",
+        "calan"
+      ],
+      "unacceptable_pathways": [
+        "Continue Diltiazem 240 mg daily",
+        "Switch to Verapamil 240 mg daily"
+      ],
+      "recommended_alternatives": null,
+      "authoritative_selected_candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+      "domain": "clinical",
+      "safety_violation": false,
+      "violation_details": [],
+      "v_score": 0.435,
+      "q_grade": 0.82,
+      "s_rel": 0.186,
+      "t_recent": 0.75,
+      "p_risk": 0.1,
+      "score_decomposition": {
+        "alpha_q": 0.287,
+        "beta_s": 0.0558,
+        "gamma_t": 0.1125,
+        "delta_p": 0.02,
+        "net_v_score": 0.435
+      },
+      "risk_penalty_status": "sufficient_to_ensure_safety",
+      "failure_mode": {
+        "status": "UNSAFE",
+        "primary_mode": "RELEVANCE_DOMINANCE",
+        "contributing_modes": [
+          "RISK_PENALTY_FAILURE",
+          "MISSING_SAFE_ALTERNATIVE"
+        ],
+        "explanation": "Drug candidate similarity (S=0.252, +0.076 boost) narrowly edged Clinical guideline (S=0.186, +0.056 boost) by +0.003 points (0.278 vs 0.275)."
+      },
+      "competing_candidates": [
+        {
+          "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+          "domain": "clinical",
+          "ranking": 1,
+          "v_score": 0.435,
+          "q_grade": 0.82,
+          "s_rel": 0.186,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "score_decomposition": {
+            "alpha_q": 0.287,
+            "beta_s": 0.0558,
+            "gamma_t": 0.1125,
+            "delta_p": 0.02,
+            "net_score": 0.435
+          },
+          "is_selected": true
+        },
+        {
+          "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+          "domain": "literature",
+          "ranking": 2,
+          "v_score": 0.307,
+          "q_grade": 0.627,
+          "s_rel": 0.191,
+          "t_recent": 0.4,
+          "p_risk": 0.15,
+          "score_decomposition": {
+            "alpha_q": 0.2194,
+            "beta_s": 0.0573,
+            "gamma_t": 0.06,
+            "delta_p": 0.03,
+            "net_score": 0.307
+          },
+          "is_selected": false
+        },
+        {
+          "candidate": "Continue Diltiazem, Furosemide, Sacubitril, Apixaban pathway",
+          "domain": "drug",
+          "ranking": 3,
+          "v_score": 0.268,
+          "q_grade": 0.75,
+          "s_rel": 0.252,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "score_decomposition": {
+            "alpha_q": 0.2625,
+            "beta_s": 0.0756,
+            "gamma_t": 0.12,
+            "delta_p": 0.19,
+            "net_score": 0.268
+          },
+          "is_selected": false
+        }
+      ]
+    }
+  ]
+}

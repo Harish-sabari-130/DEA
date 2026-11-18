@@ -1,0 +1,126 @@
+{
+  "benchmark_version": "1.0",
+  "evaluation_timestamp": "2026-11-18T06:23:35.954216+00:00",
+  "cases_evaluated": 23,
+  "stratification": {
+    "true_collision_count": 14,
+    "potential_collision_count": 2,
+    "negative_control_count": 7
+  },
+  "arms": {
+    "single_agent": {
+      "arm_name": "Arm A \u2014 Single-Agent RAG baseline",
+      "metrics": {
+        "reference_labeled_metrics": {
+          "safety_violation_rate": 0.8571,
+          "safety_violations_count": 12,
+          "high_risk_contraindication_violation_rate": 0.8571,
+          "high_risk_violations_count": 12,
+          "conflict_detection_sensitivity": 0.0,
+          "conflict_detection_specificity": 1.0,
+          "arbitration_accuracy": 0.4783,
+          "context_precision": 0.0531,
+          "context_recall": 0.3043
+        },
+        "status_aware_conflict_diagnostics": {
+          "total_verified_conflicts_fired": 0,
+          "total_coverage_gap_advisories_fired": 0,
+          "total_data_quality_advisories_fired": 0,
+          "total_unknown_alerts_fired": 0,
+          "verified_only_sensitivity": 0.0,
+          "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+        },
+        "automated_telemetry_metrics": {
+          "mean_evidence_grade": 0.7726,
+          "deterministic_stability": 1.0
+        },
+        "unavailable_metrics": {
+          "faithfulness": null,
+          "answer_relevance": null
+        }
+      }
+    },
+    "naive_multi_agent": {
+      "arm_name": "Arm B \u2014 Naive Multi-Agent RAG",
+      "metrics": {
+        "reference_labeled_metrics": {
+          "safety_violation_rate": 0.8571,
+          "safety_violations_count": 12,
+          "high_risk_contraindication_violation_rate": 0.8571,
+          "high_risk_violations_count": 12,
+          "conflict_detection_sensitivity": 0.0,
+          "conflict_detection_specificity": 1.0,
+          "arbitration_accuracy": 0.4783,
+          "context_precision": 0.0531,
+          "context_recall": 0.3043
+        },
+        "status_aware_conflict_diagnostics": {
+          "total_verified_conflicts_fired": 0,
+          "total_coverage_gap_advisories_fired": 0,
+          "total_data_quality_advisories_fired": 0,
+          "total_unknown_alerts_fired": 0,
+          "verified_only_sensitivity": 0.0,
+          "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+        },
+        "automated_telemetry_metrics": {
+          "mean_evidence_grade": 0.7524,
+          "deterministic_stability": 1.0
+        },
+        "unavailable_metrics": {
+          "faithfulness": null,
+          "answer_relevance": null
+        }
+      }
+    },
+    "dea_medrag": {
+      "arm_name": "Arm C \u2014 DEA-MedRAG",
+      "metrics": {
+        "reference_labeled_metrics": {
+          "safety_violation_rate": 0.0,
+          "safety_violations_count": 0,
+          "high_risk_contraindication_violation_rate": 0.0,
+          "high_risk_violations_count": 0,
+          "conflict_detection_sensitivity": 1.0,
+          "conflict_detection_specificity": 1.0,
+          "arbitration_accuracy": 1.0,
+          "context_precision": 0.0531,
+          "context_recall": 0.3043
+        },
+        "status_aware_conflict_diagnostics": {
+          "total_verified_conflicts_fired": 6,
+          "total_coverage_gap_advisories_fired": 10,
+          "total_data_quality_advisories_fired": 0,
+          "total_unknown_alerts_fired": 14,
+          "verified_only_sensitivity": 0.4286,
+          "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+        },
+        "automated_telemetry_metrics": {
+          "mean_evidence_grade": 0.8243,
+          "deterministic_stability": 1.0
+        },
+        "unavailable_metrics": {
+          "faithfulness": null,
+          "answer_relevance": null
+        }
+      }
+    }
+  },
+  "reproducibility_config": {
+    "benchmark_version": "1.0",
+    "benchmark_file": "data/benchmarks/guideline_collision_v1.json",
+    "evaluation_timestamp": "2026-11-18T06:23:35.954216+00:00",
+    "platform_system": "Windows",
+    "platform_release": "11",
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "chromadb_backend": "PersistentClient (SQLite + DefaultEmbeddingFunction)",
+    "dea_weights_active": {
+      "alpha": 0.35,
+      "beta": 0.3,
+      "gamma": 0.15,
+      "delta": 0.2
+    },
+    "random_seed": null,
+    "evidence_freeze_mechanism": "data/benchmarks/frozen_evidence_v1.json",
+    "external_api_status": "Pre-cached in persistent ChromaDB; frozen for deterministic re-runs"
+  }
+}

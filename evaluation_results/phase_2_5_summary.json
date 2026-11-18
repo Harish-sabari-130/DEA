@@ -1,0 +1,232 @@
+{
+  "benchmark_version": "1.0",
+  "consolidation_timestamp": "2026-10-06T09:40:00+00:00",
+  "benchmark_stratification": {
+    "total_cases": 23,
+    "true_collision_count": 14,
+    "negative_control_count": 7,
+    "potential_collision_count": 2,
+    "insufficient_evidence_count": 0
+  },
+  "phase_2_3_three_arm_evaluation": {
+    "arm_a_single_agent": {
+      "name": "Single-Agent RAG Baseline",
+      "safety_violation_rate": 0.8571,
+      "safety_violations_count": 12,
+      "high_risk_contraindication_violation_rate": 0.8571,
+      "conflict_detection_sensitivity": 0.0,
+      "conflict_detection_specificity": 1.0,
+      "arbitration_accuracy": 0.4783,
+      "mean_evidence_grade": 0.7726,
+      "deterministic_stability": 1.0
+    },
+    "arm_b_naive_multi_agent": {
+      "name": "Naive Multi-Agent RAG",
+      "safety_violation_rate": 0.8571,
+      "safety_violations_count": 12,
+      "high_risk_contraindication_violation_rate": 0.8571,
+      "conflict_detection_sensitivity": 0.0,
+      "conflict_detection_specificity": 1.0,
+      "arbitration_accuracy": 0.4783,
+      "mean_evidence_grade": 0.7524,
+      "deterministic_stability": 1.0
+    },
+    "arm_c_authoritative_dea": {
+      "name": "DEA-MedRAG (Authoritative Baseline)",
+      "weights": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "safety_violation_rate": 0.7857,
+      "safety_violations_count": 11,
+      "high_risk_contraindication_violation_rate": 0.7857,
+      "conflict_detection_sensitivity": 1.0,
+      "conflict_detection_specificity": 0.0,
+      "arbitration_accuracy": 0.2174,
+      "mean_evidence_grade": 0.7571,
+      "deterministic_stability": 1.0
+    },
+    "statistical_comparisons": {
+      "dea_vs_single_agent_mcnemar_svr": {
+        "sample_size": 14,
+        "discordant_pairs": 1,
+        "proportion_difference": -0.0714,
+        "p_value": 1.0,
+        "ci_95": [
+          -0.2063,
+          0.0635
+        ],
+        "statistically_significant": false
+      },
+      "dea_vs_single_agent_wilcoxon_evidence_grade": {
+        "sample_size": 23,
+        "w_statistic": 6.0,
+        "z_statistic": -0.9435,
+        "p_value": 0.345448,
+        "statistically_significant": false
+      }
+    }
+  },
+  "phase_2_4_weight_ablation_summary": {
+    "configurations": {
+      "baseline": {
+        "weights": {
+          "alpha": 0.35,
+          "beta": 0.3,
+          "gamma": 0.15,
+          "delta": 0.2
+        },
+        "safety_violation_rate": 0.7857,
+        "arbitration_accuracy": 0.2174,
+        "mean_evidence_grade": 0.7571,
+        "mean_v_score": 0.3159
+      },
+      "ablation_1_no_risk": {
+        "weights": {
+          "alpha": 0.4,
+          "beta": 0.4,
+          "gamma": 0.2,
+          "delta": 0.0
+        },
+        "safety_violation_rate": 0.8571,
+        "arbitration_accuracy": 0.1739,
+        "mean_evidence_grade": 0.7726,
+        "mean_v_score": 0.5916,
+        "mcnemar_p_value_vs_baseline": 1.0,
+        "statistically_significant": false
+      },
+      "ablation_2_no_quality": {
+        "weights": {
+          "alpha": 0.0,
+          "beta": 0.55,
+          "gamma": 0.25,
+          "delta": 0.2
+        },
+        "safety_violation_rate": 0.9286,
+        "arbitration_accuracy": 0.1304,
+        "mean_evidence_grade": 0.742,
+        "mean_v_score": 0.2075,
+        "mcnemar_p_value_vs_baseline": 0.5,
+        "statistically_significant": false
+      },
+      "ablation_3_no_recency": {
+        "weights": {
+          "alpha": 0.4,
+          "beta": 0.4,
+          "gamma": 0.0,
+          "delta": 0.2
+        },
+        "safety_violation_rate": 0.3571,
+        "arbitration_accuracy": 0.4783,
+        "mean_evidence_grade": 0.7436,
+        "mean_v_score": 0.2797,
+        "mcnemar_p_value_vs_baseline": 0.03125,
+        "statistically_significant": true,
+        "scientific_interpretation": "Evaluative artifact: Removing recency allows older literature abstracts to outrank DailyMed continuation proposals without identifying clinical alternatives."
+      },
+      "ablation_4_no_relevance": {
+        "weights": {
+          "alpha": 0.5,
+          "beta": 0.0,
+          "gamma": 0.25,
+          "delta": 0.25
+        },
+        "safety_violation_rate": 0.1429,
+        "arbitration_accuracy": 0.6087,
+        "mean_evidence_grade": 0.7835,
+        "mean_v_score": 0.3948,
+        "mcnemar_p_value_vs_baseline": 0.011719,
+        "statistically_significant": true,
+        "scientific_interpretation": "Evaluative artifact: Removing semantic relevance causes query-blind ranking where generic guideline preambles or off-target texts win. 78.6% of winners are non-actionable or irrelevant, passing token-based safety checks by irrelevance."
+      },
+      "ablation_5_uniform": {
+        "weights": {
+          "alpha": 0.25,
+          "beta": 0.25,
+          "gamma": 0.25,
+          "delta": 0.25
+        },
+        "safety_violation_rate": 0.8571,
+        "arbitration_accuracy": 0.1739,
+        "mean_evidence_grade": 0.7453,
+        "mean_v_score": 0.2617,
+        "mcnemar_p_value_vs_baseline": 1.0,
+        "statistically_significant": false
+      }
+    }
+  },
+  "conflict_detection_rule_audit_summary": {
+    "system_confusion_matrix": {
+      "true_positives": 14,
+      "false_positives": 7,
+      "true_negatives": 0,
+      "false_negatives": 0,
+      "sensitivity": 1.0,
+      "specificity": 0.0,
+      "precision": 0.6667,
+      "false_positive_rate": 1.0
+    },
+    "rule_level_performance": {},
+    "false_positive_root_causes": {
+      "rule_7_cross_silo_divergence": {
+        "fp_count": 5,
+        "false_positive_rate": 0.7143,
+        "mechanism": "Strict string non-identity check flags stylistic variation between literature and clinical guidelines as clinical conflict."
+      },
+      "rule_5_polypharmacy_ddi": {
+        "fp_count": 5,
+        "false_positive_rate": 0.7143,
+        "mechanism": "Fires whenever medication count > 1 and DailyMed contains interaction/concurrent boilerplate, universal across FDA labels."
+      },
+      "rule_2_renal_impairment": {
+        "fp_count": 2,
+        "false_positive_rate": 0.2857,
+        "mechanism": "Regex matches 'egfr' lab keys regardless of whether values are normal (e.g. eGFR 74 on NC-001, eGFR 88 on NC-005)."
+      },
+      "rule_3_hepatic_signal": {
+        "fp_count": 1,
+        "false_positive_rate": 0.1429,
+        "mechanism": "Regex matches normal transaminases (ALT 22, AST 20 on NC-003)."
+      }
+    }
+  },
+  "dea_safety_violation_forensics_summary": {
+    "true_collision_cases_evaluated": 14,
+    "baseline_violations_count": 11,
+    "baseline_safe_count": 3,
+    "failure_mode_breakdown": {
+      "relevance_dominance": 10,
+      "recency_dominance": 1,
+      "risk_penalty_symmetry_flaw": 11,
+      "missing_safe_alternative": 9,
+      "retrieval_failure": 2,
+      "conflict_detection_failure": 0
+    },
+    "candidate_distribution_baseline": {
+      "clinically_appropriate_alternative": 1,
+      "generic_guideline_pathway": 2,
+      "contraindicated_treatment": 11,
+      "irrelevant_unresponsive_pathway": 0
+    },
+    "candidate_distribution_ablation_4": {
+      "clinically_appropriate_alternative": 1,
+      "generic_guideline_pathway": 6,
+      "contraindicated_treatment": 2,
+      "irrelevant_unresponsive_pathway": 5
+    }
+  },
+  "epistemic_distinction_framework": {
+    "descriptive_observations": "Direct empirical measurements on guideline_collision_v1.json (n=23 cases, 14 collisions, 7 controls).",
+    "statistical_inferences": "Formal hypothesis testing (McNemar, Wilcoxon) bounded by sample size (n=14 collisions, power=0.17 for small effects).",
+    "clinical_generalization_limits": "Safety is evaluated on benchmark token presence; zero clinical superiority is claimed for Ablation 4 or 3 due to query-blindness and relevance collapse."
+  },
+  "recommended_phase_3_research_tasks": [
+    "Task 1: Conflict Detection Specificity Calibration (incorporate eGFR < 30/60 numerical thresholds in Rule 2; semantic embedding similarity in Rule 7).",
+    "Task 2: Hard Safety Gating Architecture (filter out candidates that directly match high-risk contraindications before DEA scoring).",
+    "Task 3: Candidate-Specific Asymmetric Risk Penalty (apply P_risk strictly to the offending drug candidate rather than uniformly across silos).",
+    "Task 4: Composite Actionability and Safety Metric (evaluate relevance, therapeutic validity, and contraindication avoidance jointly to penalize off-target preambles).",
+    "Task 5: Expansion of Benchmark Cohort (scale from n=23 to n>=100 cases to achieve adequate statistical power for subgroup analysis)."
+  ]
+}

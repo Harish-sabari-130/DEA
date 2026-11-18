@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { ConflictProvenance } from './conflictProvenance';
 
 export interface Conflict {
   conflict_detected: boolean;
@@ -13,4 +14,11 @@ export interface Conflict {
   description: string;
   affected_treatment: string;
   risk_factor: string;
+  status?: string;
+  evidence_linkage?: string;
+  engineering_assumption?: string;
+  heuristic_fallback?: boolean;
+  transaminase_evaluation_method?: string;
+  /** @nullable */
+  provenance?: ConflictProvenance;
 }

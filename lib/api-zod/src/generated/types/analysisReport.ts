@@ -8,11 +8,14 @@
 import type { AgentStatus } from './agentStatus';
 import type { AnalysisReportQueryTasks } from './analysisReportQueryTasks';
 import type { AnalysisReportRetrievalStatus } from './analysisReportRetrievalStatus';
+import type { ClaimVerification } from './claimVerification';
 import type { ClinicalAgentOutput } from './clinicalAgentOutput';
 import type { Conflict } from './conflict';
 import type { DEAResult } from './dEAResult';
 import type { DrugAgentOutput } from './drugAgentOutput';
 import type { LiteratureAgentOutput } from './literatureAgentOutput';
+import type { MedicationReconciliationReport } from './medicationReconciliationReport';
+import type { SmartRouting } from './smartRouting';
 
 export interface AnalysisReport {
   id: string;
@@ -30,5 +33,11 @@ export interface AnalysisReport {
   limitations: string[];
   disclaimer: string;
   generated_at: string;
+  claim_verifications?: ClaimVerification[];
+  routing?: SmartRouting;
+  reconciliation?: MedicationReconciliationReport;
   retrieval_status: AnalysisReportRetrievalStatus;
+  sha256_integrity_hash?: string;
+  case_id?: string;
+  report_id?: string;
 }

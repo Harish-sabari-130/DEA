@@ -12,4 +12,12 @@ export interface EvaluationMetric {
   status: string;
   /** @nullable */
   value: number | null;
+  /** @nullable */
+  single_agent_value?: number | null;
+  /** @nullable */
+  multi_agent_value?: number | null;
+  /** @nullable */
+  dea_value?: number | null;
+  /** @nullable */
+  unit?: string | null;
 }

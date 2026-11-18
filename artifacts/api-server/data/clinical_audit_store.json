@@ -1,0 +1,731 @@
+{
+  "clinical_cases": [
+    {
+      "id": "CASE-F10AAC83",
+      "patientProfileJson": {
+        "age": 54,
+        "sex": "Male",
+        "diseases": [
+          "Hypertension",
+          "Hyperlipidemia"
+        ],
+        "medications": [
+          "Warfarin 5 mg daily",
+          "Fluconazole 200 mg daily"
+        ],
+        "secondary_medications": [
+          "Lisinopril 10 mg daily",
+          "Atorvastatin 20 mg daily"
+        ],
+        "symptoms": [
+          "Routine outpatient follow-up"
+        ],
+        "lab_values": {
+          "INR": "4.2"
+        },
+        "allergies": [],
+        "conditions": []
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 50,
+      "createdAt": "2026-11-18T06:35:52.408Z"
+    },
+    {
+      "id": "CASE-2BD0E16E",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Empagliflozin 10 mg daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "symptoms": [
+          "Persistent fatigue",
+          "Mild peripheral edema"
+        ],
+        "lab_values": {
+          "eGFR": "24 mL/min/1.73m²",
+          "creatinine": "2.4 mg/dL",
+          "potassium": "4.8 mmol/L",
+          "QTc": "430 ms"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "Diabetic nephropathy",
+          "Lactic acidosis risk"
+        ]
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 30,
+      "createdAt": "2026-11-18T06:33:44.620Z"
+    },
+    {
+      "id": "CASE-5E57429D",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Lisinopril 10 mg daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "symptoms": [
+          "Persistent fatigue",
+          "Mild peripheral edema"
+        ],
+        "lab_values": {
+          "eGFR": "24 mL/min/1.73m²",
+          "creatinine": "2.4 mg/dL",
+          "potassium": "4.8 mmol/L",
+          "QTc": "430 ms"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "Diabetic nephropathy",
+          "Lactic acidosis risk"
+        ],
+        "weights": {
+          "alpha": 0.35,
+          "beta": 0.3,
+          "gamma": 0.15,
+          "delta": 0.2
+        }
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 30,
+      "createdAt": "2026-11-18T06:28:09.124Z"
+    },
+    {
+      "id": "CASE-7F97DDF6",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "symptoms": [
+          "Persistent fatigue",
+          "Mild peripheral edema"
+        ],
+        "lab_values": {
+          "eGFR": "24 mL/min/1.73m²",
+          "creatinine": "2.4 mg/dL",
+          "potassium": "4.8 mmol/L"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "Diabetic nephropathy",
+          "Lactic acidosis risk"
+        ]
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 50,
+      "createdAt": "2026-11-18T06:25:26.176Z"
+    }
+  ],
+  "arbitration_reports": [
+    {
+      "id": "REP-MWLQZBH4-F10AAC",
+      "caseId": "CASE-F10AAC83",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "1.",
+          "q_grade": 0.82,
+          "s_rel": 0.05,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.394,
+          "score": 0.394,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Hypertension is one of the most frequent chronic disease in Hungary and one of the most important cardiovascular risk factor.",
+          "q_grade": 0.54,
+          "s_rel": 0.155,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.295,
+          "score": 0.295,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Warfarin, Fluconazole pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.1757,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: warfarin + fluconazole",
+          "safety_demotion": 0.5,
+          "raw_score": 0.245,
+          "score": -0.255,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "DRUG_DRUG_CONTRAINDICATION",
+          "severity": "contraindication",
+          "affected_treatment": "Warfarin + Fluconazole",
+          "description": "Concomitant use of Fluconazole with Warfarin markedly inhibits CYP2C9, significantly prolonging PT/INR and creating severe, potentially life-threatening bleeding risk. Empiric 30% to 50% dose reduction of Warfarin and frequent serial INR monitoring are required.",
+          "clinical_mechanism": "Concomitant use of Fluconazole with Warfarin markedly inhibits CYP2C9, significantly prolonging PT/INR and creating severe, potentially life-threatening bleeding risk. Empiric 30% to 50% dose reduction of Warfarin and frequent serial INR monitoring are required.",
+          "risk_factor": "Concurrent Warfarin and Fluconazole administration",
+          "exact_evidence_section": "Drug Interactions (Section 7)",
+          "provenance": {
+            "source_id": "openfda:6062fd98-7663-f4b5-e053-2a91aa0acbc3",
+            "chunk_id": "fda-interaction-warfarin-fluconazole",
+            "source_title": "Warfarin FDA Prescribing Information",
+            "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6062fd98-7663-f4b5-e053-2a91aa0acbc3",
+            "identifier": "6062fd98-7663-f4b5-e053-2a91aa0acbc3",
+            "exact_evidence_section": "Drug Interactions (Section 7)",
+            "matched_excerpt": "Concomitant use of Fluconazole with Warfarin markedly inhibits CYP2C9, significantly prolonging PT/INR and creating severe, potentially life-threatening bleeding risk. Empiric 30% to 50% dose reduction of Warfarin and frequent serial INR monitoring are required.",
+            "retrieved_at": "2026-11-18T06:35:48.327312+00:00"
+          },
+          "evidence_linkage": "VERIFIED",
+          "conflict_status": "CONFIRMED_CONFLICT",
+          "status": "UNKNOWN_STATUS_CONFLICT"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"1.\" highest at 0.394 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.05, T_recent=0.75, P_risk=0.10).",
+          "status": "unsupported",
+          "overlap_score": 0,
+          "semantic_similarity": 0.384,
+          "confidence": 0.384,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:40658480",
+          "source_title": "Primary Aldosteronism: An Endocrine Society Clinical Practice Guideline.",
+          "identifier": "40658480",
+          "matched_excerpt": "The GDP used the GRADE Evidence to Decision (EtD) framework to consider contextual factors, such as stakeholder values and preferences, costs and required resources, cost-effectiveness, acceptability, feasibility, and the potential impact on health equity."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.352,
+          "confidence": 0.352,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:40658480",
+          "source_title": "Primary Aldosteronism: An Endocrine Society Clinical Practice Guideline.",
+          "identifier": "40658480",
+          "matched_excerpt": "METHODS: The Guideline Development Panel (GDP), composed of a multidisciplinary panel of clinical experts and experts in systemic review methodology, used the Grading of Recommendations, Assessment, Development, and Evaluation (GRADE) approach to define 10 questions related to the diagnosis and treatment of PA."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Warfarin 5 mg daily",
+          "Fluconazole 200 mg daily"
+        ],
+        "added_in_discharge": [
+          "Lisinopril 10 mg daily",
+          "Atorvastatin 20 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Warfarin 5 mg daily",
+            "details": "Admission medication omitted in discharge list: Warfarin 5 mg daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "missing_in_discharge",
+            "medication": "Fluconazole 200 mg daily",
+            "details": "Admission medication omitted in discharge list: Fluconazole 200 mg daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Lisinopril 10 mg daily",
+            "details": "New medication added in discharge list: Lisinopril 10 mg daily",
+            "risk_level": "low"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Atorvastatin 20 mg daily",
+            "details": "New medication added in discharge list: Atorvastatin 20 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 4 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "f10aac83f223ebcfdeda5b0247196f73f33fae70426946a6cb22d7c68eb16455",
+      "createdAt": "2026-11-18T06:35:52.408Z"
+    },
+    {
+      "id": "REP-MWLQWKVG-2BD0E1",
+      "caseId": "CASE-2BD0E16E",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.403,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.5,
+          "score": 0.5,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Combination therapy with angiotensin-converting-enzyme (ACE) inhibitors and angiotensin-receptor blockers (ARBs) decreases proteinuria; however, its safety and effect on the progression of kidney disease are uncertain.",
+          "q_grade": 0.55,
+          "s_rel": 0.36,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.36,
+          "score": 0.36,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Empagliflozin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4302,
+          "t_recent": 0.8,
+          "p_risk": 0.9,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.332,
+          "score": 0.332,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": false,
+          "status": "NO_CONFLICT_DETECTED_BY_RULE",
+          "evidence_linkage": "NONE",
+          "conflict_type": "none",
+          "severity": "none",
+          "description": "No cross-silo conflict detected by deterministic safety rules under current evidence. This does not guarantee overall patient safety or absence of unmodeled risks.",
+          "affected_treatment": "none",
+          "risk_factor": "none"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.500 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.40, T_recent=0.75, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.841,
+          "confidence": 0.841,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0,
+          "semantic_similarity": 0.348,
+          "confidence": 0.348,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36623286",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: Synopsis of the KDIGO 2022 Clinical Practice Guideline Update.",
+          "identifier": "36623286",
+          "matched_excerpt": "METHODS: The KDIGO Work Group updated the guideline, which included reviewing and grading new evidence that was identified and summarized."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [],
+        "added_in_discharge": [],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": false,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [],
+        "summary": "Reconciliation completed: 0 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "2bd0e16e8fc012fbb6966c3ee1010c53c4cf2c5e9f16d3cdd3c9b754e663188e",
+      "createdAt": "2026-11-18T06:33:44.620Z"
+    },
+    {
+      "id": "REP-MWLQPE04-5E5742",
+      "caseId": "CASE-5E57429D",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.457,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.502,
+          "score": 0.502,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Combination therapy with angiotensin-converting-enzyme (ACE) inhibitors and angiotensin-receptor blockers (ARBs) decreases proteinuria; however, its safety and effect on the progression of kidney disease are uncertain.",
+          "q_grade": 0.55,
+          "s_rel": 0.398,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.372,
+          "score": 0.372,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.5458,
+          "t_recent": 0.8,
+          "p_risk": 0.9,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.366,
+          "score": 0.366,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": false,
+          "status": "NO_CONFLICT_DETECTED_BY_RULE",
+          "evidence_linkage": "NONE",
+          "conflict_type": "none",
+          "severity": "none",
+          "description": "No cross-silo conflict detected by deterministic safety rules under current evidence. This does not guarantee overall patient safety or absence of unmodeled risks.",
+          "affected_treatment": "none",
+          "risk_factor": "none"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.502 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.46, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 2,
+        "missing_in_discharge": [],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 1 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "5e57429dfcc78fcd19035110f48643788facc8008fc94db1e5ee03170b66b6dc",
+      "createdAt": "2026-11-18T06:28:09.124Z"
+    },
+    {
+      "id": "REP-MWLQLW9R-7F97DD",
+      "caseId": "CASE-7F97DDF6",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.474,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.507,
+          "score": 0.507,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.3804,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.307,
+          "score": -0.193,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.428,
+          "t_recent": 0.6,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.264,
+          "score": -0.236,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin prescribed with malformed or incompatible eGFR measurement (INCOMPATIBLE_UNIT: '24 mL/min/1.73mÂ²'); cannot verify renal safety. Laboratory re-draw or data reconciliation required.",
+          "affected_treatment": "metformin",
+          "risk_factor": "unverified renal function due to malformed lab measurement",
+          "status": "DATA_QUALITY_ADVISORY",
+          "evidence_linkage": "DATA_QUALITY_GUARDRAIL",
+          "provenance": null
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.507 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.47, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "7f97ddf63961d96b606ef19cceaf47b2868b3c442dc1ad920bb513431aa8646f",
+      "createdAt": "2026-11-18T06:25:26.176Z"
+    }
+  ],
+  "doctor_decisions": [
+    {
+      "id": "DEC-MWLQTJ21-AYX5",
+      "reportId": "REP-MWLQPE04-5E5742",
+      "clinicianName": "Dr. Sabari (MD-94021-CAL)",
+      "selectedCandidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+      "actionTaken": "accepted_top_dea",
+      "overrideReason": null,
+      "signedAt": "2026-11-18T06:31:22.297Z"
+    }
+  ]
+}

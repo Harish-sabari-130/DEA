@@ -28,7 +28,10 @@ import type {
   IngestDocumentInput,
   IngestReceipt,
   KnowledgeStats,
-  PatientProfileInput
+  MedicationReconciliationReport,
+  PatientProfileInput,
+  ReconciliationInput,
+  WhatIfInput
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -579,4 +582,146 @@ export function useGetKnowledgeStats<TData = Awaited<ReturnType<typeof getKnowle
 
 
 
+
+export const getReconcileMedicationsUrl = () => {
+
+
+
+
+  return `/api/reconcile`
+}
+
+/**
+ * @summary Reconcile medication lists and detect omissions, discrepancies, and high-risk interactions
+ */
+export const reconcileMedications = async (reconciliationInput: ReconciliationInput, options?: Parameters<typeof customFetch>[1]): Promise<MedicationReconciliationReport> => {
+
+  return customFetch<MedicationReconciliationReport>(getReconcileMedicationsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(reconciliationInput)
+  }
+);}
+
+
+
+
+
+export const getReconcileMedicationsMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof reconcileMedications>>, TError,{data: BodyType<ReconciliationInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof reconcileMedications>>, TError,{data: BodyType<ReconciliationInput>}, TContext> => {
+
+const mutationKey = ['reconcileMedications'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof reconcileMedications>>, {data: BodyType<ReconciliationInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  reconcileMedications(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ReconcileMedicationsMutationResult = NonNullable<Awaited<ReturnType<typeof reconcileMedications>>>
+    export type ReconcileMedicationsMutationBody = BodyType<ReconciliationInput>
+    export type ReconcileMedicationsMutationError = ErrorType<void>
+
+    /**
+ * @summary Reconcile medication lists and detect omissions, discrepancies, and high-risk interactions
+ */
+export const useReconcileMedications = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof reconcileMedications>>, TError,{data: BodyType<ReconciliationInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof reconcileMedications>>,
+        TError,
+        {data: BodyType<ReconciliationInput>},
+        TContext
+      > => {
+      return useMutation(getReconcileMedicationsMutationOptions(options));
+    }
+
+export const getWhatIfSimulationUrl = () => {
+
+
+
+
+  return `/api/what-if`
+}
+
+/**
+ * @summary Fast What-If simulation with modified clinical parameters and custom DEA weights
+ */
+export const whatIfSimulation = async (whatIfInput: WhatIfInput, options?: Parameters<typeof customFetch>[1]): Promise<AnalysisReport> => {
+
+  return customFetch<AnalysisReport>(getWhatIfSimulationUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(whatIfInput)
+  }
+);}
+
+
+
+
+
+export const getWhatIfSimulationMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof whatIfSimulation>>, TError,{data: BodyType<WhatIfInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof whatIfSimulation>>, TError,{data: BodyType<WhatIfInput>}, TContext> => {
+
+const mutationKey = ['whatIfSimulation'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof whatIfSimulation>>, {data: BodyType<WhatIfInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  whatIfSimulation(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type WhatIfSimulationMutationResult = NonNullable<Awaited<ReturnType<typeof whatIfSimulation>>>
+    export type WhatIfSimulationMutationBody = BodyType<WhatIfInput>
+    export type WhatIfSimulationMutationError = ErrorType<void>
+
+    /**
+ * @summary Fast What-If simulation with modified clinical parameters and custom DEA weights
+ */
+export const useWhatIfSimulation = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof whatIfSimulation>>, TError,{data: BodyType<WhatIfInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof whatIfSimulation>>,
+        TError,
+        {data: BodyType<WhatIfInput>},
+        TContext
+      > => {
+      return useMutation(getWhatIfSimulationMutationOptions(options));
+    }
 

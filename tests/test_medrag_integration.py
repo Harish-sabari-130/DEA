@@ -89,7 +89,23 @@ PATIENT = {
 
 
 class MedRAGIntegrationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls._api_available = False
+        try:
+            req = Request(f"{API_URL}/api/health", headers={"content-type": "application/json"})
+            with urlopen(req, timeout=3) as resp:
+                data = json.loads(resp.read())
+                cls._api_available = (resp.status == 200 and data.get("status") == "ok")
+        except Exception:
+            cls._api_available = False
+
+    def _require_api(self) -> None:
+        if not getattr(self, "_api_available", False):
+            self.skipTest(f"Live API server not running at {API_URL} (run with MEDRAG_TEST_URL)")
+
     def test_chroma_collections_and_live_counts(self) -> None:
+        self._require_api()
         stats = request("/api/knowledge-stats")
         self.assertEqual(stats["database"], "ChromaDB PersistentClient")
         self.assertIn("all-MiniLM-L6-v2", stats["embedding_provider"])
@@ -143,6 +159,7 @@ class MedRAGIntegrationTests(unittest.TestCase):
         self.assertGreaterEqual(receipt["chunk_count"], 2)
 
     def test_api_analysis_conflicts_traceability_and_determinism(self) -> None:
+        self._require_api()
         first = request("/api/analyze", "POST", PATIENT)
         second = request("/api/analyze", "POST", PATIENT)
         self.assertEqual(first["mode"], "local-chroma-rag")
@@ -169,6 +186,7 @@ class MedRAGIntegrationTests(unittest.TestCase):
                 self.assertEqual(evidence["metadata"]["domain"], domain)
 
     def test_dea_formula_and_existing_routes(self) -> None:
+        self._require_api()
         self.assertEqual(request("/api/healthz")["status"], "ok")
         self.assertEqual(request("/api/health")["status"], "ok")
         self.assertEqual(len(request("/api/demo-cases")), 3)
@@ -188,6 +206,7 @@ class MedRAGIntegrationTests(unittest.TestCase):
 
     def test_python_dea_method_note_present(self) -> None:
         """DEA method_note must confirm Python DEA v1.0 (not TypeScript)."""
+        self._require_api()
         result = request("/api/analyze", "POST", PATIENT)
         note = result["dea"]["method_note"]
         self.assertIn("Python DEA", note, "method_note must reference Python DEA")
@@ -438,6 +457,113 @@ class DEAUnitTests(unittest.TestCase):
         self.assertEqual(sev, "contraindication")
         self.assertTrue(flag)
         self.assertTrue(contra)
+
+
+class MedicationExtractionTests(unittest.TestCase):
+    """Unit and integration tests for general deterministic medication extraction & DailyMed retrieval."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.rw = _import_worker()
+
+    def test_extract_01_one_medication(self) -> None:
+        """Extract a single medication cleanly."""
+        res = self.rw.extract_medications(["Metformin 500 mg twice daily"])
+        self.assertEqual(res, ["metformin"])
+
+    def test_extract_02_multiple_medications(self) -> None:
+        """Extract multiple medications preserving order and deduplication."""
+        res = self.rw.extract_medications([
+            "Metformin 500 mg twice daily",
+            "Lisinopril 10 mg daily",
+            "Atorvastatin 20 mg",
+        ])
+        self.assertEqual(res, ["metformin", "lisinopril", "atorvastatin"])
+
+    def test_extract_03_medication_with_dosage(self) -> None:
+        """Normalize strength notations such as 500 mg, 10-20 mg, 5mg."""
+        self.assertEqual(self.rw.extract_medications("Atorvastatin 20 mg"), ["atorvastatin"])
+        self.assertEqual(self.rw.extract_medications("Lisinopril 10-20 mg"), ["lisinopril"])
+        self.assertEqual(self.rw.extract_medications("Amlodipine besylate 5mg"), ["amlodipine"])
+
+    def test_extract_04_medication_with_frequency(self) -> None:
+        """Normalize dosing frequency: twice daily, BID, once daily, at bedtime."""
+        self.assertEqual(self.rw.extract_medications("Apixaban 5 mg twice daily"), ["apixaban"])
+        self.assertEqual(self.rw.extract_medications("Gabapentin 300 mg TID"), ["gabapentin"])
+        self.assertEqual(self.rw.extract_medications("Insulin glargine 20 units at bedtime"), ["insulin glargine"])
+
+    def test_extract_05_unknown_medication(self) -> None:
+        """Uncertain, unidentifiable or placeholder text must return empty list."""
+        self.assertEqual(self.rw.extract_medications("unknown medication"), [])
+        self.assertEqual(self.rw.extract_medications("none reported"), [])
+        self.assertEqual(self.rw.extract_medications("N/A"), [])
+
+    def test_extract_06_no_medication_present(self) -> None:
+        """Empty input or disease-only profile must return empty list and NEVER infer drugs."""
+        self.assertEqual(self.rw.extract_medications([]), [])
+        self.assertEqual(self.rw.extract_medications(""), [])
+        # CRITICAL SAFETY: 'Patient has CKD and diabetes' must NEVER produce 'metformin'
+        self.assertEqual(self.rw.extract_medications("Patient has CKD and diabetes"), [])
+        self.assertEqual(
+            self.rw.extract_medications({
+                "diseases": ["Chronic kidney disease stage 4", "Type 2 diabetes"],
+                "medications": [],
+            }),
+            [],
+        )
+
+    def test_extract_07_duplicate_medication_names(self) -> None:
+        """Duplicate medication names in regimen must be deduplicated."""
+        input_meds = ["Metformin 500 mg twice daily", "Metformin 1000 mg ER", "lisinopril 10 mg"]
+        self.assertEqual(self.rw.extract_medications(input_meds), ["metformin", "lisinopril"])
+
+    def test_extract_08_outside_nine_drug_whitelist(self) -> None:
+        """Medications not in the legacy 9-drug whitelist must be extracted properly."""
+        self.assertEqual(self.rw.extract_medications(["Empagliflozin 10 mg daily"]), ["empagliflozin"])
+        self.assertEqual(self.rw.extract_medications(["Furosemide 40 mg PO daily"]), ["furosemide"])
+        self.assertEqual(self.rw.extract_medications(["Dapagliflozin 10 mg"]), ["dapagliflozin"])
+
+    def test_extract_09_multi_drug_narrative_and_profile(self) -> None:
+        """Full multi-drug clinical narrative example from research specification."""
+        narrative = (
+            "65-year-old patient with diabetes and CKD stage 4. "
+            "Current medications: metformin 500 mg twice daily, lisinopril 10 mg daily, atorvastatin 20 mg."
+        )
+        self.assertEqual(
+            self.rw.extract_medications(narrative),
+            ["metformin", "lisinopril", "atorvastatin"],
+        )
+
+    def test_extract_10_brand_generic_normalization(self) -> None:
+        """Brand names and brand-parenthesized generic names are normalized."""
+        self.assertEqual(self.rw.extract_medications("Glucophage (metformin) 500 mg"), ["metformin"])
+        self.assertEqual(self.rw.extract_medications("Lipitor 20 mg"), ["lipitor"])
+
+    def test_extract_11_first_drug_backward_compatibility(self) -> None:
+        """first_drug helper returns first extracted drug dynamically without hardcoded list."""
+        self.assertEqual(self.rw.first_drug("Empagliflozin 10 mg"), "empagliflozin")
+        self.assertEqual(self.rw.first_drug("Patient has CKD and diabetes"), "")
+
+    def test_dailymed_multi_drug_integration(self) -> None:
+        """Multiple medications must independently retrieve multiple DailyMed records.
+
+        Real biomedical evidence is retrieved from DailyMed NLM without synthetic data.
+        """
+        records = self.rw.dailymed_records(
+            ["Metformin 500 mg twice daily", "Lisinopril 10 mg daily"],
+            limit=2,
+        )
+        self.assertGreaterEqual(len(records), 2, "Expected at least 2 DailyMed records for 2 medications")
+        titles = " ".join(r.get("title", "") for r in records).lower()
+        self.assertIn("metformin", titles, "Expected metformin DailyMed evidence in records")
+        self.assertIn("lisinopril", titles, "Expected lisinopril DailyMed evidence in records")
+        for rec in records:
+            self.assertEqual(rec["source"], "DailyMed / NLM")
+            self.assertEqual(rec["source_type"], "drug_label")
+            self.assertTrue(rec["identifier"], "Record must have DailyMed setid identifier")
+            self.assertTrue(rec["url"].startswith("https://dailymed.nlm.nih.gov/"), "Record must have valid DailyMed URL")
+            self.assertFalse(rec.get("synthetic", False), "Evidence must not be marked synthetic")
+            self.assertTrue(rec.get("content"), "DailyMed record must contain extracted label text")
 
 
 if __name__ == "__main__":

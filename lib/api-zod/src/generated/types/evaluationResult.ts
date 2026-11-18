@@ -10,5 +10,7 @@ import type { EvaluationMetric } from './evaluationMetric';
 export interface EvaluationResult {
   dataset_name: string;
   benchmark_status: string;
+  /** @nullable */
+  cases_evaluated?: number | null;
   metrics: EvaluationMetric[];
 }

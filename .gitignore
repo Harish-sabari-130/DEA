@@ -1,18 +1,74 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# ================================
+# Node / pnpm
+# ================================
+node_modules/
+.pnpm-store/
+.npm/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# compiled output
-dist
-tmp
-out-tsc
+# Build output
+dist/
+build/
+out/
+tmp/
+coverage/
 *.tsbuildinfo
-.expo
-.expo-shared
 
-# dependencies
-node_modules
+# ================================
+# Python
+# ================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
 
-# IDEs and editors
-/.idea
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# ================================
+# Environment / Secrets
+# ================================
+.env
+.env.*
+!.env.example
+
+# ================================
+# ChromaDB / Generated Vector Data
+# ================================
+data/chroma/
+*.sqlite3
+*.sqlite
+*.db
+
+# ================================
+# Generated / Cache Data
+# ================================
+.cache/
+.local/
+*.log
+
+# ================================
+# IDEs
+# ================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+.idea/
 .project
 .classpath
 .c9/
@@ -20,30 +76,26 @@ node_modules
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
+# ================================
+# OS Files
+# ================================
 .DS_Store
 Thumbs.db
 
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
+# ================================
+# Generated Python files
+# ================================
+.pytest_cache/
+tests/__pycache__/
 
+# ================================
 # Replit
-.cache/
-.local/
+# ================================
+.replit
+.replitignore
+replit.md
+
+# ================================
+# Generated artifacts
+# ================================
+screenshots/

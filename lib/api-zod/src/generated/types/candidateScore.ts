@@ -15,4 +15,7 @@ export interface CandidateScore {
   score: number;
   ranking: number;
   source: string;
+  contraindicated_flag?: boolean;
+  safety_rationale?: string;
+  silo?: string;
 }

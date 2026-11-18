@@ -11,6 +11,13 @@ export interface HealthStatus {
 
 export type PatientProfileInputLabValues = {[key: string]: string};
 
+export interface DEAWeights {
+  alpha: number;
+  beta: number;
+  gamma: number;
+  delta: number;
+}
+
 export interface PatientProfileInput {
   /**
      * @minimum 0
@@ -20,10 +27,12 @@ export interface PatientProfileInput {
   sex: string;
   diseases: string[];
   medications: string[];
+  secondary_medications?: string[];
   symptoms: string[];
   lab_values: PatientProfileInputLabValues;
   allergies: string[];
   conditions: string[];
+  weights?: DEAWeights;
 }
 
 export type EvidenceMetadata = { [key: string]: unknown };
@@ -89,6 +98,11 @@ export interface LiteratureAgentOutput {
   evidence: Evidence[];
 }
 
+/**
+ * @nullable
+ */
+export type ConflictProvenance = { [key: string]: unknown } | null;
+
 export interface Conflict {
   conflict_detected: boolean;
   conflict_type: string;
@@ -96,6 +110,13 @@ export interface Conflict {
   description: string;
   affected_treatment: string;
   risk_factor: string;
+  status?: string;
+  evidence_linkage?: string;
+  engineering_assumption?: string;
+  heuristic_fallback?: boolean;
+  transaminase_evaluation_method?: string;
+  /** @nullable */
+  provenance?: ConflictProvenance;
 }
 
 export interface CandidateScore {
@@ -107,6 +128,9 @@ export interface CandidateScore {
   score: number;
   ranking: number;
   source: string;
+  contraindicated_flag?: boolean;
+  safety_rationale?: string;
+  silo?: string;
 }
 
 export type DEAResultWeights = {
@@ -135,6 +159,63 @@ export type AnalysisReportRetrievalStatus = {
   top_k: number;
 };
 
+export type ClaimVerificationStatus = typeof ClaimVerificationStatus[keyof typeof ClaimVerificationStatus];
+
+
+export const ClaimVerificationStatus = {
+  supported: 'supported',
+  weak: 'weak',
+  unsupported: 'unsupported',
+} as const;
+
+export interface ClaimVerification {
+  claim: string;
+  status: ClaimVerificationStatus;
+  confidence?: number;
+  source_title?: string;
+  source_id?: string;
+  identifier?: string;
+  matched_excerpt?: string;
+  domain?: string;
+  token_overlap?: number;
+}
+
+export interface SmartRouting {
+  tier: string;
+  needs_doctor_review: boolean;
+  complexity_score: number;
+  recommended_model: string;
+  routing_reasons: string[];
+}
+
+export interface MedicationDiscrepancy {
+  type?: string;
+  medication?: string;
+  admission_dose?: string;
+  discharge_dose?: string;
+  admission_frequency?: string;
+  discharge_frequency?: string;
+  details?: string;
+  risk_level?: string;
+  clinical_hazard?: string;
+}
+
+export interface MedicationReconciliationReport {
+  total_list_a?: number;
+  total_list_b?: number;
+  missing_in_discharge?: string[];
+  added_in_discharge?: string[];
+  dose_discrepancy?: MedicationDiscrepancy[];
+  frequency_discrepancy?: MedicationDiscrepancy[];
+  therapeutic_duplications?: MedicationDiscrepancy[];
+  high_risk_discrepancies?: MedicationDiscrepancy[];
+  has_discrepancy: boolean;
+  has_high_risk_discrepancy: boolean;
+  discrepancies?: MedicationDiscrepancy[];
+  summary?: string;
+  safe_to_proceed?: boolean;
+}
+
 export interface AnalysisReport {
   id: string;
   mode: string;
@@ -151,6 +232,9 @@ export interface AnalysisReport {
   limitations: string[];
   disclaimer: string;
   generated_at: string;
+  claim_verifications?: ClaimVerification[];
+  routing?: SmartRouting;
+  reconciliation?: MedicationReconciliationReport;
   retrieval_status: AnalysisReportRetrievalStatus;
 }
 
@@ -172,11 +256,21 @@ export interface EvaluationMetric {
   status: string;
   /** @nullable */
   value: number | null;
+  /** @nullable */
+  single_agent_value?: number | null;
+  /** @nullable */
+  multi_agent_value?: number | null;
+  /** @nullable */
+  dea_value?: number | null;
+  /** @nullable */
+  unit?: string | null;
 }
 
 export interface EvaluationResult {
   dataset_name: string;
   benchmark_status: string;
+  /** @nullable */
+  cases_evaluated?: number | null;
   metrics: EvaluationMetric[];
 }
 
@@ -218,5 +312,18 @@ export interface KnowledgeStats {
   database_path: string;
   embedding_provider: string;
   silos: KnowledgeSilo[];
+}
+
+export interface ReconciliationInput {
+  clinic_medications?: string[];
+  discharge_medications?: string[];
+  list_a?: string[];
+  list_b?: string[];
+  patient?: PatientProfileInput;
+}
+
+export interface WhatIfInput {
+  patient: PatientProfileInput;
+  weights?: DEAWeights;
 }
 

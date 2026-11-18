@@ -38,10 +38,17 @@ export const AnalyzeCaseBody = zod.object({
   "sex": zod.string(),
   "diseases": zod.array(zod.string()),
   "medications": zod.array(zod.string()),
+  "secondary_medications": zod.array(zod.string()).optional(),
   "symptoms": zod.array(zod.string()),
   "lab_values": zod.record(zod.string(), zod.string()),
   "allergies": zod.array(zod.string()),
-  "conditions": zod.array(zod.string())
+  "conditions": zod.array(zod.string()),
+  "weights": zod.object({
+  "alpha": zod.number(),
+  "beta": zod.number(),
+  "gamma": zod.number(),
+  "delta": zod.number()
+}).optional()
 })
 
 export const AnalyzeCaseResponse = zod.object({
@@ -143,7 +150,13 @@ export const AnalyzeCaseResponse = zod.object({
   "severity": zod.string(),
   "description": zod.string(),
   "affected_treatment": zod.string(),
-  "risk_factor": zod.string()
+  "risk_factor": zod.string(),
+  "status": zod.string().optional(),
+  "evidence_linkage": zod.string().optional(),
+  "engineering_assumption": zod.string().optional(),
+  "heuristic_fallback": zod.boolean().optional(),
+  "transaminase_evaluation_method": zod.string().optional(),
+  "provenance": zod.record(zod.string(), zod.unknown()).nullish()
 })),
   "dea": zod.object({
   "weights": zod.object({
@@ -160,7 +173,10 @@ export const AnalyzeCaseResponse = zod.object({
   "p_risk": zod.number(),
   "score": zod.number(),
   "ranking": zod.number(),
-  "source": zod.string()
+  "source": zod.string(),
+  "contraindicated_flag": zod.boolean().optional(),
+  "safety_rationale": zod.string().optional(),
+  "silo": zod.string().optional()
 })),
   "method_note": zod.string()
 }),
@@ -169,12 +185,98 @@ export const AnalyzeCaseResponse = zod.object({
   "limitations": zod.array(zod.string()),
   "disclaimer": zod.string(),
   "generated_at": zod.string(),
+  "claim_verifications": zod.array(zod.object({
+  "claim": zod.string(),
+  "status": zod.enum(['supported', 'weak', 'unsupported']),
+  "confidence": zod.number().optional(),
+  "source_title": zod.string().optional(),
+  "source_id": zod.string().optional(),
+  "identifier": zod.string().optional(),
+  "matched_excerpt": zod.string().optional(),
+  "domain": zod.string().optional(),
+  "token_overlap": zod.number().optional()
+})).optional(),
+  "routing": zod.object({
+  "tier": zod.string(),
+  "needs_doctor_review": zod.boolean(),
+  "complexity_score": zod.number(),
+  "recommended_model": zod.string(),
+  "routing_reasons": zod.array(zod.string())
+}).optional(),
+  "reconciliation": zod.object({
+  "total_list_a": zod.number().optional(),
+  "total_list_b": zod.number().optional(),
+  "missing_in_discharge": zod.array(zod.string()).optional(),
+  "added_in_discharge": zod.array(zod.string()).optional(),
+  "dose_discrepancy": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "frequency_discrepancy": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "therapeutic_duplications": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "high_risk_discrepancies": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "has_discrepancy": zod.boolean(),
+  "has_high_risk_discrepancy": zod.boolean(),
+  "discrepancies": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "summary": zod.string().optional(),
+  "safe_to_proceed": zod.boolean().optional()
+}).optional(),
   "retrieval_status": zod.object({
   "database": zod.string(),
   "embedding_provider": zod.string(),
   "silo_isolation": zod.boolean(),
   "top_k": zod.number()
-})
+}),
+  "sha256_integrity_hash": zod.string().optional(),
+  "case_id": zod.string().optional(),
+  "report_id": zod.string().optional()
 })
 
 
@@ -196,10 +298,17 @@ export const ListDemoCasesResponseItem = zod.object({
   "sex": zod.string(),
   "diseases": zod.array(zod.string()),
   "medications": zod.array(zod.string()),
+  "secondary_medications": zod.array(zod.string()).optional(),
   "symptoms": zod.array(zod.string()),
   "lab_values": zod.record(zod.string(), zod.string()),
   "allergies": zod.array(zod.string()),
-  "conditions": zod.array(zod.string())
+  "conditions": zod.array(zod.string()),
+  "weights": zod.object({
+  "alpha": zod.number(),
+  "beta": zod.number(),
+  "gamma": zod.number(),
+  "delta": zod.number()
+}).optional()
 })
 })
 export const ListDemoCasesResponse = zod.array(ListDemoCasesResponseItem)
@@ -215,11 +324,16 @@ export const EvaluateFrameworkBody = zod.object({
 export const EvaluateFrameworkResponse = zod.object({
   "dataset_name": zod.string(),
   "benchmark_status": zod.string(),
+  "cases_evaluated": zod.number().nullish(),
   "metrics": zod.array(zod.object({
   "name": zod.string(),
   "description": zod.string(),
   "status": zod.string(),
-  "value": zod.number().nullable()
+  "value": zod.number().nullable(),
+  "single_agent_value": zod.number().nullish(),
+  "multi_agent_value": zod.number().nullish(),
+  "dea_value": zod.number().nullish(),
+  "unit": zod.string().nullish()
 }))
 })
 
@@ -269,3 +383,434 @@ export const GetKnowledgeStatsResponse = zod.object({
 })
 
 
+/**
+ * @summary Reconcile medication lists and detect omissions, discrepancies, and high-risk interactions
+ */
+export const reconcileMedicationsBodyPatientAgeMin = 0;
+export const reconcileMedicationsBodyPatientAgeMax = 130;
+
+
+
+export const ReconcileMedicationsBody = zod.object({
+  "clinic_medications": zod.array(zod.string()).optional(),
+  "discharge_medications": zod.array(zod.string()).optional(),
+  "list_a": zod.array(zod.string()).optional(),
+  "list_b": zod.array(zod.string()).optional(),
+  "patient": zod.object({
+  "age": zod.number().min(reconcileMedicationsBodyPatientAgeMin).max(reconcileMedicationsBodyPatientAgeMax),
+  "sex": zod.string(),
+  "diseases": zod.array(zod.string()),
+  "medications": zod.array(zod.string()),
+  "secondary_medications": zod.array(zod.string()).optional(),
+  "symptoms": zod.array(zod.string()),
+  "lab_values": zod.record(zod.string(), zod.string()),
+  "allergies": zod.array(zod.string()),
+  "conditions": zod.array(zod.string()),
+  "weights": zod.object({
+  "alpha": zod.number(),
+  "beta": zod.number(),
+  "gamma": zod.number(),
+  "delta": zod.number()
+}).optional()
+}).optional()
+})
+
+export const ReconcileMedicationsResponse = zod.object({
+  "total_list_a": zod.number().optional(),
+  "total_list_b": zod.number().optional(),
+  "missing_in_discharge": zod.array(zod.string()).optional(),
+  "added_in_discharge": zod.array(zod.string()).optional(),
+  "dose_discrepancy": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "frequency_discrepancy": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "therapeutic_duplications": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "high_risk_discrepancies": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "has_discrepancy": zod.boolean(),
+  "has_high_risk_discrepancy": zod.boolean(),
+  "discrepancies": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "summary": zod.string().optional(),
+  "safe_to_proceed": zod.boolean().optional()
+})
+
+
+/**
+ * @summary Fast What-If simulation with modified clinical parameters and custom DEA weights
+ */
+export const whatIfSimulationBodyPatientAgeMin = 0;
+export const whatIfSimulationBodyPatientAgeMax = 130;
+
+
+
+export const WhatIfSimulationBody = zod.object({
+  "patient": zod.object({
+  "age": zod.number().min(whatIfSimulationBodyPatientAgeMin).max(whatIfSimulationBodyPatientAgeMax),
+  "sex": zod.string(),
+  "diseases": zod.array(zod.string()),
+  "medications": zod.array(zod.string()),
+  "secondary_medications": zod.array(zod.string()).optional(),
+  "symptoms": zod.array(zod.string()),
+  "lab_values": zod.record(zod.string(), zod.string()),
+  "allergies": zod.array(zod.string()),
+  "conditions": zod.array(zod.string()),
+  "weights": zod.object({
+  "alpha": zod.number(),
+  "beta": zod.number(),
+  "gamma": zod.number(),
+  "delta": zod.number()
+}).optional()
+}),
+  "weights": zod.object({
+  "alpha": zod.number(),
+  "beta": zod.number(),
+  "gamma": zod.number(),
+  "delta": zod.number()
+}).optional()
+})
+
+export const WhatIfSimulationResponse = zod.object({
+  "id": zod.string(),
+  "mode": zod.string(),
+  "patient_summary": zod.string(),
+  "query_tasks": zod.object({
+  "clinical": zod.string(),
+  "drug": zod.string(),
+  "literature": zod.string()
+}),
+  "agent_statuses": zod.array(zod.object({
+  "agent": zod.string(),
+  "status": zod.string(),
+  "summary": zod.string()
+})),
+  "clinical": zod.object({
+  "agent": zod.string(),
+  "claims": zod.array(zod.string()),
+  "recommendations": zod.array(zod.string()),
+  "evidence": zod.array(zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "source": zod.string(),
+  "year": zod.number(),
+  "domain": zod.string(),
+  "excerpt": zod.string(),
+  "evidence_grade": zod.number(),
+  "relevance": zod.number(),
+  "recency": zod.number(),
+  "risk_level": zod.string(),
+  "page": zod.number().nullish(),
+  "chunk": zod.string().optional(),
+  "similarity": zod.number().optional(),
+  "metadata": zod.record(zod.string(), zod.unknown()).optional()
+})),
+  "evidence_grade": zod.number(),
+  "relevance": zod.number(),
+  "recency": zod.number(),
+  "source": zod.string(),
+  "year": zod.number()
+}),
+  "drug": zod.object({
+  "agent": zod.string(),
+  "drug": zod.string(),
+  "contraindications": zod.array(zod.string()),
+  "interactions": zod.array(zod.string()),
+  "risk_level": zod.string(),
+  "patient_specific_risk": zod.number(),
+  "evidence_grade": zod.number(),
+  "source": zod.string(),
+  "year": zod.number(),
+  "evidence": zod.array(zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "source": zod.string(),
+  "year": zod.number(),
+  "domain": zod.string(),
+  "excerpt": zod.string(),
+  "evidence_grade": zod.number(),
+  "relevance": zod.number(),
+  "recency": zod.number(),
+  "risk_level": zod.string(),
+  "page": zod.number().nullish(),
+  "chunk": zod.string().optional(),
+  "similarity": zod.number().optional(),
+  "metadata": zod.record(zod.string(), zod.unknown()).optional()
+}))
+}),
+  "literature": zod.object({
+  "agent": zod.string(),
+  "findings": zod.array(zod.string()),
+  "alternative_treatments": zod.array(zod.string()),
+  "evidence_grade": zod.number(),
+  "relevance": zod.number(),
+  "recency": zod.number(),
+  "source": zod.string(),
+  "year": zod.number(),
+  "evidence": zod.array(zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "source": zod.string(),
+  "year": zod.number(),
+  "domain": zod.string(),
+  "excerpt": zod.string(),
+  "evidence_grade": zod.number(),
+  "relevance": zod.number(),
+  "recency": zod.number(),
+  "risk_level": zod.string(),
+  "page": zod.number().nullish(),
+  "chunk": zod.string().optional(),
+  "similarity": zod.number().optional(),
+  "metadata": zod.record(zod.string(), zod.unknown()).optional()
+}))
+}),
+  "conflicts": zod.array(zod.object({
+  "conflict_detected": zod.boolean(),
+  "conflict_type": zod.string(),
+  "severity": zod.string(),
+  "description": zod.string(),
+  "affected_treatment": zod.string(),
+  "risk_factor": zod.string(),
+  "status": zod.string().optional(),
+  "evidence_linkage": zod.string().optional(),
+  "engineering_assumption": zod.string().optional(),
+  "heuristic_fallback": zod.boolean().optional(),
+  "transaminase_evaluation_method": zod.string().optional(),
+  "provenance": zod.record(zod.string(), zod.unknown()).nullish()
+})),
+  "dea": zod.object({
+  "weights": zod.object({
+  "alpha": zod.number(),
+  "beta": zod.number(),
+  "gamma": zod.number(),
+  "delta": zod.number()
+}),
+  "candidates": zod.array(zod.object({
+  "candidate": zod.string(),
+  "q_grade": zod.number(),
+  "s_rel": zod.number(),
+  "t_recent": zod.number(),
+  "p_risk": zod.number(),
+  "score": zod.number(),
+  "ranking": zod.number(),
+  "source": zod.string(),
+  "contraindicated_flag": zod.boolean().optional(),
+  "safety_rationale": zod.string().optional(),
+  "silo": zod.string().optional()
+})),
+  "method_note": zod.string()
+}),
+  "explanation": zod.string(),
+  "safety_considerations": zod.array(zod.string()).optional(),
+  "limitations": zod.array(zod.string()),
+  "disclaimer": zod.string(),
+  "generated_at": zod.string(),
+  "claim_verifications": zod.array(zod.object({
+  "claim": zod.string(),
+  "status": zod.enum(['supported', 'weak', 'unsupported']),
+  "confidence": zod.number().optional(),
+  "source_title": zod.string().optional(),
+  "source_id": zod.string().optional(),
+  "identifier": zod.string().optional(),
+  "matched_excerpt": zod.string().optional(),
+  "domain": zod.string().optional(),
+  "token_overlap": zod.number().optional()
+})).optional(),
+  "routing": zod.object({
+  "tier": zod.string(),
+  "needs_doctor_review": zod.boolean(),
+  "complexity_score": zod.number(),
+  "recommended_model": zod.string(),
+  "routing_reasons": zod.array(zod.string())
+}).optional(),
+  "reconciliation": zod.object({
+  "total_list_a": zod.number().optional(),
+  "total_list_b": zod.number().optional(),
+  "missing_in_discharge": zod.array(zod.string()).optional(),
+  "added_in_discharge": zod.array(zod.string()).optional(),
+  "dose_discrepancy": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "frequency_discrepancy": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "therapeutic_duplications": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "high_risk_discrepancies": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "has_discrepancy": zod.boolean(),
+  "has_high_risk_discrepancy": zod.boolean(),
+  "discrepancies": zod.array(zod.object({
+  "type": zod.string().optional(),
+  "medication": zod.string().optional(),
+  "admission_dose": zod.string().optional(),
+  "discharge_dose": zod.string().optional(),
+  "admission_frequency": zod.string().optional(),
+  "discharge_frequency": zod.string().optional(),
+  "details": zod.string().optional(),
+  "risk_level": zod.string().optional(),
+  "clinical_hazard": zod.string().optional()
+})).optional(),
+  "summary": zod.string().optional(),
+  "safe_to_proceed": zod.boolean().optional()
+}).optional(),
+  "retrieval_status": zod.object({
+  "database": zod.string(),
+  "embedding_provider": zod.string(),
+  "silo_isolation": zod.boolean(),
+  "top_k": zod.number()
+}),
+  "sha256_integrity_hash": zod.string().optional(),
+  "case_id": zod.string().optional(),
+  "report_id": zod.string().optional()
+})
+
+
+
+export const ClinicalSignoffBody = zod.object({
+  "report_id": zod.string(),
+  "clinician_name": zod.string().min(1, "Clinician name is required"),
+  "selected_candidate": zod.string().min(1, "Selected candidate is required"),
+  "action_taken": zod.enum(["accepted_top_dea", "clinical_override", "deferred"]),
+  "override_reason": zod.string().optional(),
+});
+
+export const ClinicalSignoffResponse = zod.object({
+  "success": zod.boolean(),
+  "decision": zod.object({
+    "id": zod.string(),
+    "report_id": zod.string(),
+    "clinician_name": zod.string(),
+    "selected_candidate": zod.string(),
+    "action_taken": zod.string(),
+    "override_reason": zod.string().nullable().optional(),
+    "signed_at": zod.string(),
+  })
+});
+
+export const AuditHistoryResponse = zod.object({
+  "history": zod.array(zod.object({
+    "case": zod.object({
+      "id": zod.string(),
+      "patientProfileJson": zod.any(),
+      "routingTier": zod.string(),
+      "complexityScore": zod.number(),
+      "createdAt": zod.any(),
+    }),
+    "report": zod.object({
+      "id": zod.string(),
+      "caseId": zod.string(),
+      "sha256IntegrityHash": zod.string(),
+      "deaWeightsJson": zod.any(),
+      "rankedCandidatesJson": zod.any(),
+      "conflictsJson": zod.any(),
+      "claimVerificationsJson": zod.any().optional(),
+      "reconciliationJson": zod.any().optional(),
+      "createdAt": zod.any(),
+    }),
+    "decision": zod.object({
+      "id": zod.string(),
+      "reportId": zod.string(),
+      "clinicianName": zod.string(),
+      "selectedCandidate": zod.string(),
+      "actionTaken": zod.string(),
+      "overrideReason": zod.string().nullable().optional(),
+      "signedAt": zod.any(),
+    }).nullable().optional(),
+  }))
+});
+
+export const VerifyAuditHashBody = zod.object({
+  "patient": zod.any(),
+  "weights": zod.any().optional(),
+  "ranked_candidates": zod.array(zod.any()),
+  "conflicts": zod.array(zod.any()),
+  "expected_hash": zod.string(),
+});
+
+export const VerifyAuditHashResponse = zod.object({
+  "computed_hash": zod.string(),
+  "expected_hash": zod.string(),
+  "verified": zod.boolean(),
+  "match_percentage": zod.number(),
+  "message": zod.string(),
+});

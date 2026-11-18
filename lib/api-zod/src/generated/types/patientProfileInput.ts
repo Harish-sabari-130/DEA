@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { DEAWeights } from './dEAWeights';
 import type { PatientProfileInputLabValues } from './patientProfileInputLabValues';
 
 export interface PatientProfileInput {
@@ -16,8 +17,10 @@ export interface PatientProfileInput {
   sex: string;
   diseases: string[];
   medications: string[];
+  secondary_medications?: string[];
   symptoms: string[];
   lab_values: PatientProfileInputLabValues;
   allergies: string[];
   conditions: string[];
+  weights?: DEAWeights;
 }

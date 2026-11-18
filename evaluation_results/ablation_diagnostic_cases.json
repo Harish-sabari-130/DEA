@@ -1,0 +1,2416 @@
+{
+  "benchmark_version": "1.0",
+  "diagnostic_focus": "Ablation 4 (beta=0) and Ablation 3 (gamma=0) vs. Baseline across 14 TRUE_COLLISION cases",
+  "category_definitions": {
+    "clinically_appropriate_alternative": "A clinically appropriate alternative that resolves or avoids the contraindication.",
+    "generic_guideline_pathway": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+    "contraindicated_treatment": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+    "irrelevant_unresponsive_pathway": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+    "other": "Other category not fitting standard classification."
+  },
+  "total_true_collision_cases": 14,
+  "summary_statistics": {
+    "ablation_4_vs_baseline": {
+      "candidate_changed_count": 12,
+      "candidate_unchanged_count": 2,
+      "became_safe_count": 10,
+      "became_unsafe_count": 1,
+      "remained_safe_count": 2,
+      "remained_unsafe_count": 1,
+      "category_distribution": {
+        "clinically_appropriate_alternative": 1,
+        "generic_guideline_pathway": 6,
+        "contraindicated_treatment": 2,
+        "irrelevant_unresponsive_pathway": 5
+      },
+      "generic_or_unresponsive_total": 11
+    },
+    "ablation_3_vs_baseline": {
+      "candidate_changed_count": 6,
+      "candidate_unchanged_count": 8,
+      "became_safe_count": 6,
+      "became_unsafe_count": 0,
+      "remained_safe_count": 3,
+      "remained_unsafe_count": 5,
+      "category_distribution": {
+        "clinically_appropriate_alternative": 1,
+        "generic_guideline_pathway": 4,
+        "contraindicated_treatment": 5,
+        "irrelevant_unresponsive_pathway": 4
+      },
+      "generic_or_unresponsive_total": 8
+    }
+  },
+  "case_diagnostics": [
+    {
+      "case_id": "COL-001",
+      "title": "Metformin Lactic Acidosis Collision in CKD Stage 4",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "contraindicated_tokens": [
+          "metformin",
+          "glucophage"
+        ],
+        "unacceptable_pathways": [
+          "Continue Metformin 1000 mg twice daily",
+          "Titrate Metformin dose upward"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+        "domain": "clinical",
+        "v_score": 0.307,
+        "q_grade": 0.82,
+        "s_rel": 0.343,
+        "t_recent": 0.65,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_category": "generic_guideline_pathway"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "Continue Metformin pathway",
+        "domain": "drug",
+        "v_score": 0.35,
+        "q_grade": 0.75,
+        "s_rel": 0.014,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'metformin'"
+        ],
+        "candidate_changed_rank": true,
+        "candidate_category": "contraindicated_treatment",
+        "candidate_category_description": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+        "safety_transition": "became_unsafe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+        "domain": "clinical",
+        "v_score": 0.285,
+        "q_grade": 0.82,
+        "s_rel": 0.343,
+        "t_recent": 0.65,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": false,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "remained_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+            "domain": "clinical",
+            "v_score": 0.307,
+            "q_grade": 0.82,
+            "s_rel": 0.343,
+            "t_recent": 0.65,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Metformin is one of the most popular oral glucose-lowering medications, widely considered to be the optimal initial therapy for patients with type 2 diabetes mellitus.",
+            "domain": "literature",
+            "v_score": 0.295,
+            "q_grade": 0.55,
+            "s_rel": 0.28,
+            "t_recent": 0.6,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Metformin pathway",
+            "domain": "drug",
+            "v_score": 0.207,
+            "q_grade": 0.75,
+            "s_rel": 0.014,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "Continue Metformin pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.014,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+            "domain": "clinical",
+            "v_score": 0.348,
+            "q_grade": 0.82,
+            "s_rel": 0.343,
+            "t_recent": 0.65,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Metformin is one of the most popular oral glucose-lowering medications, widely considered to be the optimal initial therapy for patients with type 2 diabetes mellitus.",
+            "domain": "literature",
+            "v_score": 0.335,
+            "q_grade": 0.55,
+            "s_rel": 0.28,
+            "t_recent": 0.6,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+            "domain": "clinical",
+            "v_score": 0.285,
+            "q_grade": 0.82,
+            "s_rel": 0.343,
+            "t_recent": 0.65,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Metformin is one of the most popular oral glucose-lowering medications, widely considered to be the optimal initial therapy for patients with type 2 diabetes mellitus.",
+            "domain": "literature",
+            "v_score": 0.26,
+            "q_grade": 0.55,
+            "s_rel": 0.28,
+            "t_recent": 0.6,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Metformin pathway",
+            "domain": "drug",
+            "v_score": 0.126,
+            "q_grade": 0.75,
+            "s_rel": 0.014,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-002",
+      "title": "NSAID-Induced Decompensation Collision in HFrEF",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Heart failure with reduced ejection fraction",
+          "Bilateral knee osteoarthritis"
+        ],
+        "medications": [
+          "Furosemide 40 mg daily",
+          "Carvedilol 25 mg twice daily",
+          "Lisinopril 20 mg daily",
+          "Naproxen 500 mg twice daily"
+        ],
+        "contraindicated_tokens": [
+          "naproxen",
+          "ibuprofen",
+          "nsaid",
+          "aleve",
+          "advil",
+          "motrin",
+          "diclofenac",
+          "meloxicam",
+          "celecoxib"
+        ],
+        "unacceptable_pathways": [
+          "Continue Naproxen 500 mg twice daily",
+          "Switch to Ibuprofen 800 mg three times daily"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Furosemide, Carvedilol, Lisinopril, Naproxen pathway",
+        "domain": "drug",
+        "v_score": 0.301,
+        "q_grade": 0.75,
+        "s_rel": 0.328,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'naproxen'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+        "domain": "clinical",
+        "v_score": 0.372,
+        "q_grade": 0.82,
+        "s_rel": 0.163,
+        "t_recent": 0.75,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+        "domain": "literature",
+        "v_score": 0.255,
+        "q_grade": 0.703,
+        "s_rel": 0.115,
+        "t_recent": 0.0,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Furosemide, Carvedilol, Lisinopril, Naproxen pathway",
+            "domain": "drug",
+            "v_score": 0.301,
+            "q_grade": 0.75,
+            "s_rel": 0.328,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.268,
+            "q_grade": 0.82,
+            "s_rel": 0.163,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.209,
+            "q_grade": 0.703,
+            "s_rel": 0.115,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.163,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Furosemide, Carvedilol, Lisinopril, Naproxen pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.328,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.261,
+            "q_grade": 0.703,
+            "s_rel": 0.115,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.255,
+            "q_grade": 0.703,
+            "s_rel": 0.115,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Furosemide, Carvedilol, Lisinopril, Naproxen pathway",
+            "domain": "drug",
+            "v_score": 0.251,
+            "q_grade": 0.75,
+            "s_rel": 0.328,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.213,
+            "q_grade": 0.82,
+            "s_rel": 0.163,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-003",
+      "title": "Dabigatran Clearance Collision in ESRD Hemodialysis",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Non-valvular atrial fibrillation",
+          "End-stage renal disease on hemodialysis",
+          "Hypertension"
+        ],
+        "medications": [
+          "Dabigatran etexilate 150 mg twice daily",
+          "Amlodipine 10 mg daily",
+          "Sevelamer 800 mg three times daily with meals"
+        ],
+        "contraindicated_tokens": [
+          "dabigatran",
+          "pradaxa"
+        ],
+        "unacceptable_pathways": [
+          "Continue Dabigatran 150 mg twice daily",
+          "Empiric half-dose Dabigatran 75 mg twice daily without approval"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+        "domain": "literature",
+        "v_score": 0.283,
+        "q_grade": 0.673,
+        "s_rel": 0.173,
+        "t_recent": 0.45,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_category": "generic_guideline_pathway"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+        "domain": "clinical",
+        "v_score": 0.372,
+        "q_grade": 0.82,
+        "s_rel": 0.091,
+        "t_recent": 0.75,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "remained_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+        "domain": "literature",
+        "v_score": 0.266,
+        "q_grade": 0.673,
+        "s_rel": 0.173,
+        "t_recent": 0.45,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": false,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "remained_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+            "domain": "literature",
+            "v_score": 0.283,
+            "q_grade": 0.673,
+            "s_rel": 0.173,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.247,
+            "q_grade": 0.82,
+            "s_rel": 0.091,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Dabigatran, Amlodipine, Sevelamer pathway",
+            "domain": "drug",
+            "v_score": 0.237,
+            "q_grade": 0.75,
+            "s_rel": 0.114,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.091,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+            "domain": "literature",
+            "v_score": 0.359,
+            "q_grade": 0.673,
+            "s_rel": 0.173,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Dabigatran, Amlodipine, Sevelamer pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.114,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+            "domain": "literature",
+            "v_score": 0.266,
+            "q_grade": 0.673,
+            "s_rel": 0.173,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.184,
+            "q_grade": 0.82,
+            "s_rel": 0.091,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Dabigatran, Amlodipine, Sevelamer pathway",
+            "domain": "drug",
+            "v_score": 0.166,
+            "q_grade": 0.75,
+            "s_rel": 0.114,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-004",
+      "title": "Dual RAS Blockade Collision in Diabetic Nephropathy",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Diabetic nephropathy with macroalbuminuria",
+          "Essential hypertension"
+        ],
+        "medications": [
+          "Lisinopril 40 mg daily",
+          "Losartan 100 mg daily",
+          "Amlodipine 10 mg daily",
+          "Atorvastatin 20 mg daily"
+        ],
+        "contraindicated_tokens": [
+          "lisinopril and losartan",
+          "dual ras blockade",
+          "dual acei arb"
+        ],
+        "unacceptable_pathways": [
+          "Continue combination Lisinopril 40 mg and Losartan 100 mg",
+          "Add third renin-angiotensin blocker (Aliskiren)"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Lisinopril, Losartan, Amlodipine, Atorvastatin pathway",
+        "domain": "drug",
+        "v_score": 0.335,
+        "q_grade": 0.75,
+        "s_rel": 0.442,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_combination: 'lisinopril and losartan'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+        "domain": "clinical",
+        "v_score": 0.372,
+        "q_grade": 0.82,
+        "s_rel": 0.315,
+        "t_recent": 0.75,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Continue Lisinopril, Losartan, Amlodipine, Atorvastatin pathway",
+        "domain": "drug",
+        "v_score": 0.297,
+        "q_grade": 0.75,
+        "s_rel": 0.442,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_combination: 'lisinopril and losartan'"
+        ],
+        "candidate_changed_rank": false,
+        "candidate_category": "contraindicated_treatment",
+        "candidate_category_description": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+        "safety_transition": "remained_unsafe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Lisinopril, Losartan, Amlodipine, Atorvastatin pathway",
+            "domain": "drug",
+            "v_score": 0.335,
+            "q_grade": 0.75,
+            "s_rel": 0.442,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "clinical",
+            "v_score": 0.314,
+            "q_grade": 0.82,
+            "s_rel": 0.315,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "literature",
+            "v_score": 0.276,
+            "q_grade": 0.55,
+            "s_rel": 0.219,
+            "t_recent": 0.6,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.315,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Lisinopril, Losartan, Amlodipine, Atorvastatin pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.442,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "literature",
+            "v_score": 0.335,
+            "q_grade": 0.55,
+            "s_rel": 0.219,
+            "t_recent": 0.6,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Continue Lisinopril, Losartan, Amlodipine, Atorvastatin pathway",
+            "domain": "drug",
+            "v_score": 0.297,
+            "q_grade": 0.75,
+            "s_rel": 0.442,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "clinical",
+            "v_score": 0.274,
+            "q_grade": 0.82,
+            "s_rel": 0.315,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "literature",
+            "v_score": 0.236,
+            "q_grade": 0.55,
+            "s_rel": 0.219,
+            "t_recent": 0.6,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-005",
+      "title": "High-Intensity Statin Collision in Decompensated Cirrhosis",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Decompensated liver cirrhosis",
+          "Severe mixed hyperlipidemia",
+          "Ascites"
+        ],
+        "medications": [
+          "Atorvastatin 40 mg daily",
+          "Spironolactone 100 mg daily",
+          "Furosemide 40 mg daily",
+          "Lactulose 20 g twice daily"
+        ],
+        "contraindicated_tokens": [
+          "atorvastatin",
+          "lipitor",
+          "simvastatin",
+          "zocor"
+        ],
+        "unacceptable_pathways": [
+          "Continue Atorvastatin 40 mg daily",
+          "Increase Atorvastatin to 80 mg daily"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "BACKGROUND: Evolocumab, a monoclonal antibody that inhibits proprotein convertase subtilisin/kexin type 9 (PCSK9), significantly reduced low-density lipoprotein (LDL) cholesterol levels in phase 2 studies.",
+        "domain": "literature",
+        "v_score": 0.285,
+        "q_grade": 0.827,
+        "s_rel": 0.0,
+        "t_recent": 0.45,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_category": "clinically_appropriate_alternative"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "BACKGROUND: Evolocumab, a monoclonal antibody that inhibits proprotein convertase subtilisin/kexin type 9 (PCSK9), significantly reduced low-density lipoprotein (LDL) cholesterol levels in phase 2 studies.",
+        "domain": "literature",
+        "v_score": 0.436,
+        "q_grade": 0.827,
+        "s_rel": 0.0,
+        "t_recent": 0.45,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": false,
+        "candidate_category": "clinically_appropriate_alternative",
+        "candidate_category_description": "A clinically appropriate alternative that resolves or avoids the contraindication.",
+        "safety_transition": "remained_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "BACKGROUND: Evolocumab, a monoclonal antibody that inhibits proprotein convertase subtilisin/kexin type 9 (PCSK9), significantly reduced low-density lipoprotein (LDL) cholesterol levels in phase 2 studies.",
+        "domain": "literature",
+        "v_score": 0.259,
+        "q_grade": 0.827,
+        "s_rel": 0.0,
+        "t_recent": 0.45,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": false,
+        "candidate_category": "clinically_appropriate_alternative",
+        "candidate_category_description": "A clinically appropriate alternative that resolves or avoids the contraindication.",
+        "safety_transition": "remained_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "BACKGROUND: Evolocumab, a monoclonal antibody that inhibits proprotein convertase subtilisin/kexin type 9 (PCSK9), significantly reduced low-density lipoprotein (LDL) cholesterol levels in phase 2 studies.",
+            "domain": "literature",
+            "v_score": 0.285,
+            "q_grade": 0.827,
+            "s_rel": 0.0,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Atorvastatin, Spironolactone, Furosemide, Lactulose pathway",
+            "domain": "drug",
+            "v_score": 0.256,
+            "q_grade": 0.75,
+            "s_rel": 0.179,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Renin-angiotensin-aldosterone system inhibitors (RAASi) and mineralocorticoid receptor antagonists (MRAs) are key drugs in the management of patients with cardiovascular diseases (CVD), particularly those with hypertension, diabetes, chronic kidney disease and heart failure (HF), given their demonstrated effectiveness in reducing the risk of both surrogate and hard endpoints.",
+            "domain": "clinical",
+            "v_score": 0.219,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "BACKGROUND: Evolocumab, a monoclonal antibody that inhibits proprotein convertase subtilisin/kexin type 9 (PCSK9), significantly reduced low-density lipoprotein (LDL) cholesterol levels in phase 2 studies.",
+            "domain": "literature",
+            "v_score": 0.436,
+            "q_grade": 0.827,
+            "s_rel": 0.0,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Renin-angiotensin-aldosterone system inhibitors (RAASi) and mineralocorticoid receptor antagonists (MRAs) are key drugs in the management of patients with cardiovascular diseases (CVD), particularly those with hypertension, diabetes, chronic kidney disease and heart failure (HF), given their demonstrated effectiveness in reducing the risk of both surrogate and hard endpoints.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Atorvastatin, Spironolactone, Furosemide, Lactulose pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.179,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "BACKGROUND: Evolocumab, a monoclonal antibody that inhibits proprotein convertase subtilisin/kexin type 9 (PCSK9), significantly reduced low-density lipoprotein (LDL) cholesterol levels in phase 2 studies.",
+            "domain": "literature",
+            "v_score": 0.259,
+            "q_grade": 0.827,
+            "s_rel": 0.0,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Atorvastatin, Spironolactone, Furosemide, Lactulose pathway",
+            "domain": "drug",
+            "v_score": 0.191,
+            "q_grade": 0.75,
+            "s_rel": 0.179,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Renin-angiotensin-aldosterone system inhibitors (RAASi) and mineralocorticoid receptor antagonists (MRAs) are key drugs in the management of patients with cardiovascular diseases (CVD), particularly those with hypertension, diabetes, chronic kidney disease and heart failure (HF), given their demonstrated effectiveness in reducing the risk of both surrogate and hard endpoints.",
+            "domain": "clinical",
+            "v_score": 0.148,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-006",
+      "title": "Fatal Colchicine-Clarithromycin Triad Collision in CKD Stage 4",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Chronic kidney disease, stage 4",
+          "Acute gouty arthritis (podagra)",
+          "Community-acquired pneumonia"
+        ],
+        "medications": [
+          "Clarithromycin 500 mg twice daily",
+          "Colchicine 0.6 mg orally",
+          "Allopurinol 100 mg daily",
+          "Amlodipine 5 mg daily"
+        ],
+        "contraindicated_tokens": [
+          "colchicine",
+          "colcrys"
+        ],
+        "unacceptable_pathways": [
+          "Continue full-dose Colchicine with Clarithromycin",
+          "Dose-escalate Colchicine for persistent pain"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Clarithromycin, Colchicine, Allopurinol, Amlodipine pathway",
+        "domain": "drug",
+        "v_score": 0.302,
+        "q_grade": 0.75,
+        "s_rel": 0.33,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'colchicine'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+        "domain": "literature",
+        "v_score": 0.386,
+        "q_grade": 0.627,
+        "s_rel": 0.0,
+        "t_recent": 0.65,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Continue Clarithromycin, Colchicine, Allopurinol, Amlodipine pathway",
+        "domain": "drug",
+        "v_score": 0.252,
+        "q_grade": 0.75,
+        "s_rel": 0.33,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'colchicine'"
+        ],
+        "candidate_changed_rank": false,
+        "candidate_category": "contraindicated_treatment",
+        "candidate_category_description": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+        "safety_transition": "remained_unsafe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Clarithromycin, Colchicine, Allopurinol, Amlodipine pathway",
+            "domain": "drug",
+            "v_score": 0.302,
+            "q_grade": 0.75,
+            "s_rel": 0.33,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+            "domain": "clinical",
+            "v_score": 0.271,
+            "q_grade": 0.82,
+            "s_rel": 0.172,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.245,
+            "q_grade": 0.627,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.386,
+            "q_grade": 0.627,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.172,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Clarithromycin, Colchicine, Allopurinol, Amlodipine pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.33,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Continue Clarithromycin, Colchicine, Allopurinol, Amlodipine pathway",
+            "domain": "drug",
+            "v_score": 0.252,
+            "q_grade": 0.75,
+            "s_rel": 0.33,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+            "domain": "clinical",
+            "v_score": 0.217,
+            "q_grade": 0.82,
+            "s_rel": 0.172,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.179,
+            "q_grade": 0.627,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-007",
+      "title": "Nitrofurantoin Neuro-Pulmonary Toxicity Collision in Advanced CKD",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Acute uncomplicated cystitis",
+          "Chronic kidney disease, stage 4",
+          "Osteopenia"
+        ],
+        "medications": [
+          "Nitrofurantoin monohydrate/macrocrystals 100 mg twice daily",
+          "Calcium carbonate 500 mg daily",
+          "Vitamin D3 1000 IU daily"
+        ],
+        "contraindicated_tokens": [
+          "nitrofurantoin",
+          "macrobid",
+          "macrodantin"
+        ],
+        "unacceptable_pathways": [
+          "Continue Nitrofurantoin 100 mg twice daily for 7 days",
+          "Double Nitrofurantoin dose for low urinary concentration"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Nitrofurantoin, Carbonate, Vitamin pathway",
+        "domain": "drug",
+        "v_score": 0.342,
+        "q_grade": 0.75,
+        "s_rel": 0.464,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'nitrofurantoin'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+        "domain": "clinical",
+        "v_score": 0.372,
+        "q_grade": 0.82,
+        "s_rel": 0.036,
+        "t_recent": 0.75,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Continue Nitrofurantoin, Carbonate, Vitamin pathway",
+        "domain": "drug",
+        "v_score": 0.305,
+        "q_grade": 0.75,
+        "s_rel": 0.464,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'nitrofurantoin'"
+        ],
+        "candidate_changed_rank": false,
+        "candidate_category": "contraindicated_treatment",
+        "candidate_category_description": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+        "safety_transition": "remained_unsafe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Nitrofurantoin, Carbonate, Vitamin pathway",
+            "domain": "drug",
+            "v_score": 0.342,
+            "q_grade": 0.75,
+            "s_rel": 0.464,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "literature",
+            "v_score": 0.232,
+            "q_grade": 0.55,
+            "s_rel": 0.048,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+            "domain": "clinical",
+            "v_score": 0.23,
+            "q_grade": 0.82,
+            "s_rel": 0.036,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.036,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Nitrofurantoin, Carbonate, Vitamin pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.464,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "literature",
+            "v_score": 0.348,
+            "q_grade": 0.55,
+            "s_rel": 0.048,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Continue Nitrofurantoin, Carbonate, Vitamin pathway",
+            "domain": "drug",
+            "v_score": 0.305,
+            "q_grade": 0.75,
+            "s_rel": 0.464,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+            "domain": "literature",
+            "v_score": 0.167,
+            "q_grade": 0.55,
+            "s_rel": 0.048,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease (CKD) updates the KDIGO 2012 guideline and has been developed with patient partners, clinicians, and researchers around the world, using robust methodology.",
+            "domain": "clinical",
+            "v_score": 0.162,
+            "q_grade": 0.82,
+            "s_rel": 0.036,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-008",
+      "title": "Spironolactone Initiation Collision in HFrEF with Baseline Hyperkalemia",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Heart failure with reduced ejection fraction",
+          "Chronic kidney disease, stage 3b",
+          "Hypertension"
+        ],
+        "medications": [
+          "Lisinopril 20 mg daily",
+          "Metoprolol succinate 100 mg daily",
+          "Furosemide 40 mg daily",
+          "Spironolactone 25 mg daily"
+        ],
+        "contraindicated_tokens": [
+          "spironolactone",
+          "aldactone",
+          "eplerenone",
+          "inspra"
+        ],
+        "unacceptable_pathways": [
+          "Initiate Spironolactone 25 mg daily immediately",
+          "Initiate Eplerenone 25 mg daily"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Lisinopril, Metoprolol, Furosemide, Spironolactone pathway",
+        "domain": "drug",
+        "v_score": 0.33,
+        "q_grade": 0.75,
+        "s_rel": 0.425,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'spironolactone'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+        "domain": "clinical",
+        "v_score": 0.372,
+        "q_grade": 0.82,
+        "s_rel": 0.286,
+        "t_recent": 0.75,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+        "domain": "literature",
+        "v_score": 0.304,
+        "q_grade": 0.703,
+        "s_rel": 0.238,
+        "t_recent": 0.0,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Lisinopril, Metoprolol, Furosemide, Spironolactone pathway",
+            "domain": "drug",
+            "v_score": 0.33,
+            "q_grade": 0.75,
+            "s_rel": 0.425,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.305,
+            "q_grade": 0.82,
+            "s_rel": 0.286,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.245,
+            "q_grade": 0.703,
+            "s_rel": 0.238,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.286,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Lisinopril, Metoprolol, Furosemide, Spironolactone pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.425,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.261,
+            "q_grade": 0.703,
+            "s_rel": 0.238,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.304,
+            "q_grade": 0.703,
+            "s_rel": 0.238,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Lisinopril, Metoprolol, Furosemide, Spironolactone pathway",
+            "domain": "drug",
+            "v_score": 0.29,
+            "q_grade": 0.75,
+            "s_rel": 0.425,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.262,
+            "q_grade": 0.82,
+            "s_rel": 0.286,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-009",
+      "title": "Prolonged Triple Antithrombotic Therapy Collision in AFib Post-PCI",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Non-valvular atrial fibrillation",
+          "Coronary artery disease s/p drug-eluting stent",
+          "Prior peptic ulcer bleeding"
+        ],
+        "medications": [
+          "Aspirin 81 mg daily",
+          "Clopidogrel 75 mg daily",
+          "Apixaban 5 mg twice daily",
+          "Pantoprazole 40 mg daily",
+          "Metoprolol succinate 50 mg daily"
+        ],
+        "contraindicated_tokens": [
+          "triple antithrombotic therapy",
+          "triple therapy",
+          "aspirin and clopidogrel and apixaban"
+        ],
+        "unacceptable_pathways": [
+          "Continue triple therapy for 6 months",
+          "Add third antiplatelet agent (Prasugrel/Ticagrelor) to DOAC"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Aspirin, Clopidogrel, Apixaban, Pantoprazole, Metoprolol pathway",
+        "domain": "drug",
+        "v_score": 0.294,
+        "q_grade": 0.75,
+        "s_rel": 0.306,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_combination: 'aspirin and clopidogrel and apixaban'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+        "domain": "clinical",
+        "v_score": 0.36,
+        "q_grade": 0.82,
+        "s_rel": 0.178,
+        "t_recent": 0.7,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+        "domain": "literature",
+        "v_score": 0.271,
+        "q_grade": 0.703,
+        "s_rel": 0.155,
+        "t_recent": 0.0,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "became_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Aspirin, Clopidogrel, Apixaban, Pantoprazole, Metoprolol pathway",
+            "domain": "drug",
+            "v_score": 0.294,
+            "q_grade": 0.75,
+            "s_rel": 0.306,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+            "domain": "clinical",
+            "v_score": 0.265,
+            "q_grade": 0.82,
+            "s_rel": 0.178,
+            "t_recent": 0.7,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.221,
+            "q_grade": 0.703,
+            "s_rel": 0.155,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+            "domain": "clinical",
+            "v_score": 0.36,
+            "q_grade": 0.82,
+            "s_rel": 0.178,
+            "t_recent": 0.7,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Aspirin, Clopidogrel, Apixaban, Pantoprazole, Metoprolol pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.306,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.261,
+            "q_grade": 0.703,
+            "s_rel": 0.155,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.271,
+            "q_grade": 0.703,
+            "s_rel": 0.155,
+            "t_recent": 0.0,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Aspirin, Clopidogrel, Apixaban, Pantoprazole, Metoprolol pathway",
+            "domain": "drug",
+            "v_score": 0.242,
+            "q_grade": 0.75,
+            "s_rel": 0.306,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+            "domain": "clinical",
+            "v_score": 0.219,
+            "q_grade": 0.82,
+            "s_rel": 0.178,
+            "t_recent": 0.7,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-010",
+      "title": "High-Dose Citalopram Collision with Baseline Long QT Syndrome",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Major depressive disorder, recurrent",
+          "Acquired QTc prolongation",
+          "Osteoarthritis"
+        ],
+        "medications": [
+          "Citalopram 40 mg daily",
+          "Acetaminophen 500 mg as needed"
+        ],
+        "contraindicated_tokens": [
+          "citalopram",
+          "celexa"
+        ],
+        "unacceptable_pathways": [
+          "Maintain Citalopram 40 mg daily",
+          "Increase Citalopram to 60 mg daily"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Citalopram, Acetaminophen pathway",
+        "domain": "drug",
+        "v_score": 0.306,
+        "q_grade": 0.75,
+        "s_rel": 0.346,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'citalopram'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+        "domain": "literature",
+        "v_score": 0.409,
+        "q_grade": 0.673,
+        "s_rel": 0.0,
+        "t_recent": 0.65,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Continue Citalopram, Acetaminophen pathway",
+        "domain": "drug",
+        "v_score": 0.258,
+        "q_grade": 0.75,
+        "s_rel": 0.346,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'citalopram'"
+        ],
+        "candidate_changed_rank": false,
+        "candidate_category": "contraindicated_treatment",
+        "candidate_category_description": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+        "safety_transition": "remained_unsafe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Citalopram, Acetaminophen pathway",
+            "domain": "drug",
+            "v_score": 0.306,
+            "q_grade": 0.75,
+            "s_rel": 0.346,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+            "domain": "literature",
+            "v_score": 0.261,
+            "q_grade": 0.673,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.219,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+            "domain": "literature",
+            "v_score": 0.409,
+            "q_grade": 0.673,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Citalopram, Acetaminophen pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.346,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Continue Citalopram, Acetaminophen pathway",
+            "domain": "drug",
+            "v_score": 0.258,
+            "q_grade": 0.75,
+            "s_rel": 0.346,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "OBJECTIVES: Uncontrolled hypertension is a main predisposing risk factor leading to chronic atrial fibrillation (AF).",
+            "domain": "literature",
+            "v_score": 0.197,
+            "q_grade": 0.673,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
+            "domain": "clinical",
+            "v_score": 0.148,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-011",
+      "title": "ACE Inhibitor-Induced Lithium Neurotoxicity Collision",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Bipolar I disorder, euthymic",
+          "Primary essential hypertension, stage 2"
+        ],
+        "medications": [
+          "Lithium carbonate 600 mg twice daily",
+          "Lisinopril 20 mg daily"
+        ],
+        "contraindicated_tokens": [
+          "lisinopril with lithium",
+          "ace inhibitor with lithium"
+        ],
+        "unacceptable_pathways": [
+          "Continue standard Lisinopril 20 mg without lithium level monitoring",
+          "Add thiazide diuretic to regimen"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Lithium, Lisinopril pathway",
+        "domain": "drug",
+        "v_score": 0.307,
+        "q_grade": 0.75,
+        "s_rel": 0.348,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_combination: 'lisinopril with lithium'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+        "domain": "clinical",
+        "v_score": 0.372,
+        "q_grade": 0.82,
+        "s_rel": 0.0,
+        "t_recent": 0.75,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Continue Lithium, Lisinopril pathway",
+        "domain": "drug",
+        "v_score": 0.259,
+        "q_grade": 0.75,
+        "s_rel": 0.348,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_combination: 'lisinopril with lithium'"
+        ],
+        "candidate_changed_rank": false,
+        "candidate_category": "contraindicated_treatment",
+        "candidate_category_description": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+        "safety_transition": "remained_unsafe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Lithium, Lisinopril pathway",
+            "domain": "drug",
+            "v_score": 0.307,
+            "q_grade": 0.75,
+            "s_rel": 0.348,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.219,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension is the leading cause of death worldwide, affecting 1.4 billion people.",
+            "domain": "literature",
+            "v_score": 0.218,
+            "q_grade": 0.55,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Lithium, Lisinopril pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.348,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension is the leading cause of death worldwide, affecting 1.4 billion people.",
+            "domain": "literature",
+            "v_score": 0.348,
+            "q_grade": 0.55,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Continue Lithium, Lisinopril pathway",
+            "domain": "drug",
+            "v_score": 0.259,
+            "q_grade": 0.75,
+            "s_rel": 0.348,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.148,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension is the leading cause of death worldwide, affecting 1.4 billion people.",
+            "domain": "literature",
+            "v_score": 0.148,
+            "q_grade": 0.55,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-012",
+      "title": "Omeprazole CYP2C19 Antagonism Collision in Stented Patient",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Coronary artery disease s/p drug-eluting stent (DES)",
+          "Severe GERD with erosive esophagitis"
+        ],
+        "medications": [
+          "Clopidogrel 75 mg daily",
+          "Aspirin 81 mg daily",
+          "Omeprazole 40 mg daily",
+          "Atorvastatin 40 mg daily"
+        ],
+        "contraindicated_tokens": [
+          "omeprazole",
+          "prilosec",
+          "esomeprazole",
+          "nexium"
+        ],
+        "unacceptable_pathways": [
+          "Continue Omeprazole 40 mg with Clopidogrel",
+          "Switch to Esomeprazole 40 mg"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Clopidogrel, Aspirin, Omeprazole, Atorvastatin pathway",
+        "domain": "drug",
+        "v_score": 0.261,
+        "q_grade": 0.75,
+        "s_rel": 0.195,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'omeprazole'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "Continue Clopidogrel, Aspirin, Omeprazole, Atorvastatin pathway",
+        "domain": "drug",
+        "v_score": 0.35,
+        "q_grade": 0.75,
+        "s_rel": 0.195,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'omeprazole'"
+        ],
+        "candidate_changed_rank": false,
+        "candidate_category": "contraindicated_treatment",
+        "candidate_category_description": "A treatment proposal that continues or escalates the contraindicated regimen, violating clinical safety.",
+        "safety_transition": "remained_unsafe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+        "domain": "literature",
+        "v_score": 0.221,
+        "q_grade": 0.627,
+        "s_rel": 0.105,
+        "t_recent": 0.35,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "became_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Clopidogrel, Aspirin, Omeprazole, Atorvastatin pathway",
+            "domain": "drug",
+            "v_score": 0.261,
+            "q_grade": 0.75,
+            "s_rel": 0.195,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.231,
+            "q_grade": 0.627,
+            "s_rel": 0.105,
+            "t_recent": 0.35,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+            "domain": "clinical",
+            "v_score": 0.204,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "Continue Clopidogrel, Aspirin, Omeprazole, Atorvastatin pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.195,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+            "domain": "clinical",
+            "v_score": 0.348,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.311,
+            "q_grade": 0.627,
+            "s_rel": 0.105,
+            "t_recent": 0.35,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.221,
+            "q_grade": 0.627,
+            "s_rel": 0.105,
+            "t_recent": 0.35,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Clopidogrel, Aspirin, Omeprazole, Atorvastatin pathway",
+            "domain": "drug",
+            "v_score": 0.198,
+            "q_grade": 0.75,
+            "s_rel": 0.195,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+            "domain": "clinical",
+            "v_score": 0.148,
+            "q_grade": 0.82,
+            "s_rel": 0.0,
+            "t_recent": 0.65,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-013",
+      "title": "Fatal Vasodilatory Hypotension Collision: Nitroglycerin & Sildenafil",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Chronic stable angina pectoris",
+          "Erectile dysfunction",
+          "Hyperlipidemia"
+        ],
+        "medications": [
+          "Isosorbide mononitrate 60 mg daily",
+          "Nitroglycerin 0.4 mg SL PRN",
+          "Atenolol 50 mg daily",
+          "Sildenafil 50 mg PRN"
+        ],
+        "contraindicated_tokens": [
+          "sildenafil",
+          "viagra",
+          "tadalafil",
+          "cialis",
+          "vardenafil",
+          "levitra"
+        ],
+        "unacceptable_pathways": [
+          "Co-prescribe Sildenafil with Isosorbide mononitrate",
+          "Advise taking Sildenafil 1 hour before scheduled nitrate"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Isosorbide, Nitroglycerin, Atenolol, Sildenafil pathway",
+        "domain": "drug",
+        "v_score": 0.308,
+        "q_grade": 0.75,
+        "s_rel": 0.351,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'sildenafil'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+        "domain": "literature",
+        "v_score": 0.436,
+        "q_grade": 0.827,
+        "s_rel": 0.013,
+        "t_recent": 0.45,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+        "domain": "literature",
+        "v_score": 0.264,
+        "q_grade": 0.827,
+        "s_rel": 0.013,
+        "t_recent": 0.45,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "irrelevant_unresponsive_pathway",
+        "candidate_category_description": "An irrelevant or off-target snippet from an unrelated disease domain, unresponsive to the patient presentation.",
+        "safety_transition": "became_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Isosorbide, Nitroglycerin, Atenolol, Sildenafil pathway",
+            "domain": "drug",
+            "v_score": 0.308,
+            "q_grade": 0.75,
+            "s_rel": 0.351,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.289,
+            "q_grade": 0.827,
+            "s_rel": 0.013,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 2
+          },
+          {
+            "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+            "domain": "clinical",
+            "v_score": 0.222,
+            "q_grade": 0.82,
+            "s_rel": 0.009,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.436,
+            "q_grade": 0.827,
+            "s_rel": 0.013,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.009,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Isosorbide, Nitroglycerin, Atenolol, Sildenafil pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.351,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "Hypertension and hyperlipidemia are potent cardiovascular risk factors.",
+            "domain": "literature",
+            "v_score": 0.264,
+            "q_grade": 0.827,
+            "s_rel": 0.013,
+            "t_recent": 0.45,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Isosorbide, Nitroglycerin, Atenolol, Sildenafil pathway",
+            "domain": "drug",
+            "v_score": 0.261,
+            "q_grade": 0.75,
+            "s_rel": 0.351,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
+            "domain": "clinical",
+            "v_score": 0.152,
+            "q_grade": 0.82,
+            "s_rel": 0.009,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "COL-014",
+      "title": "Negative Inotrope Decompensation Collision: Diltiazem in HFrEF",
+      "category": null,
+      "patient": {
+        "diseases": [
+          "Heart failure with reduced ejection fraction",
+          "Atrial fibrillation with rapid ventricular response"
+        ],
+        "medications": [
+          "Diltiazem CD 240 mg daily",
+          "Furosemide 40 mg daily",
+          "Sacubitril/Valsartan 49/51 mg twice daily",
+          "Apixaban 5 mg twice daily"
+        ],
+        "contraindicated_tokens": [
+          "diltiazem",
+          "cardizem",
+          "tiazac",
+          "verapamil",
+          "calan"
+        ],
+        "unacceptable_pathways": [
+          "Continue Diltiazem 240 mg daily",
+          "Switch to Verapamil 240 mg daily"
+        ]
+      },
+      "baseline": {
+        "selected_candidate": "Continue Diltiazem, Furosemide, Sacubitril, Apixaban pathway",
+        "domain": "drug",
+        "v_score": 0.278,
+        "q_grade": 0.75,
+        "s_rel": 0.252,
+        "t_recent": 0.8,
+        "p_risk": 0.9,
+        "safety_violation": true,
+        "violation_details": [
+          "contraindicated_token: 'diltiazem'"
+        ],
+        "candidate_category": "contraindicated_treatment"
+      },
+      "ablation_4_no_relevance": {
+        "selected_candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+        "domain": "clinical",
+        "v_score": 0.372,
+        "q_grade": 0.82,
+        "s_rel": 0.186,
+        "t_recent": 0.75,
+        "p_risk": 0.9,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "ablation_3_no_recency": {
+        "selected_candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+        "domain": "literature",
+        "v_score": 0.255,
+        "q_grade": 0.627,
+        "s_rel": 0.191,
+        "t_recent": 0.4,
+        "p_risk": 0.36,
+        "safety_violation": false,
+        "violation_details": [],
+        "candidate_changed_rank": true,
+        "candidate_category": "generic_guideline_pathway",
+        "candidate_category_description": "A high-level guideline preamble or general disease-level statement from the relevant domain, lacking specific resolution.",
+        "safety_transition": "became_safe"
+      },
+      "candidate_pool_analysis": {
+        "baseline_candidates": [
+          {
+            "candidate": "Continue Diltiazem, Furosemide, Sacubitril, Apixaban pathway",
+            "domain": "drug",
+            "v_score": 0.278,
+            "q_grade": 0.75,
+            "s_rel": 0.252,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.275,
+            "q_grade": 0.82,
+            "s_rel": 0.186,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.265,
+            "q_grade": 0.627,
+            "s_rel": 0.191,
+            "t_recent": 0.4,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_4_candidates": [
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.372,
+            "q_grade": 0.82,
+            "s_rel": 0.186,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 1
+          },
+          {
+            "candidate": "Continue Diltiazem, Furosemide, Sacubitril, Apixaban pathway",
+            "domain": "drug",
+            "v_score": 0.35,
+            "q_grade": 0.75,
+            "s_rel": 0.252,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.324,
+            "q_grade": 0.627,
+            "s_rel": 0.191,
+            "t_recent": 0.4,
+            "p_risk": 0.36,
+            "ranking": 3
+          }
+        ],
+        "ablation_3_candidates": [
+          {
+            "candidate": "BACKGROUND: Angiotensin-converting enzyme (ACE) inhibitors are generally prescribed by physicians in doses lower than the large doses that have been shown to reduce morbidity and mortality in patients with heart failure.",
+            "domain": "literature",
+            "v_score": 0.255,
+            "q_grade": 0.627,
+            "s_rel": 0.191,
+            "t_recent": 0.4,
+            "p_risk": 0.36,
+            "ranking": 1
+          },
+          {
+            "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
+            "domain": "clinical",
+            "v_score": 0.222,
+            "q_grade": 0.82,
+            "s_rel": 0.186,
+            "t_recent": 0.75,
+            "p_risk": 0.9,
+            "ranking": 2
+          },
+          {
+            "candidate": "Continue Diltiazem, Furosemide, Sacubitril, Apixaban pathway",
+            "domain": "drug",
+            "v_score": 0.221,
+            "q_grade": 0.75,
+            "s_rel": 0.252,
+            "t_recent": 0.8,
+            "p_risk": 0.9,
+            "ranking": 3
+          }
+        ]
+      }
+    }
+  ]
+}

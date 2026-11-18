@@ -1,0 +1,275 @@
+{
+  "reproducibility": {
+    "benchmark_version": "1.0",
+    "benchmark_file": "data/benchmarks/guideline_collision_v1.json",
+    "evaluation_timestamp": "2026-11-18T04:33:24.495073+00:00",
+    "platform_system": "Windows",
+    "platform_release": "11",
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "chromadb_backend": "PersistentClient (SQLite + DefaultEmbeddingFunction)",
+    "production_weights_active": {
+      "alpha": 0.35,
+      "beta": 0.3,
+      "gamma": 0.15,
+      "delta": 0.2
+    },
+    "evidence_freeze_file": "data/benchmarks/frozen_evidence_v1.json",
+    "total_configurations_evaluated": 6
+  },
+  "reference_baseline": "config_0_baseline",
+  "statistical_comparisons_vs_baseline": {
+    "config_1_no_risk": {
+      "config_name": "Ablation 1 (No Risk Penalty)",
+      "weights": {
+        "alpha": 0.4,
+        "beta": 0.4,
+        "gamma": 0.2,
+        "delta": 0.0
+      },
+      "mcnemar_paired_safety_violations": {
+        "status": "not applicable",
+        "reason": "Perfect concordance; zero discordant pairs observed.",
+        "sample_size": 14,
+        "contingency_table": {
+          "both_safe": 14,
+          "base_only_violate": 0,
+          "dea_only_violate": 0,
+          "both_violate": 0
+        },
+        "discordant_pairs": 0,
+        "statistic": 0.0,
+        "p_value": 1.0,
+        "proportion_difference": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_evidence_grade": {
+        "status": "not applicable",
+        "reason": "All paired differences are zero.",
+        "sample_size": 23,
+        "non_zero_pairs": 0,
+        "w_statistic": 0.0,
+        "z_statistic": 0.0,
+        "p_value": 1.0,
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_v_score": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 23,
+        "w_statistic": 0,
+        "w_plus": 276.0,
+        "w_minus": 0,
+        "z_statistic": -4.1973,
+        "p_value": 2.7e-05,
+        "statistically_significant_at_05": true
+      }
+    },
+    "config_2_no_quality": {
+      "config_name": "Ablation 2 (No Evidence Grade)",
+      "weights": {
+        "alpha": 0.0,
+        "beta": 0.55,
+        "gamma": 0.25,
+        "delta": 0.2
+      },
+      "mcnemar_paired_safety_violations": {
+        "status": "not applicable",
+        "reason": "Perfect concordance; zero discordant pairs observed.",
+        "sample_size": 14,
+        "contingency_table": {
+          "both_safe": 14,
+          "base_only_violate": 0,
+          "dea_only_violate": 0,
+          "both_violate": 0
+        },
+        "discordant_pairs": 0,
+        "statistic": 0.0,
+        "p_value": 1.0,
+        "proportion_difference": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_evidence_grade": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 1,
+        "w_statistic": 0,
+        "w_plus": 0,
+        "w_minus": 1.0,
+        "z_statistic": -1.0,
+        "p_value": 0.317311,
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_v_score": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 23,
+        "w_statistic": 0,
+        "w_plus": 0,
+        "w_minus": 276.0,
+        "z_statistic": -4.1973,
+        "p_value": 2.7e-05,
+        "statistically_significant_at_05": true
+      }
+    },
+    "config_3_no_recency": {
+      "config_name": "Ablation 3 (No Recency)",
+      "weights": {
+        "alpha": 0.4,
+        "beta": 0.4,
+        "gamma": 0.0,
+        "delta": 0.2
+      },
+      "mcnemar_paired_safety_violations": {
+        "status": "not applicable",
+        "reason": "Perfect concordance; zero discordant pairs observed.",
+        "sample_size": 14,
+        "contingency_table": {
+          "both_safe": 14,
+          "base_only_violate": 0,
+          "dea_only_violate": 0,
+          "both_violate": 0
+        },
+        "discordant_pairs": 0,
+        "statistic": 0.0,
+        "p_value": 1.0,
+        "proportion_difference": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_evidence_grade": {
+        "status": "not applicable",
+        "reason": "All paired differences are zero.",
+        "sample_size": 23,
+        "non_zero_pairs": 0,
+        "w_statistic": 0.0,
+        "z_statistic": 0.0,
+        "p_value": 1.0,
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_v_score": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 23,
+        "w_statistic": 0,
+        "w_plus": 0,
+        "w_minus": 276.0,
+        "z_statistic": -4.1973,
+        "p_value": 2.7e-05,
+        "statistically_significant_at_05": true
+      }
+    },
+    "config_4_no_relevance": {
+      "config_name": "Ablation 4 (No Semantic Relevance)",
+      "weights": {
+        "alpha": 0.5,
+        "beta": 0.0,
+        "gamma": 0.25,
+        "delta": 0.25
+      },
+      "mcnemar_paired_safety_violations": {
+        "status": "not applicable",
+        "reason": "Perfect concordance; zero discordant pairs observed.",
+        "sample_size": 14,
+        "contingency_table": {
+          "both_safe": 14,
+          "base_only_violate": 0,
+          "dea_only_violate": 0,
+          "both_violate": 0
+        },
+        "discordant_pairs": 0,
+        "statistic": 0.0,
+        "p_value": 1.0,
+        "proportion_difference": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_evidence_grade": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 5,
+        "w_statistic": 0,
+        "w_plus": 15.0,
+        "w_minus": 0,
+        "z_statistic": -2.0226,
+        "p_value": 0.043114,
+        "statistically_significant_at_05": true
+      },
+      "wilcoxon_v_score": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 23,
+        "w_statistic": 0,
+        "w_plus": 276.0,
+        "w_minus": 0,
+        "z_statistic": -4.1973,
+        "p_value": 2.7e-05,
+        "statistically_significant_at_05": true
+      }
+    },
+    "config_5_uniform": {
+      "config_name": "Ablation 5 (Uniform Weights)",
+      "weights": {
+        "alpha": 0.25,
+        "beta": 0.25,
+        "gamma": 0.25,
+        "delta": 0.25
+      },
+      "mcnemar_paired_safety_violations": {
+        "status": "not applicable",
+        "reason": "Perfect concordance; zero discordant pairs observed.",
+        "sample_size": 14,
+        "contingency_table": {
+          "both_safe": 14,
+          "base_only_violate": 0,
+          "dea_only_violate": 0,
+          "both_violate": 0
+        },
+        "discordant_pairs": 0,
+        "statistic": 0.0,
+        "p_value": 1.0,
+        "proportion_difference": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_evidence_grade": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 1,
+        "w_statistic": 0,
+        "w_plus": 0,
+        "w_minus": 1.0,
+        "z_statistic": -1.0,
+        "p_value": 0.317311,
+        "statistically_significant_at_05": false
+      },
+      "wilcoxon_v_score": {
+        "status": "completed",
+        "sample_size": 23,
+        "non_zero_pairs": 23,
+        "w_statistic": 0,
+        "w_plus": 0,
+        "w_minus": 276.0,
+        "z_statistic": -4.1973,
+        "p_value": 2.7e-05,
+        "statistically_significant_at_05": true
+      }
+    }
+  }
+}

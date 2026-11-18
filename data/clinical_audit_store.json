@@ -1,0 +1,1368 @@
+{
+  "clinical_cases": [
+    {
+      "id": "CASE-2EF8F2A2",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "symptoms": [
+          "Fatigue"
+        ],
+        "lab_values": {
+          "eGFR": "22 mL/min/1.73m²"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "CKD collision demo"
+        ],
+        "weights": {
+          "alpha": 0.2,
+          "beta": 0.2,
+          "gamma": 0.1,
+          "delta": 0.5
+        }
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 75,
+      "createdAt": "2026-11-18T06:09:41.131Z"
+    },
+    {
+      "id": "CASE-37559A91",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "symptoms": [
+          "Fatigue"
+        ],
+        "lab_values": {
+          "eGFR": "22 mL/min/1.73m²"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "CKD collision demo"
+        ]
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 75,
+      "createdAt": "2026-11-18T06:09:30.558Z"
+    },
+    {
+      "id": "CASE-72B1B169",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "symptoms": [
+          "Fatigue"
+        ],
+        "lab_values": {
+          "eGFR": "22 mL/min/1.73m²"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "CKD collision demo"
+        ],
+        "weights": {
+          "alpha": 0.2,
+          "beta": 0.2,
+          "gamma": 0.1,
+          "delta": 0.5
+        }
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 75,
+      "createdAt": "2026-11-18T05:43:27.186Z"
+    },
+    {
+      "id": "CASE-B4A15640",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "symptoms": [
+          "Fatigue"
+        ],
+        "lab_values": {
+          "eGFR": "22 mL/min/1.73m²"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "CKD collision demo"
+        ]
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 75,
+      "createdAt": "2026-11-18T05:43:17.269Z"
+    }
+  ],
+  "arbitration_reports": [
+    {
+      "id": "REP-MWLQ1N2J-2EF8F2",
+      "caseId": "CASE-2EF8F2A2",
+      "deaWeightsJson": {
+        "alpha": 0.2,
+        "beta": 0.2,
+        "gamma": 0.1,
+        "delta": 0.5
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.251,
+          "score": 0.251,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.17,
+          "score": 0.17,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": -0.215,
+          "score": -0.715,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.251 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.888,
+          "confidence": 0.888,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "2ef8f2a21376173c9d994dd23ad2ed6dad552373ebe4bf2eb8507476d8431a28",
+      "createdAt": "2026-11-18T06:09:41.131Z"
+    },
+    {
+      "id": "REP-MWLQ1EWT-37559A",
+      "caseId": "CASE-37559A91",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.472,
+          "score": 0.472,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.365,
+          "score": 0.365,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.237,
+          "score": -0.263,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.472 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.889,
+          "confidence": 0.889,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "37559a91909140fe72a1d6854fedc97256a487fe0ab0186d0a46371dfb028800",
+      "createdAt": "2026-11-18T06:09:30.558Z"
+    },
+    {
+      "id": "REP-MWLP5WXX-2EF8F2",
+      "caseId": "CASE-2EF8F2A2",
+      "deaWeightsJson": {
+        "alpha": 0.2,
+        "beta": 0.2,
+        "gamma": 0.1,
+        "delta": 0.5
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.251,
+          "score": 0.251,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.17,
+          "score": 0.17,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": -0.215,
+          "score": -0.715,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.251 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.888,
+          "confidence": 0.888,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "2ef8f2a21376173c9d994dd23ad2ed6dad552373ebe4bf2eb8507476d8431a28",
+      "createdAt": "2026-11-18T05:45:00.933Z"
+    },
+    {
+      "id": "REP-MWLP5PCT-37559A",
+      "caseId": "CASE-37559A91",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.472,
+          "score": 0.472,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.365,
+          "score": 0.365,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.237,
+          "score": -0.263,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.472 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.889,
+          "confidence": 0.889,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "37559a91909140fe72a1d6854fedc97256a487fe0ab0186d0a46371dfb028800",
+      "createdAt": "2026-11-18T05:44:51.101Z"
+    },
+    {
+      "id": "REP-MWLP3WLU-72B1B1",
+      "caseId": "CASE-72B1B169",
+      "deaWeightsJson": {
+        "alpha": 0.2,
+        "beta": 0.2,
+        "gamma": 0.1,
+        "delta": 0.5
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.251,
+          "score": 0.251,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.17,
+          "score": 0.17,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": -0.215,
+          "score": -0.715,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.251 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.888,
+          "confidence": 0.888,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "72b1b1692e62f82cfe950b89ad176ea9eb076b2de2c026845268387d6cf9f4f9",
+      "createdAt": "2026-11-18T05:43:27.186Z"
+    },
+    {
+      "id": "REP-MWLP3OYD-B4A156",
+      "caseId": "CASE-B4A15640",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.472,
+          "score": 0.472,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.365,
+          "score": 0.365,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.237,
+          "score": -0.263,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.472 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.889,
+          "confidence": 0.889,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b4a156402669c6febf88b0bbdcac073a88863aeecec1fe73c07639eb460ac225",
+      "createdAt": "2026-11-18T05:43:17.269Z"
+    },
+    {
+      "id": "REP-MWLP2D4C-72B1B1",
+      "caseId": "CASE-72B1B169",
+      "deaWeightsJson": {
+        "alpha": 0.2,
+        "beta": 0.2,
+        "gamma": 0.1,
+        "delta": 0.5
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.251,
+          "score": 0.251,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.17,
+          "score": 0.17,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": -0.215,
+          "score": -0.715,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.251 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.888,
+          "confidence": 0.888,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "72b1b1692e62f82cfe950b89ad176ea9eb076b2de2c026845268387d6cf9f4f9",
+      "createdAt": "2026-11-18T05:42:15.276Z"
+    },
+    {
+      "id": "REP-MWLP24LI-B4A156",
+      "caseId": "CASE-B4A15640",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+          "q_grade": 0.82,
+          "s_rel": 0.36,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.472,
+          "score": 0.472,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.55,
+          "s_rel": 0.374,
+          "t_recent": 0.6,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.365,
+          "score": 0.365,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.15,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.237,
+          "score": -0.263,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 22 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "CONFIRMED_CONFLICT",
+          "evidence_linkage": "VERIFIED",
+          "provenance": {
+            "source_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "chunk_id": "dailymed:e087ce3b-8d7f-43a3-8d20-54513da7617d",
+            "source_title": "METFORMIN HYDROCHLORIDE SOLUTION [VISTAPHARM, LLC]",
+            "relevant_excerpt": "Metformin hydrochloride oral solution is contraindicated in patients with an estimated glomerular filtration rate (eGFR) below 30 mL/minute/1.73 m2.",
+            "match_rationale": "Retrieved FDA prescribing information confirms severe renal impairment (eGFR < 30 mL/min/1.73m²) contraindication due to fatal lactic acidosis risk."
+          },
+          "clinical_governance_status": "ESTABLISHED_FDA_CONTRAINDICATION"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.\" highest at 0.472 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.36, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.692,
+          "semantic_similarity": 0.889,
+          "confidence": 0.889,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 1,
+        "total_list_b": 1,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b4a156402669c6febf88b0bbdcac073a88863aeecec1fe73c07639eb460ac225",
+      "createdAt": "2026-11-18T05:42:04.232Z"
+    }
+  ],
+  "doctor_decisions": [
+    {
+      "id": "DEC-MWLQ1N2S-9OG9",
+      "reportId": "REP-MWLQ1EWT-37559A",
+      "clinicianName": "Dr. Meredith Grey, MD (Attending)",
+      "selectedCandidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+      "actionTaken": "accepted_top_dea",
+      "overrideReason": null,
+      "signedAt": "2026-11-18T06:09:41.140Z"
+    },
+    {
+      "id": "DEC-MWLP5WY4-UOAW",
+      "reportId": "REP-MWLP5PCT-37559A",
+      "clinicianName": "Dr. Meredith Grey, MD (Attending)",
+      "selectedCandidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+      "actionTaken": "accepted_top_dea",
+      "overrideReason": null,
+      "signedAt": "2026-11-18T05:45:00.940Z"
+    },
+    {
+      "id": "DEC-MWLP3WM0-WODV",
+      "reportId": "REP-MWLP3OYD-B4A156",
+      "clinicianName": "Dr. Meredith Grey, MD (Attending)",
+      "selectedCandidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+      "actionTaken": "accepted_top_dea",
+      "overrideReason": null,
+      "signedAt": "2026-11-18T05:43:27.192Z"
+    },
+    {
+      "id": "DEC-MWLP2D4I-AL62",
+      "reportId": "REP-MWLP24LI-B4A156",
+      "clinicianName": "Dr. Meredith Grey, MD (Attending)",
+      "selectedCandidate": "The Kidney Disease: Improving Global Outcomes (KDIGO) 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease (CKD) represents a focused update of the KDIGO 2020 guideline on the topic.",
+      "actionTaken": "accepted_top_dea",
+      "overrideReason": null,
+      "signedAt": "2026-11-18T05:42:15.282Z"
+    }
+  ]
+}

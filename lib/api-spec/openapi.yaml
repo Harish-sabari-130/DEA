@@ -18,6 +18,8 @@ tags:
     description: Research evaluation framework
   - name: ingestion
     description: Knowledge silo ingestion
+  - name: reconciliation
+    description: Clinical medication reconciliation operations
 paths:
   /healthz:
     get:
@@ -126,6 +128,46 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/KnowledgeStats"
+  /reconcile:
+    post:
+      operationId: reconcileMedications
+      tags: [reconciliation]
+      summary: Reconcile medication lists and detect omissions, discrepancies, and high-risk interactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReconciliationInput"
+      responses:
+        "200":
+          description: Medication reconciliation report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MedicationReconciliationReport"
+        "400":
+          description: Invalid reconciliation input
+  /what-if:
+    post:
+      operationId: whatIfSimulation
+      tags: [analysis]
+      summary: Fast What-If simulation with modified clinical parameters and custom DEA weights
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WhatIfInput"
+      responses:
+        "200":
+          description: Simulation analysis report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisReport"
+        "400":
+          description: Invalid simulation input
 components:
   schemas:
     HealthStatus:
@@ -151,6 +193,9 @@ components:
         medications:
           type: array
           items: { type: string }
+        secondary_medications:
+          type: array
+          items: { type: string }
         symptoms:
           type: array
           items: { type: string }
@@ -163,6 +208,8 @@ components:
         conditions:
           type: array
           items: { type: string }
+        weights:
+          $ref: "#/components/schemas/DEAWeights"
     Evidence:
       type: object
       required: [id, title, source, year, domain, excerpt, evidence_grade, relevance, recency, risk_level]
@@ -241,6 +288,14 @@ components:
         description: { type: string }
         affected_treatment: { type: string }
         risk_factor: { type: string }
+        status: { type: string }
+        evidence_linkage: { type: string }
+        engineering_assumption: { type: string }
+        heuristic_fallback: { type: boolean }
+        transaminase_evaluation_method: { type: string }
+        provenance:
+          type: ["object", "null"]
+          additionalProperties: true
     CandidateScore:
       type: object
       required: [candidate, q_grade, s_rel, t_recent, p_risk, score, ranking, source]
@@ -253,6 +308,9 @@ components:
         score: { type: number }
         ranking: { type: number }
         source: { type: string }
+        contraindicated_flag: { type: boolean }
+        safety_rationale: { type: string }
+        silo: { type: string }
     DEAResult:
       type: object
       required: [weights, candidates, method_note]
@@ -292,6 +350,11 @@ components:
         limitations: { type: array, items: { type: string } }
         disclaimer: { type: string }
         generated_at: { type: string }
+        claim_verifications:
+          type: array
+          items: { $ref: "#/components/schemas/ClaimVerification" }
+        routing: { $ref: "#/components/schemas/SmartRouting" }
+        reconciliation: { $ref: "#/components/schemas/MedicationReconciliationReport" }
         retrieval_status:
           type: object
           required: [database, embedding_provider, silo_isolation, top_k]
@@ -323,12 +386,22 @@ components:
         status: { type: string }
         value:
           type: ["number", "null"]
+        single_agent_value:
+          type: ["number", "null"]
+        multi_agent_value:
+          type: ["number", "null"]
+        dea_value:
+          type: ["number", "null"]
+        unit:
+          type: ["string", "null"]
     EvaluationResult:
       type: object
       required: [dataset_name, benchmark_status, metrics]
       properties:
         dataset_name: { type: string }
         benchmark_status: { type: string }
+        cases_evaluated:
+          type: ["number", "null"]
         metrics: { type: array, items: { $ref: "#/components/schemas/EvaluationMetric" } }
     IngestDocumentInput:
       type: object
@@ -374,4 +447,111 @@ components:
         database_path: { type: string }
         embedding_provider: { type: string }
         silos: { type: array, items: { $ref: "#/components/schemas/KnowledgeSilo" } }
+    DEAWeights:
+      type: object
+      required: [alpha, beta, gamma, delta]
+      properties:
+        alpha: { type: number }
+        beta: { type: number }
+        gamma: { type: number }
+        delta: { type: number }
+    ClaimVerification:
+      type: object
+      required: [claim, status]
+      properties:
+        claim: { type: string }
+        status:
+          type: string
+          enum: [supported, weak, unsupported]
+        confidence: { type: number }
+        source_title: { type: string }
+        source_id: { type: string }
+        identifier: { type: string }
+        matched_excerpt: { type: string }
+        domain: { type: string }
+        token_overlap: { type: number }
+    SmartRouting:
+      type: object
+      required: [tier, needs_doctor_review, complexity_score, recommended_model, routing_reasons]
+      properties:
+        tier: { type: string }
+        needs_doctor_review: { type: boolean }
+        complexity_score: { type: number }
+        recommended_model: { type: string }
+        routing_reasons:
+          type: array
+          items: { type: string }
+    MedicationDiscrepancy:
+      type: object
+      properties:
+        type: { type: string }
+        medication: { type: string }
+        admission_dose: { type: string }
+        discharge_dose: { type: string }
+        admission_frequency: { type: string }
+        discharge_frequency: { type: string }
+        details: { type: string }
+        risk_level: { type: string }
+        clinical_hazard: { type: string }
+    MedicationReconciliationReport:
+      type: object
+      required: [has_discrepancy, has_high_risk_discrepancy]
+      properties:
+        total_list_a: { type: number }
+        total_list_b: { type: number }
+        missing_in_discharge:
+          type: array
+          items: { type: string }
+        added_in_discharge:
+          type: array
+          items: { type: string }
+        dose_discrepancy:
+          type: array
+          items:
+            $ref: "#/components/schemas/MedicationDiscrepancy"
+        frequency_discrepancy:
+          type: array
+          items:
+            $ref: "#/components/schemas/MedicationDiscrepancy"
+        therapeutic_duplications:
+          type: array
+          items:
+            $ref: "#/components/schemas/MedicationDiscrepancy"
+        high_risk_discrepancies:
+          type: array
+          items:
+            $ref: "#/components/schemas/MedicationDiscrepancy"
+        has_discrepancy: { type: boolean }
+        has_high_risk_discrepancy: { type: boolean }
+        discrepancies:
+          type: array
+          items:
+            $ref: "#/components/schemas/MedicationDiscrepancy"
+        summary: { type: string }
+        safe_to_proceed: { type: boolean }
+    ReconciliationInput:
+      type: object
+      properties:
+        clinic_medications:
+          type: array
+          items: { type: string }
+        discharge_medications:
+          type: array
+          items: { type: string }
+        list_a:
+          type: array
+          items: { type: string }
+        list_b:
+          type: array
+          items: { type: string }
+        patient:
+          $ref: "#/components/schemas/PatientProfileInput"
+    WhatIfInput:
+      type: object
+      required: [patient]
+      properties:
+        patient:
+          $ref: "#/components/schemas/PatientProfileInput"
+        weights:
+          $ref: "#/components/schemas/DEAWeights"
 

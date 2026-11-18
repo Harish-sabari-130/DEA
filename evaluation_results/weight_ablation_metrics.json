@@ -1,0 +1,207 @@
+{
+  "reproducibility": {
+    "benchmark_version": "1.0",
+    "benchmark_file": "data/benchmarks/guideline_collision_v1.json",
+    "evaluation_timestamp": "2026-11-18T04:33:24.495073+00:00",
+    "platform_system": "Windows",
+    "platform_release": "11",
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "chromadb_backend": "PersistentClient (SQLite + DefaultEmbeddingFunction)",
+    "production_weights_active": {
+      "alpha": 0.35,
+      "beta": 0.3,
+      "gamma": 0.15,
+      "delta": 0.2
+    },
+    "evidence_freeze_file": "data/benchmarks/frozen_evidence_v1.json",
+    "total_configurations_evaluated": 6
+  },
+  "benchmark_summary": {
+    "total_cases": 23,
+    "true_collision_cases": 14,
+    "no_collision_cases": 7,
+    "potential_collision_cases": 2
+  },
+  "metrics_by_configuration": {
+    "config_0_baseline": {
+      "config_id": "config_0_baseline",
+      "name": "Full DEA (Baseline)",
+      "weights": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "description": "Authoritative production weights balancing quality, relevance, recency, and safety.",
+      "hypothesis": "Balanced safety and clinical efficacy baseline.",
+      "safety_violation_rate": 0.0,
+      "safety_violations_count": 0,
+      "high_risk_contraindication_violation_rate": 0.0,
+      "high_risk_violations_count": 0,
+      "conflict_detection_sensitivity": 1.0,
+      "conflict_detection_specificity": 1.0,
+      "status_aware_conflict_diagnostics": {
+        "total_verified_conflicts_fired": 6,
+        "total_coverage_gap_advisories_fired": 10,
+        "total_data_quality_advisories_fired": 0,
+        "total_unknown_alerts_fired": 13,
+        "verified_only_sensitivity": 0.4286,
+        "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+      },
+      "arbitration_accuracy": 0.9565,
+      "mean_evidence_grade": 0.8091,
+      "mean_v_score": 0.4333,
+      "deterministic_stability": 1.0
+    },
+    "config_1_no_risk": {
+      "config_id": "config_1_no_risk",
+      "name": "Ablation 1 (No Risk Penalty)",
+      "weights": {
+        "alpha": 0.4,
+        "beta": 0.4,
+        "gamma": 0.2,
+        "delta": 0.0
+      },
+      "description": "Sets delta=0.0 to test whether the P_risk penalty is necessary for safety.",
+      "hypothesis": "Without risk deduction, unsafe continuation pathways should dominate.",
+      "safety_violation_rate": 0.0,
+      "safety_violations_count": 0,
+      "high_risk_contraindication_violation_rate": 0.0,
+      "high_risk_violations_count": 0,
+      "conflict_detection_sensitivity": 1.0,
+      "conflict_detection_specificity": 1.0,
+      "status_aware_conflict_diagnostics": {
+        "total_verified_conflicts_fired": 6,
+        "total_coverage_gap_advisories_fired": 10,
+        "total_data_quality_advisories_fired": 0,
+        "total_unknown_alerts_fired": 13,
+        "verified_only_sensitivity": 0.4286,
+        "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+      },
+      "arbitration_accuracy": 0.9565,
+      "mean_evidence_grade": 0.8091,
+      "mean_v_score": 0.5541,
+      "deterministic_stability": 1.0
+    },
+    "config_2_no_quality": {
+      "config_id": "config_2_no_quality",
+      "name": "Ablation 2 (No Evidence Grade)",
+      "weights": {
+        "alpha": 0.0,
+        "beta": 0.55,
+        "gamma": 0.25,
+        "delta": 0.2
+      },
+      "description": "Sets alpha=0.0 to test whether OCEBM evidence hierarchy weighting is necessary.",
+      "hypothesis": "Lower-grade evidence with high semantic match outranks clinical guidelines.",
+      "safety_violation_rate": 0.0,
+      "safety_violations_count": 0,
+      "high_risk_contraindication_violation_rate": 0.0,
+      "high_risk_violations_count": 0,
+      "conflict_detection_sensitivity": 1.0,
+      "conflict_detection_specificity": 1.0,
+      "status_aware_conflict_diagnostics": {
+        "total_verified_conflicts_fired": 6,
+        "total_coverage_gap_advisories_fired": 10,
+        "total_data_quality_advisories_fired": 0,
+        "total_unknown_alerts_fired": 13,
+        "verified_only_sensitivity": 0.4286,
+        "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+      },
+      "arbitration_accuracy": 0.9565,
+      "mean_evidence_grade": 0.8017,
+      "mean_v_score": 0.279,
+      "deterministic_stability": 1.0
+    },
+    "config_3_no_recency": {
+      "config_id": "config_3_no_recency",
+      "name": "Ablation 3 (No Recency)",
+      "weights": {
+        "alpha": 0.4,
+        "beta": 0.4,
+        "gamma": 0.0,
+        "delta": 0.2
+      },
+      "description": "Sets gamma=0.0 to test whether publication recency discounting is necessary.",
+      "hypothesis": "Older, potentially superseded evidence scores equally to contemporary guidelines.",
+      "safety_violation_rate": 0.0,
+      "safety_violations_count": 0,
+      "high_risk_contraindication_violation_rate": 0.0,
+      "high_risk_violations_count": 0,
+      "conflict_detection_sensitivity": 1.0,
+      "conflict_detection_specificity": 1.0,
+      "status_aware_conflict_diagnostics": {
+        "total_verified_conflicts_fired": 6,
+        "total_coverage_gap_advisories_fired": 10,
+        "total_data_quality_advisories_fired": 0,
+        "total_unknown_alerts_fired": 13,
+        "verified_only_sensitivity": 0.4286,
+        "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+      },
+      "arbitration_accuracy": 0.9565,
+      "mean_evidence_grade": 0.8091,
+      "mean_v_score": 0.3837,
+      "deterministic_stability": 1.0
+    },
+    "config_4_no_relevance": {
+      "config_id": "config_4_no_relevance",
+      "name": "Ablation 4 (No Semantic Relevance)",
+      "weights": {
+        "alpha": 0.5,
+        "beta": 0.0,
+        "gamma": 0.25,
+        "delta": 0.25
+      },
+      "description": "Sets beta=0.0 to test whether semantic similarity to patient presentation is necessary.",
+      "hypothesis": "High-grade general guidelines may outscore patient-specific disease pathways.",
+      "safety_violation_rate": 0.0,
+      "safety_violations_count": 0,
+      "high_risk_contraindication_violation_rate": 0.0,
+      "high_risk_violations_count": 0,
+      "conflict_detection_sensitivity": 1.0,
+      "conflict_detection_specificity": 1.0,
+      "status_aware_conflict_diagnostics": {
+        "total_verified_conflicts_fired": 6,
+        "total_coverage_gap_advisories_fired": 10,
+        "total_data_quality_advisories_fired": 0,
+        "total_unknown_alerts_fired": 13,
+        "verified_only_sensitivity": 0.4286,
+        "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+      },
+      "arbitration_accuracy": 0.9565,
+      "mean_evidence_grade": 0.8243,
+      "mean_v_score": 0.5683,
+      "deterministic_stability": 1.0
+    },
+    "config_5_uniform": {
+      "config_id": "config_5_uniform",
+      "name": "Ablation 5 (Uniform Weights)",
+      "weights": {
+        "alpha": 0.25,
+        "beta": 0.25,
+        "gamma": 0.25,
+        "delta": 0.25
+      },
+      "description": "Equal weights (alpha=beta=gamma=delta=0.25) to test whether calibrated weights outperform uncalibrated weighting.",
+      "hypothesis": "Equal weight allocation creates suboptimal trade-offs between relevance and safety.",
+      "safety_violation_rate": 0.0,
+      "safety_violations_count": 0,
+      "high_risk_contraindication_violation_rate": 0.0,
+      "high_risk_violations_count": 0,
+      "conflict_detection_sensitivity": 1.0,
+      "conflict_detection_specificity": 1.0,
+      "status_aware_conflict_diagnostics": {
+        "total_verified_conflicts_fired": 6,
+        "total_coverage_gap_advisories_fired": 10,
+        "total_data_quality_advisories_fired": 0,
+        "total_unknown_alerts_fired": 13,
+        "verified_only_sensitivity": 0.4286,
+        "policy_explanation": "Advisories (coverage gaps and data quality) are diagnostic alerts and are not counted as verified contradictions in status-aware metrics. Historical conflict_detection_sensitivity counts any active rule firing."
+      },
+      "arbitration_accuracy": 0.9565,
+      "mean_evidence_grade": 0.8017,
+      "mean_v_score": 0.4106,
+      "deterministic_stability": 1.0
+    }
+  }
+}

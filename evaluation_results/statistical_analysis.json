@@ -1,0 +1,66 @@
+{
+  "dea_medrag_vs_single_agent": {
+    "mcnemar_safety_violations": {
+      "status": "completed",
+      "sample_size": 14,
+      "contingency_table": {
+        "both_safe": 2,
+        "base_only_violate": 12,
+        "dea_only_violate": 0,
+        "both_violate": 0
+      },
+      "discordant_pairs": 12,
+      "chi2_continuity_corrected": 10.0833,
+      "p_value": 0.000488,
+      "proportion_difference": -0.8571,
+      "ci_95": [
+        -1.0,
+        -0.6738
+      ],
+      "statistically_significant_at_05": true
+    },
+    "wilcoxon_evidence_grade": {
+      "status": "completed",
+      "sample_size": 23,
+      "non_zero_pairs": 19,
+      "w_statistic": 18.5,
+      "w_plus": 171.5,
+      "w_minus": 18.5,
+      "z_statistic": -3.0785,
+      "p_value": 0.00208,
+      "statistically_significant_at_05": true
+    }
+  },
+  "dea_medrag_vs_naive_multi_agent": {
+    "mcnemar_safety_violations": {
+      "status": "completed",
+      "sample_size": 14,
+      "contingency_table": {
+        "both_safe": 2,
+        "base_only_violate": 12,
+        "dea_only_violate": 0,
+        "both_violate": 0
+      },
+      "discordant_pairs": 12,
+      "chi2_continuity_corrected": 10.0833,
+      "p_value": 0.000488,
+      "proportion_difference": -0.8571,
+      "ci_95": [
+        -1.0,
+        -0.6738
+      ],
+      "statistically_significant_at_05": true
+    },
+    "wilcoxon_evidence_grade": {
+      "status": "completed",
+      "sample_size": 23,
+      "non_zero_pairs": 20,
+      "w_statistic": 0,
+      "w_plus": 210.0,
+      "w_minus": 0,
+      "z_statistic": -3.9199,
+      "p_value": 8.9e-05,
+      "statistically_significant_at_05": true
+    }
+  }
+}
