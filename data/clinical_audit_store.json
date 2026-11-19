@@ -1,6 +1,44 @@
 {
   "clinical_cases": [
     {
+      "id": "CASE-10363A65",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "symptoms": [
+          "Persistent fatigue",
+          "Mild peripheral edema"
+        ],
+        "lab_values": {
+          "eGFR": "24 mL/min/1.73m²",
+          "creatinine": "2.4 mg/dL",
+          "potassium": "4.8 mmol/L"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "Diabetic nephropathy",
+          "Lactic acidosis risk"
+        ]
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 75,
+      "createdAt": "2026-11-19T08:44:02.745Z"
+    },
+    {
       "id": "CASE-2EF8F2A2",
       "patientProfileJson": {
         "age": 68,
@@ -142,6 +180,148 @@
     }
   ],
   "arbitration_reports": [
+    {
+      "id": "REP-MWNB001K-10363A",
+      "caseId": "CASE-10363A65",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.478,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.508,
+          "score": 0.508,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4096,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.315,
+          "score": -0.185,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.44,
+          "t_recent": 0.5,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "Active high-severity conflict: metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.253,
+          "score": -0.247,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "high",
+          "description": "Metformin is contraindicated in severe renal impairment (eGFR < 30 mL/min/1.73m² or Stage 4/5 CKD) due to increased risk of fatal lactic acidosis (patient eGFR: 24 mL/min/1.73m²).",
+          "affected_treatment": "metformin",
+          "risk_factor": "severe renal impairment (eGFR < 30 mL/min/1.73m²)",
+          "status": "RETRIEVAL_COVERAGE_GAP_ADVISORY",
+          "evidence_linkage": "COVERAGE_GAP",
+          "provenance": null,
+          "missing_evidence_reason": "No retrieved DailyMed chunk directly corroborating metformin lactic acidosis renal contraindication"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.508 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.48, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.84,
+          "confidence": 0.84,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "10363a657b962ff205dd584e2223e265bccd4f116716bb945da88bc478fba0b1",
+      "createdAt": "2026-11-19T08:44:02.745Z"
+    },
     {
       "id": "REP-MWN760XI-2EF8F2",
       "caseId": "CASE-2EF8F2A2",
@@ -2512,6 +2692,15 @@
     }
   ],
   "doctor_decisions": [
+    {
+      "id": "DEC-MWNB003Y-FUDO",
+      "reportId": "REP-MWNB001K-10363A",
+      "clinicianName": "Dr. Sarah Lin, MD (Attending Nephrologist)",
+      "selectedCandidate": "Discontinue Metformin and initiate Empagliflozin 10 mg daily with renal monitoring",
+      "actionTaken": "clinical_override",
+      "overrideReason": "Severe CKD stage 4 (eGFR 24 mL/min) with lactic acidosis contraindication requires overriding standard glycemic escalation to preserve residual nephron mass.",
+      "signedAt": "2026-11-19T08:44:02.830Z"
+    },
     {
       "id": "DEC-MWN760YF-8CRR",
       "reportId": "REP-MWN75GH8-37559A",

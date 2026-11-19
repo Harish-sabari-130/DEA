@@ -67,14 +67,24 @@ export function verifyAuditHash(
   rankedCandidates: any[],
   conflicts: any[],
   expectedHash: string,
-): { computed_hash: string; expected_hash: string; verified: boolean; match_percentage: number; message: string } {
+): {
+  computed_hash: string;
+  expected_hash: string;
+  verified: boolean;
+  hash_match: boolean;
+  match_percentage: number;
+  match_status: string;
+  message: string;
+} {
   const computed = computeAuditIntegrityHash(patientInput, deaWeights, rankedCandidates, conflicts);
   const isMatch = computed.toLowerCase() === (expectedHash || "").trim().toLowerCase();
   return {
     computed_hash: computed,
     expected_hash: expectedHash,
     verified: isMatch,
+    hash_match: isMatch,
     match_percentage: isMatch ? 100 : 0,
+    match_status: isMatch ? "100% Identical" : "Discrepancy Detected",
     message: isMatch
       ? "Hash Match: 100% Identical. Mathematical determinism verified."
       : "Hash Discrepancy: Evidence inputs or ranking parameters do not match audit log.",

@@ -1,10 +1,10 @@
 {
   "benchmark_version": "1.0",
-  "evaluation_timestamp": "2026-11-19T06:55:55.343302+00:00",
+  "evaluation_timestamp": "2026-11-19T08:00:18.007840+00:00",
   "reproducibility_config": {
     "benchmark_version": "1.0",
     "benchmark_file": "data/benchmarks/guideline_collision_v1.json",
-    "evaluation_timestamp": "2026-11-19T06:55:55.343302+00:00",
+    "evaluation_timestamp": "2026-11-19T08:00:18.007840+00:00",
     "platform_system": "Windows",
     "platform_release": "11",
     "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
@@ -3390,28 +3390,6 @@
             "status": "RETRIEVAL_COVERAGE_GAP_ADVISORY",
             "evidence_linkage": "COVERAGE_GAP",
             "provenance": null
-          },
-          {
-            "conflict_detected": true,
-            "conflict_type": "DRUG_DRUG_INTERACTION",
-            "severity": "moderate",
-            "affected_treatment": "Naproxen + Furosemide",
-            "description": "Diuretics Clinical Impact: Clinical studies, as well as post-marketing observations, showed that NSAIDs reduced the natriuretic effect of loop diuretics (e.g., furosemide) and thiazide diuretics in some patients.",
-            "clinical_mechanism": "Diuretics Clinical Impact: Clinical studies, as well as post-marketing observations, showed that NSAIDs reduced the natriuretic effect of loop diuretics (e.g., furosemide) and thiazide diuretics in some patients.",
-            "risk_factor": "Concurrent Naproxen and Furosemide administration",
-            "exact_evidence_section": "Contraindications",
-            "provenance": {
-              "source_id": "openfda:004bb832-29d5-add0-e063-6394a90a90f4",
-              "chunk_id": "fda-interaction-naproxen-furosemide",
-              "source_title": "Naproxen FDA Prescribing Information",
-              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=004bb832-29d5-add0-e063-6394a90a90f4",
-              "identifier": "004bb832-29d5-add0-e063-6394a90a90f4",
-              "exact_evidence_section": "Contraindications",
-              "matched_excerpt": "Diuretics Clinical Impact: Clinical studies, as well as post-marketing observations, showed that NSAIDs reduced the natriuretic effect of loop diuretics (e.g., furosemide) and thiazide diuretics in some patients.",
-              "retrieved_at": "2026-11-19T06:55:37.780929+00:00"
-            },
-            "evidence_linkage": "VERIFIED",
-            "conflict_status": "CONFIRMED_CONFLICT"
           }
         ],
         "candidate_scores": [
@@ -3574,11 +3552,11 @@
         "p_risk": 0.1,
         "safety_violation": false,
         "violation_details": [],
-        "conflicts_detected": 3,
+        "conflicts_detected": 2,
         "confirmed_conflicts_count": 0,
         "coverage_gap_advisories_count": 2,
         "data_quality_advisories_count": 0,
-        "unknown_conflicts_count": 1,
+        "unknown_conflicts_count": 0,
         "all_candidates": [
           {
             "candidate": "In the last years, major progress has occurred in heart failure (HF) management.",
@@ -7006,7 +6984,7 @@
               "identifier": "468c4a45-6677-4f6f-bbad-131741f2ff23",
               "exact_evidence_section": "Contraindications (Section 4) / Clinical Pharmacology",
               "matched_excerpt": "Dual blockade of the renin-angiotensin system (ACE inhibitor + ARB) increases the risks of severe hyperkalemia, acute kidney injury, and hypotension without incremental cardiovascular benefit.",
-              "retrieved_at": "2026-11-19T06:55:40.959688+00:00"
+              "retrieved_at": "2026-11-19T07:58:28.292328+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -10622,14 +10600,14 @@
             "risk_factor": "Concurrent Clarithromycin and Colchicine administration",
             "exact_evidence_section": "Contraindications (Section 4)",
             "provenance": {
-              "source_id": "openfda:d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
+              "source_id": "openfda:1cb8a78a-0f07-49e8-a23e-a77628006209",
               "chunk_id": "fda-interaction-clarithromycin-colchicine",
               "source_title": "Clarithromycin FDA Prescribing Information",
-              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
-              "identifier": "d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1cb8a78a-0f07-49e8-a23e-a77628006209",
+              "identifier": "1cb8a78a-0f07-49e8-a23e-a77628006209",
               "exact_evidence_section": "Contraindications (Section 4)",
               "matched_excerpt": "Coadministration of colchicine with strong CYP3A4 / P-gp inhibitor clarithromycin is contraindicated due to life-threatening and fatal colchicine toxicity.",
-              "retrieved_at": "2026-11-19T06:55:42.518767+00:00"
+              "retrieved_at": "2026-11-19T07:58:40.672363+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -10644,14 +10622,14 @@
             "risk_factor": "Concurrent Clarithromycin and Amlodipine administration",
             "exact_evidence_section": "Contraindications",
             "provenance": {
-              "source_id": "openfda:d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
+              "source_id": "openfda:1cb8a78a-0f07-49e8-a23e-a77628006209",
               "chunk_id": "fda-interaction-clarithromycin-amlodipine",
               "source_title": "Clarithromycin FDA Prescribing Information",
-              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
-              "identifier": "d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1cb8a78a-0f07-49e8-a23e-a77628006209",
+              "identifier": "1cb8a78a-0f07-49e8-a23e-a77628006209",
               "exact_evidence_section": "Contraindications",
               "matched_excerpt": "These include colchicine toxicity with colchicine; markedly increased transaminases with lomitapide; rhabdomyolysis with simvastatin, lovastatin, and atorvastatin; hypoglycemia and cardiac arrhythmias (e.g., torsades de pointes) with disopyramide; and hypotension and acute kidney injury with calcium channel blockers metabolized by CYP3A4 (e.g., verapamil, amlodipine, diltiazem, nifedipine).",
-              "retrieved_at": "2026-11-19T06:55:42.521765+00:00"
+              "retrieved_at": "2026-11-19T07:58:40.679352+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -12465,14 +12443,14 @@
             "risk_factor": "Concurrent Nitrofurantoin and Vitamin administration",
             "exact_evidence_section": "Contraindications",
             "provenance": {
-              "source_id": "openfda:35c0a6d8-ff85-4d9b-9ad3-ae20808119dd",
+              "source_id": "openfda:ce4afef1-22c1-4a1c-a102-a32fb6a2e045",
               "chunk_id": "fda-interaction-nitrofurantoin-vitamin",
               "source_title": "Nitrofurantoin FDA Prescribing Information",
-              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=35c0a6d8-ff85-4d9b-9ad3-ae20808119dd",
-              "identifier": "35c0a6d8-ff85-4d9b-9ad3-ae20808119dd",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ce4afef1-22c1-4a1c-a102-a32fb6a2e045",
+              "identifier": "ce4afef1-22c1-4a1c-a102-a32fb6a2e045",
               "exact_evidence_section": "Contraindications",
               "matched_excerpt": "Conditions such as renal impairment (creatinine clearance under 60 mL per minute or clinically significant elevated serum creatinine), anemia, diabetes mellitus, electrolyte imbalance, vitamin B deficiency, and debilitating disease may enhance the occurrence of peripheral neuropathy.",
-              "retrieved_at": "2026-11-19T06:55:44.096326+00:00"
+              "retrieved_at": "2026-11-19T07:58:53.441292+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -14294,7 +14272,7 @@
               "identifier": "468c4a45-6677-4f6f-bbad-131741f2ff23",
               "exact_evidence_section": "Drug Interactions",
               "matched_excerpt": "Potassium-sparing diuretics (spironolactone, triamterene): Increased risk of hyperkalemia.",
-              "retrieved_at": "2026-11-19T06:55:44.612634+00:00"
+              "retrieved_at": "2026-11-19T07:58:57.846353+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -16116,7 +16094,51 @@
               "identifier": "7769d03a-3453-4702-869f-3cb53526978c",
               "exact_evidence_section": "Drug Interactions",
               "matched_excerpt": "Use pantoprazole or H2-blockers instead.",
-              "retrieved_at": "2026-11-19T06:55:45.991260+00:00"
+              "retrieved_at": "2026-11-19T07:59:09.817859+00:00"
+            },
+            "evidence_linkage": "VERIFIED",
+            "conflict_status": "CONFIRMED_CONFLICT"
+          },
+          {
+            "conflict_detected": true,
+            "conflict_type": "DRUG_DRUG_INTERACTION",
+            "severity": "moderate",
+            "affected_treatment": "Apixaban + Aspirin",
+            "description": "Pharmacodynamic Drug Interaction Studies: Pharmacodynamic drug interaction studies with aspirin, clopidogrel, aspirin and clopidogrel, prasugrel, enoxaparin, and naproxen were conducted.",
+            "clinical_mechanism": "Pharmacodynamic Drug Interaction Studies: Pharmacodynamic drug interaction studies with aspirin, clopidogrel, aspirin and clopidogrel, prasugrel, enoxaparin, and naproxen were conducted.",
+            "risk_factor": "Concurrent Apixaban and Aspirin administration",
+            "exact_evidence_section": "Contraindications",
+            "provenance": {
+              "source_id": "openfda:e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "chunk_id": "fda-interaction-apixaban-aspirin",
+              "source_title": "Apixaban FDA Prescribing Information",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "identifier": "e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "exact_evidence_section": "Contraindications",
+              "matched_excerpt": "Pharmacodynamic Drug Interaction Studies: Pharmacodynamic drug interaction studies with aspirin, clopidogrel, aspirin and clopidogrel, prasugrel, enoxaparin, and naproxen were conducted.",
+              "retrieved_at": "2026-11-19T07:59:09.819354+00:00"
+            },
+            "evidence_linkage": "VERIFIED",
+            "conflict_status": "CONFIRMED_CONFLICT"
+          },
+          {
+            "conflict_detected": true,
+            "conflict_type": "DRUG_DRUG_INTERACTION",
+            "severity": "moderate",
+            "affected_treatment": "Apixaban + Clopidogrel",
+            "description": "Pharmacodynamic Drug Interaction Studies: Pharmacodynamic drug interaction studies with aspirin, clopidogrel, aspirin and clopidogrel, prasugrel, enoxaparin, and naproxen were conducted.",
+            "clinical_mechanism": "Pharmacodynamic Drug Interaction Studies: Pharmacodynamic drug interaction studies with aspirin, clopidogrel, aspirin and clopidogrel, prasugrel, enoxaparin, and naproxen were conducted.",
+            "risk_factor": "Concurrent Apixaban and Clopidogrel administration",
+            "exact_evidence_section": "Contraindications",
+            "provenance": {
+              "source_id": "openfda:e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "chunk_id": "fda-interaction-apixaban-clopidogrel",
+              "source_title": "Apixaban FDA Prescribing Information",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "identifier": "e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "exact_evidence_section": "Contraindications",
+              "matched_excerpt": "Pharmacodynamic Drug Interaction Studies: Pharmacodynamic drug interaction studies with aspirin, clopidogrel, aspirin and clopidogrel, prasugrel, enoxaparin, and naproxen were conducted.",
+              "retrieved_at": "2026-11-19T07:59:09.821394+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -16282,11 +16304,11 @@
         "p_risk": 0.1,
         "safety_violation": false,
         "violation_details": [],
-        "conflicts_detected": 3,
+        "conflicts_detected": 5,
         "confirmed_conflicts_count": 0,
         "coverage_gap_advisories_count": 1,
         "data_quality_advisories_count": 0,
-        "unknown_conflicts_count": 2,
+        "unknown_conflicts_count": 4,
         "all_candidates": [
           {
             "candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
@@ -19711,20 +19733,20 @@
             "conflict_detected": true,
             "conflict_type": "DRUG_DRUG_INTERACTION",
             "severity": "moderate",
-            "affected_treatment": "Lithium + Lisinopril",
-            "description": "WARNING: FETAL TOXICITY: When pregnancy is detected, discontinue lisinopril and hydrochlorothiazide tablets as soon as possible.",
-            "clinical_mechanism": "WARNING: FETAL TOXICITY: When pregnancy is detected, discontinue lisinopril and hydrochlorothiazide tablets as soon as possible.",
-            "risk_factor": "Concurrent Lithium and Lisinopril administration",
-            "exact_evidence_section": "Contraindications",
+            "affected_treatment": "Lisinopril + Lithium",
+            "description": "Lithium: Increased serum lithium levels and lithium toxicity.",
+            "clinical_mechanism": "Lithium: Increased serum lithium levels and lithium toxicity.",
+            "risk_factor": "Concurrent Lisinopril and Lithium administration",
+            "exact_evidence_section": "Drug Interactions",
             "provenance": {
-              "source_id": "openfda:00b266d9-ac4a-e931-e063-6294a90a6a0b",
-              "chunk_id": "fda-interaction-lithium-lisinopril",
-              "source_title": "Lithium FDA Prescribing Information",
-              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=00b266d9-ac4a-e931-e063-6294a90a6a0b",
-              "identifier": "00b266d9-ac4a-e931-e063-6294a90a6a0b",
-              "exact_evidence_section": "Contraindications",
-              "matched_excerpt": "WARNING: FETAL TOXICITY: When pregnancy is detected, discontinue lisinopril and hydrochlorothiazide tablets as soon as possible.",
-              "retrieved_at": "2026-11-19T06:55:47.460246+00:00"
+              "source_id": "openfda:468c4a45-6677-4f6f-bbad-131741f2ff23",
+              "chunk_id": "fda-interaction-lisinopril-lithium",
+              "source_title": "Lisinopril FDA Prescribing Information",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=468c4a45-6677-4f6f-bbad-131741f2ff23",
+              "identifier": "468c4a45-6677-4f6f-bbad-131741f2ff23",
+              "exact_evidence_section": "Drug Interactions",
+              "matched_excerpt": "Lithium: Increased serum lithium levels and lithium toxicity.",
+              "retrieved_at": "2026-11-19T07:59:21.609540+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -21518,28 +21540,6 @@
             "status": "RETRIEVAL_COVERAGE_GAP_ADVISORY",
             "evidence_linkage": "COVERAGE_GAP",
             "provenance": null
-          },
-          {
-            "conflict_detected": true,
-            "conflict_type": "DRUG_DRUG_INTERACTION",
-            "severity": "moderate",
-            "affected_treatment": "Omeprazole + Atorvastatin",
-            "description": "These include colchicine toxicity with colchicine; markedly increased transaminases with lomitapide; rhabdomyolysis with simvastatin, lovastatin, and atorvastatin; hypoglycemia and cardiac arrhythmias (e.g., torsades de pointes) with disopyramide; and hypotension and acute kidney injury with calcium channel blockers metabolized by CYP3A4 (e.g., verapamil, amlodipine, diltiazem, nifedipine).",
-            "clinical_mechanism": "These include colchicine toxicity with colchicine; markedly increased transaminases with lomitapide; rhabdomyolysis with simvastatin, lovastatin, and atorvastatin; hypoglycemia and cardiac arrhythmias (e.g., torsades de pointes) with disopyramide; and hypotension and acute kidney injury with calcium channel blockers metabolized by CYP3A4 (e.g., verapamil, amlodipine, diltiazem, nifedipine).",
-            "risk_factor": "Concurrent Omeprazole and Atorvastatin administration",
-            "exact_evidence_section": "Contraindications",
-            "provenance": {
-              "source_id": "openfda:d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
-              "chunk_id": "fda-interaction-omeprazole-atorvastatin",
-              "source_title": "Omeprazole FDA Prescribing Information",
-              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
-              "identifier": "d836ae7e-fdbf-4dcb-a90d-ede1dcbc3e67",
-              "exact_evidence_section": "Contraindications",
-              "matched_excerpt": "These include colchicine toxicity with colchicine; markedly increased transaminases with lomitapide; rhabdomyolysis with simvastatin, lovastatin, and atorvastatin; hypoglycemia and cardiac arrhythmias (e.g., torsades de pointes) with disopyramide; and hypotension and acute kidney injury with calcium channel blockers metabolized by CYP3A4 (e.g., verapamil, amlodipine, diltiazem, nifedipine).",
-              "retrieved_at": "2026-11-19T06:55:47.959716+00:00"
-            },
-            "evidence_linkage": "VERIFIED",
-            "conflict_status": "CONFIRMED_CONFLICT"
           }
         ],
         "candidate_scores": [
@@ -21702,11 +21702,11 @@
         "p_risk": 0.1,
         "safety_violation": false,
         "violation_details": [],
-        "conflicts_detected": 2,
+        "conflicts_detected": 1,
         "confirmed_conflicts_count": 0,
         "coverage_gap_advisories_count": 1,
         "data_quality_advisories_count": 0,
-        "unknown_conflicts_count": 1,
+        "unknown_conflicts_count": 0,
         "all_candidates": [
           {
             "candidate": "Since 1980, the American College of Cardiology (ACC) and American Heart Association (AHA) have translated scientific evidence into clinical practice guidelines with recommendations to improve cardiovascular health.",
@@ -23347,14 +23347,14 @@
             "risk_factor": "Concurrent Isosorbide Mononitrate and Sildenafil administration",
             "exact_evidence_section": "Contraindications (Section 4)",
             "provenance": {
-              "source_id": "openfda:6a582db5-eb45-4320-98c1-55517d7d8c38",
+              "source_id": "openfda:86be0e85-5337-bee4-e053-2a91aa0a8158",
               "chunk_id": "fda-interaction-isosorbide mononitrate-sildenafil",
               "source_title": "Isosorbide Mononitrate FDA Prescribing Information",
-              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6a582db5-eb45-4320-98c1-55517d7d8c38",
-              "identifier": "6a582db5-eb45-4320-98c1-55517d7d8c38",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=86be0e85-5337-bee4-e053-2a91aa0a8158",
+              "identifier": "86be0e85-5337-bee4-e053-2a91aa0a8158",
               "exact_evidence_section": "Contraindications (Section 4)",
               "matched_excerpt": "Coadministration of PDE-5 inhibitors with organic nitrates is strictly contraindicated due to potentially fatal profound systemic hypotension and cardiovascular collapse.",
-              "retrieved_at": "2026-11-19T06:55:49.729654+00:00"
+              "retrieved_at": "2026-11-19T07:59:32.915276+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -23376,7 +23376,7 @@
               "identifier": "10aa7cc4-4f9a-4403-a5c0-753d2aa5f0f9",
               "exact_evidence_section": "Contraindications (Section 4)",
               "matched_excerpt": "Coadministration of PDE-5 inhibitors with organic nitrates is strictly contraindicated due to potentially fatal profound systemic hypotension and cardiovascular collapse.",
-              "retrieved_at": "2026-11-19T06:55:49.729654+00:00"
+              "retrieved_at": "2026-11-19T07:59:32.916811+00:00"
             },
             "evidence_linkage": "VERIFIED",
             "conflict_status": "CONFIRMED_CONFLICT"
@@ -41225,14 +41225,26 @@
         ],
         "conflicts": [
           {
-            "conflict_detected": false,
-            "status": "NO_CONFLICT_DETECTED_BY_RULE",
-            "evidence_linkage": "NONE",
-            "conflict_type": "none",
-            "severity": "none",
-            "description": "No cross-silo conflict detected by deterministic safety rules under current evidence. This does not guarantee overall patient safety or absence of unmodeled risks.",
-            "affected_treatment": "none",
-            "risk_factor": "none"
+            "conflict_detected": true,
+            "conflict_type": "DRUG_DRUG_INTERACTION",
+            "severity": "moderate",
+            "affected_treatment": "Apixaban + Digoxin",
+            "description": "In studies conducted in healthy subjects, apixaban did not meaningfully alter the pharmacokinetics of digoxin, naproxen, atenolol, prasugrel, or acetylsalicylic acid.",
+            "clinical_mechanism": "In studies conducted in healthy subjects, apixaban did not meaningfully alter the pharmacokinetics of digoxin, naproxen, atenolol, prasugrel, or acetylsalicylic acid.",
+            "risk_factor": "Concurrent Apixaban and Digoxin administration",
+            "exact_evidence_section": "Contraindications",
+            "provenance": {
+              "source_id": "openfda:e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "chunk_id": "fda-interaction-apixaban-digoxin",
+              "source_title": "Apixaban FDA Prescribing Information",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "identifier": "e9481622-7cc6-418a-acb6-c5450daae9b0",
+              "exact_evidence_section": "Contraindications",
+              "matched_excerpt": "In studies conducted in healthy subjects, apixaban did not meaningfully alter the pharmacokinetics of digoxin, naproxen, atenolol, prasugrel, or acetylsalicylic acid.",
+              "retrieved_at": "2026-11-19T08:00:17.743810+00:00"
+            },
+            "evidence_linkage": "VERIFIED",
+            "conflict_status": "CONFIRMED_CONFLICT"
           }
         ],
         "candidate_scores": [
@@ -41395,11 +41407,11 @@
         "p_risk": 0.1,
         "safety_violation": false,
         "violation_details": [],
-        "conflicts_detected": 0,
+        "conflicts_detected": 1,
         "confirmed_conflicts_count": 0,
         "coverage_gap_advisories_count": 0,
         "data_quality_advisories_count": 0,
-        "unknown_conflicts_count": 0,
+        "unknown_conflicts_count": 1,
         "all_candidates": [
           {
             "candidate": "Despite guideline recommendations and available evidence, implementation of treatment in heart failure (HF) is poor.",
@@ -41450,7 +41462,7 @@
             "ranking": 3
           }
         ],
-        "accuracy": false
+        "accuracy": true
       },
       "errors": []
     }

@@ -1,6 +1,40 @@
 {
   "clinical_cases": [
     {
+      "id": "CASE-31B67B42",
+      "patientProfileJson": {
+        "age": 54,
+        "sex": "Male",
+        "diseases": [
+          "Hypertension",
+          "Hyperlipidemia"
+        ],
+        "medications": [
+          "Lisinopril 10 mg daily",
+          "Atorvastatin 20 mg daily"
+        ],
+        "secondary_medications": [
+          "Lisinopril 10 mg daily",
+          "Atorvastatin 20 mg daily"
+        ],
+        "symptoms": [
+          "Routine outpatient follow-up"
+        ],
+        "lab_values": {
+          "eGFR": "82 mL/min/1.73m²",
+          "potassium": "4.3 mmol/L",
+          "creatinine": "0.9 mg/dL"
+        },
+        "allergies": [],
+        "conditions": [
+          "Routine health maintenance"
+        ]
+      },
+      "routingTier": "fast_standard",
+      "complexityScore": 5,
+      "createdAt": "2026-11-19T07:41:05.431Z"
+    },
+    {
       "id": "CASE-703ABB0B",
       "patientProfileJson": {
         "age": 67,
@@ -77,7 +111,7 @@
       },
       "routingTier": "high_risk_review",
       "complexityScore": 50,
-      "createdAt": "2026-11-19T05:49:47.996Z"
+      "createdAt": "2026-11-19T07:42:52.268Z"
     },
     {
       "id": "CASE-F10AAC83",
@@ -232,6 +266,270 @@
     }
   ],
   "arbitration_reports": [
+    {
+      "id": "REP-MWN8TBVW-B3F0DC",
+      "caseId": "CASE-B3F0DCDA",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.474,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.507,
+          "score": 0.507,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4082,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.315,
+          "score": -0.185,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.439,
+          "t_recent": 0.5,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.252,
+          "score": -0.248,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin prescribed with malformed or incompatible eGFR measurement (INCOMPATIBLE_UNIT: '24 mL/min/1.73mÂ²'); cannot verify renal safety. Laboratory re-draw or data reconciliation required.",
+          "affected_treatment": "metformin",
+          "risk_factor": "unverified renal function due to malformed lab measurement",
+          "status": "DATA_QUALITY_ADVISORY",
+          "evidence_linkage": "DATA_QUALITY_GUARDRAIL",
+          "provenance": null
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.507 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.47, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b3f0dcda9dde152f5747822948422615f4851000e56ad0ac812fdd2078f2f759",
+      "createdAt": "2026-11-19T07:42:52.268Z"
+    },
+    {
+      "id": "REP-MWN8R1G6-31B67B",
+      "caseId": "CASE-31B67B42",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "BACKGROUND: Primary aldosteronism (PA), a primary adrenal disorder leading to excessive aldosterone production by one or both adrenal glands, is a common cause of hypertension.",
+          "q_grade": 0.82,
+          "s_rel": 0.103,
+          "t_recent": 0.75,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.41,
+          "score": 0.41,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Lisinopril, Atorvastatin pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.5241,
+          "t_recent": 0.8,
+          "p_risk": 0.9,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.36,
+          "score": 0.36,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Hypertension is one of the most frequent chronic disease in Hungary and one of the most important cardiovascular risk factor.",
+          "q_grade": 0.627,
+          "s_rel": 0.318,
+          "t_recent": 0.5,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.36,
+          "score": 0.36,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": false,
+          "status": "NO_CONFLICT_DETECTED_BY_RULE",
+          "evidence_linkage": "NONE",
+          "conflict_type": "none",
+          "severity": "none",
+          "description": "No cross-silo conflict detected by deterministic safety rules under current evidence. This does not guarantee overall patient safety or absence of unmodeled risks.",
+          "affected_treatment": "none",
+          "risk_factor": "none"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"BACKGROUND: Primary aldosteronism (PA), a primary adrenal disorder leading to excessive aldosterone production by one or both adrenal glands, is a common cause of hypertension.\" highest at 0.410 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.10, T_recent=0.75, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.682,
+          "semantic_similarity": 0.885,
+          "confidence": 0.885,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:40658480",
+          "source_title": "Primary Aldosteronism: An Endocrine Society Clinical Practice Guideline.",
+          "identifier": "40658480",
+          "matched_excerpt": "BACKGROUND: Primary aldosteronism (PA), a primary adrenal disorder leading to excessive aldosterone production by one or both adrenal glands, is a common cause of hypertension."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.352,
+          "confidence": 0.352,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:40658480",
+          "source_title": "Primary Aldosteronism: An Endocrine Society Clinical Practice Guideline.",
+          "identifier": "40658480",
+          "matched_excerpt": "METHODS: The Guideline Development Panel (GDP), composed of a multidisciplinary panel of clinical experts and experts in systemic review methodology, used the Grading of Recommendations, Assessment, Development, and Evaluation (GRADE) approach to define 10 questions related to the diagnosis and treatment of PA."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [],
+        "added_in_discharge": [],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": false,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [],
+        "summary": "Reconciliation completed: 0 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "31b67b42253a48a3e0dfcced8d2cfda1aea3440a99e67872b694d220c74299b5",
+      "createdAt": "2026-11-19T07:41:05.431Z"
+    },
     {
       "id": "REP-MWN6ZAFQ-703ABB",
       "caseId": "CASE-703ABB0B",
