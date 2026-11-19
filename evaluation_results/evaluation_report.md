@@ -1,7 +1,7 @@
 # Phase 2.3 Evaluation Report: Benchmark Runner & Empirical Findings
 
 **Project**: Deterministic Epistemic Arbitration in Multi-Agent RAG (DEA-MedRAG)  
-**Evaluation Date**: 2026-11-18T06:23:35.954216+00:00  
+**Evaluation Date**: 2026-11-19T06:55:55.343302+00:00  
 **Benchmark Suite**: `data/benchmarks/guideline_collision_v1.json` (Version 1.0)  
 **Evaluation Runner**: `scripts/evaluate_benchmark.py`  
 **Execution Environment**: Python 3.12.10 on Windows 11  
@@ -49,7 +49,7 @@ All three experimental arms operated on the **exact same frozen evidence pool** 
 | | **High-Risk SVR (HRCVR)** | **85.7%** (12/14) | **85.7%** (12/14) | **0.0%** (0/14) | -85.7% | -85.7% |
 | **Conflict Detection ($n=21$)** | **Sensitivity ($n_{\text{true}}=14$)** | **0.0%** | **0.0%** | **100.0%** | **+100.0%** | **+100.0%** |
 | | **Specificity ($n_{\text{neg}}=7$)** | **100.0%** | **100.0%** | **100.0%** | +0.0% | +0.0% |
-| **Decision Quality ($n=23$)** | **Overall Arbitration Accuracy** | **47.8%** | **47.8%** | **100.0%** | +52.2% | +52.2% |
+| **Decision Quality ($n=23$)** | **Overall Arbitration Accuracy** | **47.8%** | **47.8%** | **95.7%** | +47.8% | +47.8% |
 | | **Mean Evidence Grade ($ar{Q}_{\text{grade}}$)** | 0.773 | 0.752 | 0.824 | +0.052 ($p=0.002$) | +0.072 ($p=0.000$) |
 | **Determinism ($n=23$)** | **Deterministic Stability ($S_{\text{det}}$)** | **1.000** | **1.000** | **1.000** | Identical ($0.000$) | Identical ($0.000$) |
 | **Retrieval ($n=23$)** | **Mean Context Precision** | 0.053 | 0.053 | 0.053 | Baseline | Baseline |
@@ -103,7 +103,7 @@ On the 7 negative controls (`NC-001` through `NC-007`), Arm C exhibited **100.0%
 - **Evidence-Confirmed Conflicts**: 6
 - **Retrieval Coverage-Gap Advisories**: 10
 - **Data-Quality Advisories**: 0
-- **Unverified / Legacy Alerts**: 14
+- **Unverified / Legacy Alerts**: 13
 - **Verified-Only Sensitivity**: 42.9%
 - *Note*: Historical binary sensitivity (100.0%) and specificity (100.0%) evaluate binary alert detection, whereas verified-only sensitivity strictly restricts positive classification to records with `CONFIRMED_CONFLICT` and `VERIFIED` linkage.
 
@@ -120,7 +120,7 @@ On the 7 negative controls (`NC-001` through `NC-007`), Arm C exhibited **100.0%
 ## 7. Deterministic Configuration & Reproducibility Record
 
 - **Benchmark Version**: 1.0
-- **Timestamp**: 2026-11-18T06:23:35.954216+00:00
+- **Timestamp**: 2026-11-19T06:55:55.343302+00:00
 - **Software Runtime**: Python 3.12.10 on Windows
 - **Vector Database**: PersistentClient (SQLite + DefaultEmbeddingFunction)
 - **DEA Weights**: {'alpha': 0.35, 'beta': 0.3, 'gamma': 0.15, 'delta': 0.2}

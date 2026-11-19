@@ -1,6 +1,85 @@
 {
   "clinical_cases": [
     {
+      "id": "CASE-703ABB0B",
+      "patientProfileJson": {
+        "age": 67,
+        "sex": "Female",
+        "diseases": [
+          "Atrial fibrillation",
+          "Chronic kidney disease, stage 3",
+          "Hypertension"
+        ],
+        "medications": [
+          "Apixaban 5 mg twice daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "secondary_medications": [
+          "Apixaban 2.5 mg twice daily",
+          "Lisinopril 20 mg daily",
+          "Metformin 1000 mg twice daily",
+          "Atorvastatin 40 mg daily"
+        ],
+        "symptoms": [
+          "New unilateral calf pain",
+          "Mild dyspnea on exertion"
+        ],
+        "lab_values": {
+          "eGFR": "44 mL/min/1.73m²",
+          "D-dimer": "1.2 mg/L FEU",
+          "hemoglobin": "11.8 g/dL",
+          "K+": "4.6 mEq/L"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "Recent long-haul flight (14 days ago)"
+        ]
+      },
+      "routingTier": "fast_standard",
+      "complexityScore": 30,
+      "createdAt": "2026-11-19T06:51:31.094Z"
+    },
+    {
+      "id": "CASE-B3F0DCDA",
+      "patientProfileJson": {
+        "age": 68,
+        "sex": "Female",
+        "diseases": [
+          "Type 2 diabetes mellitus",
+          "Chronic kidney disease, stage 4"
+        ],
+        "medications": [
+          "Metformin 1000 mg twice daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "secondary_medications": [
+          "Empagliflozin 10 mg daily",
+          "Lisinopril 10 mg daily"
+        ],
+        "symptoms": [
+          "Persistent fatigue",
+          "Mild peripheral edema"
+        ],
+        "lab_values": {
+          "eGFR": "24 mL/min/1.73m²",
+          "creatinine": "2.4 mg/dL",
+          "potassium": "4.8 mmol/L"
+        },
+        "allergies": [
+          "Penicillin"
+        ],
+        "conditions": [
+          "Diabetic nephropathy",
+          "Lactic acidosis risk"
+        ]
+      },
+      "routingTier": "high_risk_review",
+      "complexityScore": 50,
+      "createdAt": "2026-11-19T05:49:47.996Z"
+    },
+    {
       "id": "CASE-F10AAC83",
       "patientProfileJson": {
         "age": 54,
@@ -153,6 +232,1047 @@
     }
   ],
   "arbitration_reports": [
+    {
+      "id": "REP-MWN6ZAFQ-703ABB",
+      "caseId": "CASE-703ABB0B",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+          "q_grade": 0.82,
+          "s_rel": 0.218,
+          "t_recent": 0.7,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.437,
+          "score": 0.437,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "BACKGROUND: There are no randomized data evaluating the safety or efficacy of apixaban for stroke prevention in patients with end-stage kidney disease on hemodialysis and with atrial fibrillation (AF).",
+          "q_grade": 0.75,
+          "s_rel": 0.294,
+          "t_recent": 0.65,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.418,
+          "score": 0.418,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Apixaban, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.3822,
+          "t_recent": 0.8,
+          "p_risk": 0.9,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.317,
+          "score": 0.317,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": false,
+          "status": "NO_CONFLICT_DETECTED_BY_RULE",
+          "evidence_linkage": "NONE",
+          "conflict_type": "none",
+          "severity": "none",
+          "description": "No cross-silo conflict detected by deterministic safety rules under current evidence. This does not guarantee overall patient safety or absence of unmodeled risks.",
+          "affected_treatment": "none",
+          "risk_factor": "none"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.\" highest at 0.437 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.22, T_recent=0.70, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.869,
+          "confidence": 0.869,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:38033089",
+          "source_title": "2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines.",
+          "identifier": "38033089",
+          "matched_excerpt": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0,
+          "semantic_similarity": 0.432,
+          "confidence": 0.432,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:30144419",
+          "source_title": "Antithrombotic Therapy for Atrial Fibrillation: CHEST Guideline and Expert Panel Report.",
+          "identifier": "30144419",
+          "matched_excerpt": "Graded recommendations and ungraded consensus-based statements were drafted, voted on, and revised until consensus was reached."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 4,
+        "missing_in_discharge": [],
+        "added_in_discharge": [
+          "Metformin 1000 mg twice daily",
+          "Atorvastatin 40 mg daily"
+        ],
+        "dose_discrepancy": [
+          {
+            "medication": "apixaban",
+            "admission_dose": "5 mg",
+            "discharge_dose": "2.5 mg",
+            "details": "Apixaban: 5 mg -> 2.5 mg"
+          },
+          {
+            "medication": "lisinopril",
+            "admission_dose": "10 mg",
+            "discharge_dose": "20 mg",
+            "details": "Lisinopril: 10 mg -> 20 mg"
+          }
+        ],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "added_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "New medication added in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "low"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Atorvastatin 40 mg daily",
+            "details": "New medication added in discharge list: Atorvastatin 40 mg daily",
+            "risk_level": "low"
+          },
+          {
+            "type": "dose_discrepancy",
+            "medication": "apixaban",
+            "admission_dose": "5 mg",
+            "discharge_dose": "2.5 mg",
+            "details": "Apixaban: 5 mg -> 2.5 mg",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "dose_discrepancy",
+            "medication": "lisinopril",
+            "admission_dose": "10 mg",
+            "discharge_dose": "20 mg",
+            "details": "Lisinopril: 10 mg -> 20 mg",
+            "risk_level": "moderate"
+          }
+        ],
+        "summary": "Reconciliation completed: 4 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "703abb0b71443dbcfb2a11b71f9dcdf52548d349ace151949e0712d3dbb6ce85",
+      "createdAt": "2026-11-19T06:51:31.094Z"
+    },
+    {
+      "id": "REP-MWN6WMA4-703ABB",
+      "caseId": "CASE-703ABB0B",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.",
+          "q_grade": 0.82,
+          "s_rel": 0.218,
+          "t_recent": 0.7,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.437,
+          "score": 0.437,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "BACKGROUND: There are no randomized data evaluating the safety or efficacy of apixaban for stroke prevention in patients with end-stage kidney disease on hemodialysis and with atrial fibrillation (AF).",
+          "q_grade": 0.75,
+          "s_rel": 0.294,
+          "t_recent": 0.65,
+          "p_risk": 0.15,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.418,
+          "score": 0.418,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Apixaban, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.3822,
+          "t_recent": 0.8,
+          "p_risk": 0.9,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.317,
+          "score": 0.317,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": false,
+          "status": "NO_CONFLICT_DETECTED_BY_RULE",
+          "evidence_linkage": "NONE",
+          "conflict_type": "none",
+          "severity": "none",
+          "description": "No cross-silo conflict detected by deterministic safety rules under current evidence. This does not guarantee overall patient safety or absence of unmodeled risks.",
+          "affected_treatment": "none",
+          "risk_factor": "none"
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation.\" highest at 0.437 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.22, T_recent=0.70, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.869,
+          "confidence": 0.869,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:38033089",
+          "source_title": "2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines.",
+          "identifier": "38033089",
+          "matched_excerpt": "AIM: The \"2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation\" provides recommendations to guide clinicians in the treatment of patients with atrial fibrillation."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0,
+          "semantic_similarity": 0.432,
+          "confidence": 0.432,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:30144419",
+          "source_title": "Antithrombotic Therapy for Atrial Fibrillation: CHEST Guideline and Expert Panel Report.",
+          "identifier": "30144419",
+          "matched_excerpt": "Graded recommendations and ungraded consensus-based statements were drafted, voted on, and revised until consensus was reached."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 4,
+        "missing_in_discharge": [],
+        "added_in_discharge": [
+          "Metformin 1000 mg twice daily",
+          "Atorvastatin 40 mg daily"
+        ],
+        "dose_discrepancy": [
+          {
+            "medication": "apixaban",
+            "admission_dose": "5 mg",
+            "discharge_dose": "2.5 mg",
+            "details": "Apixaban: 5 mg -> 2.5 mg"
+          },
+          {
+            "medication": "lisinopril",
+            "admission_dose": "10 mg",
+            "discharge_dose": "20 mg",
+            "details": "Lisinopril: 10 mg -> 20 mg"
+          }
+        ],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "added_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "New medication added in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "low"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Atorvastatin 40 mg daily",
+            "details": "New medication added in discharge list: Atorvastatin 40 mg daily",
+            "risk_level": "low"
+          },
+          {
+            "type": "dose_discrepancy",
+            "medication": "apixaban",
+            "admission_dose": "5 mg",
+            "discharge_dose": "2.5 mg",
+            "details": "Apixaban: 5 mg -> 2.5 mg",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "dose_discrepancy",
+            "medication": "lisinopril",
+            "admission_dose": "10 mg",
+            "discharge_dose": "20 mg",
+            "details": "Lisinopril: 10 mg -> 20 mg",
+            "risk_level": "moderate"
+          }
+        ],
+        "summary": "Reconciliation completed: 4 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "703abb0b71443dbcfb2a11b71f9dcdf52548d349ace151949e0712d3dbb6ce85",
+      "createdAt": "2026-11-19T06:49:26.476Z"
+    },
+    {
+      "id": "REP-MWN4RX3V-B3F0DC",
+      "caseId": "CASE-B3F0DCDA",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.474,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.507,
+          "score": 0.507,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4082,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.315,
+          "score": -0.185,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.439,
+          "t_recent": 0.5,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.252,
+          "score": -0.248,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin prescribed with malformed or incompatible eGFR measurement (INCOMPATIBLE_UNIT: '24 mL/min/1.73mÂ²'); cannot verify renal safety. Laboratory re-draw or data reconciliation required.",
+          "affected_treatment": "metformin",
+          "risk_factor": "unverified renal function due to malformed lab measurement",
+          "status": "DATA_QUALITY_ADVISORY",
+          "evidence_linkage": "DATA_QUALITY_GUARDRAIL",
+          "provenance": null
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.507 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.47, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b3f0dcda9dde152f5747822948422615f4851000e56ad0ac812fdd2078f2f759",
+      "createdAt": "2026-11-19T05:49:47.996Z"
+    },
+    {
+      "id": "REP-MWN3WNF4-B3F0DC",
+      "caseId": "CASE-B3F0DCDA",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.474,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.507,
+          "score": 0.507,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4082,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.315,
+          "score": -0.185,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.439,
+          "t_recent": 0.5,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.252,
+          "score": -0.248,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin prescribed with malformed or incompatible eGFR measurement (INCOMPATIBLE_UNIT: '24 mL/min/1.73mÂ²'); cannot verify renal safety. Laboratory re-draw or data reconciliation required.",
+          "affected_treatment": "metformin",
+          "risk_factor": "unverified renal function due to malformed lab measurement",
+          "status": "DATA_QUALITY_ADVISORY",
+          "evidence_linkage": "DATA_QUALITY_GUARDRAIL",
+          "provenance": null
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.507 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.47, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b3f0dcda9dde152f5747822948422615f4851000e56ad0ac812fdd2078f2f759",
+      "createdAt": "2026-11-19T05:25:29.104Z"
+    },
+    {
+      "id": "REP-MWN2XVO0-B3F0DC",
+      "caseId": "CASE-B3F0DCDA",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.474,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.507,
+          "score": 0.507,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4082,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.315,
+          "score": -0.185,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.439,
+          "t_recent": 0.5,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.252,
+          "score": -0.248,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin prescribed with malformed or incompatible eGFR measurement (INCOMPATIBLE_UNIT: '24 mL/min/1.73mÂ²'); cannot verify renal safety. Laboratory re-draw or data reconciliation required.",
+          "affected_treatment": "metformin",
+          "risk_factor": "unverified renal function due to malformed lab measurement",
+          "status": "DATA_QUALITY_ADVISORY",
+          "evidence_linkage": "DATA_QUALITY_GUARDRAIL",
+          "provenance": null
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.507 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.47, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b3f0dcda9dde152f5747822948422615f4851000e56ad0ac812fdd2078f2f759",
+      "createdAt": "2026-11-19T04:58:26.832Z"
+    },
+    {
+      "id": "REP-MWN1RFZM-B3F0DC",
+      "caseId": "CASE-B3F0DCDA",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.474,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.507,
+          "score": 0.507,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4082,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.315,
+          "score": -0.185,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.439,
+          "t_recent": 0.5,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.252,
+          "score": -0.248,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin prescribed with malformed or incompatible eGFR measurement (INCOMPATIBLE_UNIT: '24 mL/min/1.73mÂ²'); cannot verify renal safety. Laboratory re-draw or data reconciliation required.",
+          "affected_treatment": "metformin",
+          "risk_factor": "unverified renal function due to malformed lab measurement",
+          "status": "DATA_QUALITY_ADVISORY",
+          "evidence_linkage": "DATA_QUALITY_GUARDRAIL",
+          "provenance": null
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.507 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.47, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b3f0dcda9dde152f5747822948422615f4851000e56ad0ac812fdd2078f2f759",
+      "createdAt": "2026-11-19T04:25:26.963Z"
+    },
+    {
+      "id": "REP-MWM0U9S3-B3F0DC",
+      "caseId": "CASE-B3F0DCDA",
+      "deaWeightsJson": {
+        "alpha": 0.35,
+        "beta": 0.3,
+        "gamma": 0.15,
+        "delta": 0.2
+      },
+      "rankedCandidatesJson": [
+        {
+          "candidate": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.",
+          "q_grade": 0.82,
+          "s_rel": 0.474,
+          "t_recent": 0.65,
+          "p_risk": 0.1,
+          "source": "PubMed / NCBI",
+          "domain": "clinical",
+          "evidence_count": 3,
+          "contraindicated_flag": false,
+          "contraindication_reason": null,
+          "safety_demotion": 0,
+          "raw_score": 0.507,
+          "score": 0.507,
+          "ranking": 1,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "Continue Metformin, Lisinopril pathway",
+          "q_grade": 0.75,
+          "s_rel": 0.4082,
+          "t_recent": 0.8,
+          "p_risk": 0.95,
+          "source": "DailyMed / NLM",
+          "domain": "drug",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.315,
+          "score": -0.185,
+          "ranking": 2,
+          "safety_rationale": "",
+          "silo": ""
+        },
+        {
+          "candidate": "IMPORTANCE: Metformin is widely viewed as the best initial pharmacological option to lower glucose concentrations in patients with type 2 diabetes mellitus.",
+          "q_grade": 0.673,
+          "s_rel": 0.439,
+          "t_recent": 0.5,
+          "p_risk": 0.95,
+          "source": "PubMed / NCBI",
+          "domain": "literature",
+          "evidence_count": 3,
+          "contraindicated_flag": true,
+          "contraindication_reason": "eGFR < 30 mL/min contraindication with metformin",
+          "safety_demotion": 0.5,
+          "raw_score": 0.252,
+          "score": -0.248,
+          "ranking": 3,
+          "safety_rationale": "",
+          "silo": ""
+        }
+      ],
+      "conflictsJson": [
+        {
+          "conflict_detected": true,
+          "conflict_type": "drug-disease conflict",
+          "severity": "moderate",
+          "description": "Metformin prescribed with malformed or incompatible eGFR measurement (INCOMPATIBLE_UNIT: '24 mL/min/1.73mÂ²'); cannot verify renal safety. Laboratory re-draw or data reconciliation required.",
+          "affected_treatment": "metformin",
+          "risk_factor": "unverified renal function due to malformed lab measurement",
+          "status": "DATA_QUALITY_ADVISORY",
+          "evidence_linkage": "DATA_QUALITY_GUARDRAIL",
+          "provenance": null
+        }
+      ],
+      "claimVerificationsJson": [
+        {
+          "claim": "DEA ranked \"People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality.\" highest at 0.507 using retrieved evidence from PubMed / NCBI (Q_grade=0.82, S_rel=0.47, T_recent=0.65, P_risk=0.10).",
+          "status": "supported",
+          "overlap_score": 0.636,
+          "semantic_similarity": 0.844,
+          "confidence": 0.844,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36189689",
+          "source_title": "Diabetes Management in Chronic Kidney Disease: A Consensus Report by the American Diabetes Association (ADA) and Kidney Disease: Improving Global Outcomes (KDIGO).",
+          "identifier": "36189689",
+          "matched_excerpt": "People with diabetes and chronic kidney disease (CKD) are at high risk for kidney failure, atherosclerotic cardiovascular disease, heart failure, and premature mortality."
+        },
+        {
+          "claim": "The score is deterministic and does not authorise treatment; the conflict register and source evidence remain the traceable basis for review.",
+          "status": "unsupported",
+          "overlap_score": 0.167,
+          "semantic_similarity": 0.358,
+          "confidence": 0.358,
+          "contradiction_detected": false,
+          "contradiction_reason": null,
+          "source_id": "pmid:36272755",
+          "source_title": "Executive summary of the KDIGO 2022 Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease: an update based on rapidly emerging new evidence.",
+          "identifier": "36272755",
+          "matched_excerpt": "Treatment approaches and guideline recommendations are based on systematic reviews of relevant studies and appraisal of the quality of the evidence, and the strength of recommendations followed the \"Grading of Recommendations Assessment, Development and Evaluation\" (GRADE) approach."
+        }
+      ],
+      "reconciliationJson": {
+        "total_list_a": 2,
+        "total_list_b": 2,
+        "missing_in_discharge": [
+          "Metformin 1000 mg twice daily"
+        ],
+        "added_in_discharge": [
+          "Empagliflozin 10 mg daily"
+        ],
+        "dose_discrepancy": [],
+        "frequency_discrepancy": [],
+        "therapeutic_duplications": [],
+        "high_risk_discrepancies": [],
+        "has_discrepancy": true,
+        "has_high_risk_discrepancy": false,
+        "discrepancies": [
+          {
+            "type": "missing_in_discharge",
+            "medication": "Metformin 1000 mg twice daily",
+            "details": "Admission medication omitted in discharge list: Metformin 1000 mg twice daily",
+            "risk_level": "moderate"
+          },
+          {
+            "type": "added_in_discharge",
+            "medication": "Empagliflozin 10 mg daily",
+            "details": "New medication added in discharge list: Empagliflozin 10 mg daily",
+            "risk_level": "low"
+          }
+        ],
+        "summary": "Reconciliation completed: 2 discrepancy/discrepancies detected (0 high-risk hazards).",
+        "safe_to_proceed": true
+      },
+      "sha256IntegrityHash": "b3f0dcda9dde152f5747822948422615f4851000e56ad0ac812fdd2078f2f759",
+      "createdAt": "2026-11-18T11:11:53.091Z"
+    },
     {
       "id": "REP-MWLQZBH4-F10AAC",
       "caseId": "CASE-F10AAC83",

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Award, CheckCircle2, FileCheck, FileText, Printer, Stethoscope, AlertTriangle, ShieldCheck, Loader2 } from 'lucide-react';
+import { Award, CheckCircle2, Loader2, Stethoscope, AlertTriangle, ShieldCheck } from 'lucide-react';
 import type { AnalysisReport, CandidateScore, PatientProfileInput } from '@workspace/api-client-react';
 
 interface DoctorSignOffProps {
@@ -13,7 +13,6 @@ export function DoctorSignOff({ report, patient, candidates, onSignSuccess }: Do
   const topCandidate = candidates[0];
   const [selectedPathway, setSelectedPathway] = useState<string>(() => topCandidate?.candidate || '');
   const [clinicianName, setClinicianName] = useState('Dr. Sarah Lin, MD');
-  const [clinicianRole, setClinicianRole] = useState('Attending Nephrologist / Hospitalist');
   const [licenseId, setLicenseId] = useState('MD-94021-CAL');
   const [overrideNotes, setOverrideNotes] = useState('');
   const [isOverride, setIsOverride] = useState(false);
@@ -36,7 +35,7 @@ export function DoctorSignOff({ report, patient, candidates, onSignSuccess }: Do
 
     if (actionTaken === 'clinical_override' && overrideNotes.trim().length < 5) {
       setErrorMessage(
-        'Mandatory clinical justification (minimum 5 characters) is required when overriding the DEA Rank #1 recommendation or applying a manual override.',
+        'Mandatory clinical justification (minimum 5 characters) is required when overriding DEA Rank #1.',
       );
       return;
     }
@@ -73,209 +72,165 @@ export function DoctorSignOff({ report, patient, candidates, onSignSuccess }: Do
     }
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <div
       data-testid="panel-doctor-signoff"
-      className="glass-card rounded-xl border-2 border-primary/30 bg-gradient-to-br from-card via-card to-primary/[0.04] p-6 shadow-lg space-y-5"
+      className="bg-white dark:bg-card rounded-xl border border-slate-200 dark:border-border p-5 shadow-xs space-y-4"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-3.5">
+      {/* Header Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-border/60 pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="grid size-9 place-items-center rounded-lg bg-primary/10 text-primary">
-            <Stethoscope size={20} />
+          <div className="grid size-8 place-items-center rounded-lg bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-400">
+            <Stethoscope size={18} />
           </div>
           <div>
-            <h3 className="text-base font-bold text-foreground">
-              Attending Clinician Decision & Sign-Off
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+              Attending Clinician Sign-Off & Prescribing Authority
             </h3>
-            <span className="mono text-[10px] text-muted-foreground uppercase tracking-wider">
-              Final Prescribing Authority • Human-in-the-Loop Governance
-            </span>
+            <p className="text-xs text-slate-500 dark:text-muted-foreground">
+              Human-in-the-Loop Clinical Decision Support Governance
+            </p>
           </div>
         </div>
 
         {isSigned ? (
-          <div className="flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 mono text-xs font-bold text-emerald-700 dark:text-emerald-300">
-            <CheckCircle2 size={14} className="text-emerald-500" />
-            <span>SIGNED & CLINICALLY APPROVED ({signedRecord?.id || 'VERIFIED'})</span>
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-950/40 px-3 py-1 font-mono text-[11px] font-bold text-emerald-800 dark:text-emerald-300">
+            <CheckCircle2 size={13} className="text-emerald-600" />
+            <span>SIGNED & APPROVED ({signedRecord?.id ? `AUDIT #${signedRecord.id}` : 'VERIFIED'})</span>
           </div>
         ) : (
-          <div className="flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/15 px-3 py-1 mono text-xs font-bold text-amber-700 dark:text-amber-300">
-            <span>DRAFT • PENDING CLINICIAN SIGNATURE</span>
-          </div>
+          <span className="font-mono text-[11px] text-amber-800 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 rounded px-2.5 py-1 font-semibold">
+            DRAFT • PENDING SIGNATURE
+          </span>
         )}
       </div>
 
       {errorMessage && (
-        <div className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive font-medium">
-          <AlertTriangle size={15} className="shrink-0 mt-0.5" />
+        <div className="flex items-center gap-2 rounded-lg border border-rose-300 bg-rose-50 dark:bg-rose-950/40 p-3 text-xs text-rose-700 dark:text-rose-300 font-medium">
+          <AlertTriangle size={15} className="shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}
 
-      {isSigned && signedRecord && (
-        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-xs space-y-1.5">
-          <div className="flex items-center gap-2 font-bold text-emerald-800 dark:text-emerald-300">
+      {/* Signed Status View */}
+      {isSigned && signedRecord ? (
+        <div className="rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/20 p-3.5 text-xs flex flex-wrap items-center justify-between gap-2 font-mono text-[11px]">
+          <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold">
             <ShieldCheck size={16} />
-            <span>Immutable Audit Log Record #{signedRecord.id}</span>
+            <span>Audit Record #{signedRecord.id}</span>
+            <span>•</span>
+            <span>Signer: {signedRecord.clinician_name}</span>
+            <span>•</span>
+            <span>Prescribed: {signedRecord.selected_candidate}</span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mono text-[11px] text-foreground/80 pt-1">
-            <div>
-              <span className="text-muted-foreground">Signer: </span>
-              <span className="font-semibold">{signedRecord.clinician_name}</span>
+          <span className="text-slate-500">{new Date(signedRecord.signed_at).toLocaleTimeString()}</span>
+        </div>
+      ) : (
+        /* Form Controls */
+        <div className="space-y-3.5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+            {/* Pathway Selector */}
+            <div className="md:col-span-2 space-y-1">
+              <label className="text-xs font-medium text-slate-600 dark:text-slate-400 block">
+                Selected Treatment Pathway:
+              </label>
+              <select
+                value={selectedPathway}
+                onChange={(e) => {
+                  setSelectedPathway(e.target.value);
+                  if (e.target.value !== topCandidate?.candidate) {
+                    setIsOverride(true);
+                  }
+                }}
+                disabled={isSigned}
+                className="w-full rounded-lg border border-slate-300 bg-white dark:bg-card px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:border-teal-600 focus:outline-none"
+              >
+                {candidates.map((c, i) => (
+                  <option key={i} value={c.candidate}>
+                    Rank #{c.ranking}: {c.candidate} (Score: {c.score.toFixed(3)}) {c.contraindicated_flag ? '⚠️ Contraindicated' : ''}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div>
-              <span className="text-muted-foreground">Action: </span>
-              <span className="font-semibold capitalize">{signedRecord.action_taken.replace(/_/g, ' ')}</span>
+
+            {/* Clinician Name & ID */}
+            <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-400 block">
+                  Clinician Name:
+                </label>
+                <input
+                  type="text"
+                  value={clinicianName}
+                  onChange={(e) => setClinicianName(e.target.value)}
+                  disabled={isSigned}
+                  className="w-full rounded-lg border border-slate-300 bg-white dark:bg-card px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:border-teal-600 focus:outline-none"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-400 block">
+                  NPI/License:
+                </label>
+                <input
+                  type="text"
+                  value={licenseId}
+                  onChange={(e) => setLicenseId(e.target.value)}
+                  disabled={isSigned}
+                  className="w-full rounded-lg border border-slate-300 bg-white dark:bg-card px-3 py-2 text-xs font-mono text-slate-800 dark:text-slate-200 focus:border-teal-600 focus:outline-none"
+                />
+              </div>
             </div>
-            <div>
-              <span className="text-muted-foreground">Timestamp: </span>
-              <span className="font-semibold">{new Date(signedRecord.signed_at).toLocaleString()}</span>
+          </div>
+
+          {/* Conditional Clinical Override Input */}
+          {(!isAlgorithmicMatch || isOverride) && (
+            <div className="rounded-lg border border-amber-300 dark:border-amber-800 bg-amber-50/60 dark:bg-amber-950/20 p-3 text-xs space-y-1.5">
+              <div className="flex items-center justify-between font-mono text-[11px] font-bold text-amber-800 dark:text-amber-300">
+                <span>⚠️ Clinical Override Active — Mandatory Justification:</span>
+                <span className="font-normal">(minimum 5 characters)</span>
+              </div>
+              <textarea
+                value={overrideNotes}
+                onChange={(e) => setOverrideNotes(e.target.value)}
+                disabled={isSigned}
+                rows={2}
+                placeholder="Specify clinical justification, specialized risk tolerance, or tailored monitoring plan..."
+                className="w-full rounded-lg border border-slate-300 bg-white dark:bg-card px-3 py-2 text-xs focus:border-teal-600 focus:outline-none"
+              />
             </div>
+          )}
+
+          {/* Action Row */}
+          <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center gap-2">
+              <label className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={isOverride}
+                  onChange={(e) => setIsOverride(e.target.checked)}
+                  disabled={isSigned}
+                  className="rounded border-slate-300 text-teal-600 focus:ring-teal-600 size-4"
+                />
+                <span>Clinical Override</span>
+              </label>
+              {isAlgorithmicMatch && (
+                <span className="font-mono text-[11px] text-teal-700 dark:text-teal-400 font-semibold flex items-center gap-1 ml-2">
+                  <Award size={13} /> Concordant with DEA Rank #1
+                </span>
+              )}
+            </div>
+
+            <button
+              onClick={handleSign}
+              disabled={isSubmitting || isSigned}
+              className="inline-flex items-center gap-2 rounded-lg bg-teal-600 hover:bg-teal-700 px-5 py-2 text-xs font-semibold text-white shadow-xs transition-all disabled:opacity-50 cursor-pointer"
+            >
+              {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
+              <span>{isSigned ? 'Signed & Stored' : 'Approve & Sign-Off'}</span>
+            </button>
           </div>
         </div>
       )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        {/* Selected Clinical Pathway */}
-        <div className="space-y-1.5">
-          <label className="mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
-            Selected Clinical Treatment Pathway:
-          </label>
-          <select
-            value={selectedPathway}
-            onChange={(e) => {
-              setSelectedPathway(e.target.value);
-              if (e.target.value !== topCandidate?.candidate) {
-                setIsOverride(true);
-              }
-            }}
-            disabled={isSigned}
-            className="w-full rounded-md border border-input bg-background p-2.5 text-xs font-medium focus:border-primary focus:outline-none"
-          >
-            {candidates.map((c, i) => (
-              <option key={i} value={c.candidate}>
-                Rank #{c.ranking}: {c.candidate} (Score: {c.score.toFixed(3)}) {c.contraindicated_flag ? '⚠️ Contraindicated' : ''}
-              </option>
-            ))}
-          </select>
-          {isAlgorithmicMatch ? (
-            <p className="text-[11px] text-teal-600 dark:text-teal-400 font-semibold flex items-center gap-1">
-              <Award size={12} /> Concordant with DEA Rank #1 mathematical optimum.
-            </p>
-          ) : (
-            <p className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold">
-              ⚠️ Deviating from algorithmic Rank #1: Clinical override justification required.
-            </p>
-          )}
-        </div>
-
-        {/* Clinician Details */}
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1">
-              Attending Clinician:
-            </label>
-            <input
-              type="text"
-              value={clinicianName}
-              onChange={(e) => setClinicianName(e.target.value)}
-              disabled={isSigned}
-              className="w-full rounded-md border border-input bg-background p-2 text-xs focus:border-primary focus:outline-none"
-            />
-          </div>
-          <div>
-            <label className="mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1">
-              License / NPI ID:
-            </label>
-            <input
-              type="text"
-              value={licenseId}
-              onChange={(e) => setLicenseId(e.target.value)}
-              disabled={isSigned}
-              className="w-full rounded-md border border-input bg-background p-2 text-xs mono focus:border-primary focus:outline-none"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Clinical Override & Attending Notes */}
-      <div className="space-y-1.5 text-xs">
-        <div className="flex items-center justify-between">
-          <label className="mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-            <FileText size={12} />
-            Clinical Notes & Override Documentation:
-          </label>
-          <label className="flex items-center gap-1.5 cursor-pointer text-[11px] mono text-muted-foreground">
-            <input
-              type="checkbox"
-              checked={isOverride}
-              onChange={(e) => setIsOverride(e.target.checked)}
-              disabled={isSigned}
-              className="rounded accent-primary"
-            />
-            <span>Clinical Override Applied</span>
-          </label>
-        </div>
-        <textarea
-          value={overrideNotes}
-          onChange={(e) => setOverrideNotes(e.target.value)}
-          disabled={isSigned}
-          rows={2}
-          placeholder="Document clinical rationale, specific patient contraindication considerations, or monitoring plan (mandatory if applying clinical override)..."
-          className="w-full rounded-md border border-input bg-background p-2.5 text-xs leading-relaxed focus:border-primary focus:outline-none"
-        />
-      </div>
-
-      {/* Action Footer */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3.5">
-        <div className="mono text-[10px] text-muted-foreground">
-          ClearDose Verification Seal • SHA-256 Audit Trail Linked • SaMD Tier 2 Concordance
-        </div>
-
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted text-foreground transition-all shadow-2xs"
-          >
-            <Printer size={13} />
-            Export / Print Verified Report
-          </button>
-
-          {!isSigned ? (
-            <button
-              onClick={handleSign}
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground shadow hover:bg-primary/90 transition-all disabled:opacity-50"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 size={14} className="animate-spin" />
-                  <span>Recording in Audit Log...</span>
-                </>
-              ) : (
-                <>
-                  <FileCheck size={14} />
-                  <span>Sign & Approve Decision</span>
-                </>
-              )}
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                setIsSigned(false);
-                setSignedRecord(null);
-              }}
-              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
-            >
-              Revoke / Edit Signature
-            </button>
-          )}
-        </div>
-      </div>
     </div>
   );
 }

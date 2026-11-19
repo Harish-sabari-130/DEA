@@ -162,7 +162,7 @@ function Metric({
   icon?: typeof Activity;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-md border border-card-border bg-card/90 p-4 shadow-sm transition-all duration-200 hover:border-primary/40 glass-card">
+    <div className="relative overflow-hidden rounded-md border border-slate-200 dark:border-border bg-white dark:bg-card p-4 shadow-sm transition-all duration-200 hover:border-primary/40">
       <div className="flex items-center justify-between">
         <span className="mono text-[10px] font-semibold uppercase tracking-[.12em] text-muted-foreground">
           {label}
@@ -199,7 +199,7 @@ function Metric({
 
 function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
-    <section className={cx('rounded-md border border-card-border bg-card/95 shadow-[var(--shadow)] backdrop-blur-xs transition-shadow', className)}>
+    <section className={cx('rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-card shadow-sm relative transition-shadow', className)}>
       {children}
     </section>
   );
@@ -244,16 +244,10 @@ function Button({
 
 function Shell({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
-  const [mobile, setMobile] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [auditOpen, setAuditOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(() => {
-    try {
-      return localStorage.getItem('dea_sidebar_collapsed') === 'true';
-    } catch {
-      return false;
-    }
-  });
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const demoQuery = useListDemoCases({ query: { queryKey: getListDemoCasesQueryKey() } });
 
   useEffect(() => {
     const handleOpenAudit = () => setAuditOpen(true);
@@ -269,16 +263,6 @@ function Shell({ children }: { children: ReactNode }) {
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
-  const toggleSidebar = () => {
-    setCollapsed(prev => {
-      const next = !prev;
-      try {
-        localStorage.setItem('dea_sidebar_collapsed', String(next));
-      } catch {}
-      return next;
-    });
-  };
-
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -287,211 +271,175 @@ function Shell({ children }: { children: ReactNode }) {
     }
   };
 
-  const nav = [
-    { href: '/', label: 'Clinical Workstation', icon: Stethoscope },
-    { href: '/evaluation', label: 'Evaluation & Benchmarks', icon: Gauge },
-    { href: '/knowledge', label: 'Evidence Corpus', icon: Database },
-  ];
-
   return (
     <div className="grain min-h-[100dvh] bg-background">
-      {/* Foldable Navigation Sidebar */}
-      <aside
-        className={cx(
-          'fixed inset-y-0 left-0 z-40 bg-[hsl(var(--sidebar))] text-[hsl(var(--sidebar-foreground))] transition-all duration-300 ease-in-out border-r border-[hsl(var(--sidebar-border))]',
-          collapsed ? 'w-[68px]' : 'w-[256px]',
-          mobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-        )}
-      >
-        <div className="flex h-full flex-col">
-          {/* Sidebar Top / Brand */}
-          <div className="flex items-center justify-between border-b border-[hsl(var(--sidebar-border))] px-3.5 py-4 min-h-[68px]">
-            <Link href="/" data-testid="link-brand" className="flex items-center gap-3 overflow-hidden">
-              <div className="grid size-9 shrink-0 place-items-center rounded-sm bg-[hsl(var(--sidebar-primary))] text-[hsl(var(--sidebar-primary-foreground))] shadow-sm">
-                <Network size={19} />
-              </div>
-              {!collapsed && (
-                <div className="transition-opacity duration-200 min-w-0">
-                  <div className="display text-base font-semibold leading-none text-white truncate">ClearDose CDS</div>
-                  <div className="mono mt-1 text-[9px] uppercase tracking-[.14em] text-[hsl(var(--sidebar-foreground))]/70 truncate">
-                    Clinical Decision Support
-                  </div>
-                </div>
-              )}
-            </Link>
-            <button
-              data-testid="button-close-menu"
-              onClick={() => setMobile(false)}
-              className="text-white/50 hover:text-white md:hidden"
-            >
-              <X size={18} />
-            </button>
-            {!collapsed && (
-              <button
-                data-testid="button-fold-sidebar-inside"
-                onClick={toggleSidebar}
-                title="Fold menu bar (Full screen)"
-                className="hidden md:flex size-7 items-center justify-center rounded text-white/40 hover:bg-white/10 hover:text-white transition-colors"
-              >
-                <PanelLeftClose size={15} />
-              </button>
-            )}
-          </div>
+      {/* Global Header Bar (Rigid 64px, non-wrapping) */}
+      <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-border bg-white dark:bg-card px-6 shrink-0 shadow-2xs">
+        {/* Left Zone: ClearDose Logo + Clinical Status Indicator */}
+        <div className="flex items-center gap-3 shrink-0">
+          <Link href="/" data-testid="link-brand" className="flex items-center gap-2.5">
+            <div className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground shadow-xs">
+              <Stethoscope size={18} />
+            </div>
+            <div className="leading-tight">
+              <span className="display text-base font-bold text-foreground tracking-tight">ClearDose</span>
+              <span className="mono text-[10px] text-primary font-bold ml-1">CDS</span>
+            </div>
+          </Link>
 
-          {/* Navigation Links */}
-          <div className="px-2.5 py-6">
-            {!collapsed && (
-              <div className="mb-3 px-3 mono text-[9px] uppercase tracking-[.18em] text-white/35">
-                Workstation Navigation
-              </div>
-            )}
-            {nav.map(({ href, label, icon: Icon }) => {
-              const active = location === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  data-testid={`link-nav-${label.toLowerCase().replaceAll(' ', '-')}`}
-                  title={collapsed ? label : undefined}
-                  className={cx(
-                    'group mb-1.5 flex items-center rounded-md text-sm font-medium transition-all',
-                    collapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5',
-                    active
-                      ? 'bg-[hsl(var(--sidebar-accent))] text-white shadow-xs'
-                      : 'text-white/65 hover:bg-white/8 hover:text-white'
-                  )}
-                >
-                  <Icon size={18} strokeWidth={1.8} className={cx('shrink-0 transition-colors', active ? 'text-[hsl(var(--sidebar-primary))]' : 'text-white/60 group-hover:text-white')} />
-                  {!collapsed && <span className="truncate">{label}</span>}
-                  {!collapsed && active && (
-                    <span className="ml-auto size-1.5 shrink-0 rounded-full bg-[hsl(var(--sidebar-primary))]" />
-                  )}
-                </Link>
-              );
-            })}
-
-            {/* Direct Audit History Ledger Drawer Trigger */}
-            <button
-              onClick={() => setAuditOpen(true)}
-              data-testid="link-nav-audit-history"
-              title={collapsed ? "Clinical Audit Ledger & Sign-Offs" : undefined}
-              className={cx(
-                'group mb-1.5 flex w-full items-center rounded-md text-sm font-medium transition-all text-white/65 hover:bg-white/8 hover:text-white',
-                collapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
-              )}
-            >
-              <History size={18} strokeWidth={1.8} className="shrink-0 text-white/60 group-hover:text-white" />
-              {!collapsed && <span className="truncate">Audit History</span>}
-            </button>
-          </div>
-
-          {/* Sidebar Footer */}
-          <div className="mt-auto border-t border-[hsl(var(--sidebar-border))] p-4">
-            {!collapsed ? (
-              <>
-                <div className="flex items-start gap-2.5 text-[11px] leading-relaxed text-white/70">
-                  <ShieldCheck size={16} className="mt-0.5 shrink-0 text-emerald-400" />
-                  <span>
-                    Clinical Decision Support System • AI Finds the Evidence, Math Ranks It, Doctors Decide • Final Prescribing Authority Resides with the Attending Clinician.
-                  </span>
-                </div>
-                <div className="mt-4 flex items-center justify-between mono text-[9px] text-white/40">
-                  <span>CLEARDOSE v1.2</span>
-                  <span>HOSPITAL CDS</span>
-                </div>
-              </>
-            ) : (
-              <div className="flex flex-col items-center gap-2 text-white/40">
-                <button
-                  onClick={toggleSidebar}
-                  title="Expand menu bar"
-                  className="grid size-8 place-items-center rounded hover:bg-white/10 hover:text-white transition-colors"
-                >
-                  <PanelLeftOpen size={16} />
-                </button>
-              </div>
-            )}
+          <div className="hidden lg:flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 mono text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+            <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>SECURE PIPELINE</span>
           </div>
         </div>
-      </aside>
 
-      {/* Main Container Area - expands when sidebar is folded */}
-      <div
-        className={cx(
-          'transition-all duration-300 ease-in-out',
-          collapsed ? 'md:pl-[68px]' : 'md:pl-[256px]'
-        )}
-      >
-        {/* Top Header with Fold & Fullscreen Controls */}
-        <header className="sticky top-0 z-30 flex h-[68px] items-center justify-between border-b border-border bg-background/95 px-4 sm:px-6 md:px-8 backdrop-blur-md">
-          <div className="flex items-center gap-3">
-            {/* Mobile menu open */}
-            <button
-              data-testid="button-open-menu"
-              onClick={() => setMobile(true)}
-              className="mr-1 text-muted-foreground hover:text-foreground md:hidden"
-            >
-              <Menu size={21} />
-            </button>
+        {/* Center Zone: Global Tab / View Switcher */}
+        <nav className="hidden md:flex mx-auto items-center gap-1 rounded-xl border border-slate-200/70 dark:border-border bg-slate-100/80 dark:bg-muted/50 p-1 text-xs shadow-2xs">
+          <Link
+            href="/"
+            data-testid="link-nav-workspace"
+            className={cx(
+              'flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-semibold transition-all',
+              location === '/'
+                ? 'bg-white dark:bg-card text-primary shadow-xs'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Stethoscope size={14} />
+            <span>Workspace</span>
+          </Link>
+          <Link
+            href="/evaluation"
+            data-testid="link-nav-evaluation"
+            className={cx(
+              'flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-semibold transition-all',
+              location === '/evaluation'
+                ? 'bg-white dark:bg-card text-primary shadow-xs'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Gauge size={14} />
+            <span>Clinical Benchmarks</span>
+          </Link>
+          <button
+            onClick={() => setAuditOpen(true)}
+            data-testid="link-nav-audit-history"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-semibold text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+          >
+            <History size={14} />
+            <span>Audit Ledger</span>
+          </button>
+          <Link
+            href="/knowledge"
+            data-testid="link-nav-knowledge"
+            className={cx(
+              'hidden xl:flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-semibold transition-all',
+              location === '/knowledge'
+                ? 'bg-white dark:bg-card text-primary shadow-xs'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Database size={14} />
+            <span>Evidence Corpus</span>
+          </Link>
+        </nav>
 
-            {/* Desktop Foldable Sidebar Toggle */}
-            <button
-              data-testid="button-toggle-sidebar"
-              onClick={toggleSidebar}
-              title={collapsed ? "Expand sidebar menu" : "Fold sidebar menu (Full screen view)"}
-              className="hidden md:inline-flex size-9 items-center justify-center rounded-md border border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-2xs"
-            >
-              {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
-            </button>
+        {/* Right Zone: Compact Utility Actions */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          {/* Print Official Report Button */}
+          <button
+            data-testid="button-print-report"
+            onClick={() => window.print()}
+            title="Print Official Medical Decision Support Report"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-border bg-white dark:bg-card px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-muted transition-all shadow-2xs cursor-pointer"
+          >
+            <Printer size={14} className="text-primary" />
+            <span>Print Report</span>
+          </button>
 
-            <div className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_0_4px_hsl(var(--primary)/.12)] animate-pulse" />
-              <span className="mono text-[10px] uppercase tracking-[.15em] text-muted-foreground hidden sm:inline">
-                Hospital-Grade Clinical Decision Support Workstation • ClearDose Engine
-              </span>
-              <span className="mono text-[10px] uppercase tracking-[.15em] text-muted-foreground sm:hidden">
-                ClearDose CDS
-              </span>
-            </div>
-          </div>
+          {/* New Case / Reset */}
+          <button
+            data-testid="button-reset-case"
+            onClick={() => {
+              sessionStorage.setItem(
+                'cleardose_load_case',
+                JSON.stringify({ patient: fallbackPatient, title: 'New Case Intake' })
+              );
+              window.dispatchEvent(
+                new CustomEvent('cleardose:load_case', {
+                  detail: { patient: fallbackPatient, title: 'New Case Intake' },
+                })
+              );
+              if (location !== '/') setLocation('/');
+            }}
+            title="Start New Patient Case / Reset Form"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-border bg-white dark:bg-card px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-muted transition-all shadow-2xs cursor-pointer"
+          >
+            <RefreshCw size={13} className="text-primary" />
+            <span>New Case / Reset</span>
+          </button>
 
-          <div className="flex items-center gap-3">
-            <span className="hidden mono text-[10px] text-muted-foreground lg:block">
-              HIPAA SECURE · DE-IDENTIFIED PATIENT DATA
-            </span>
+          {/* Fullscreen Toggle */}
+          <button
+            data-testid="button-toggle-fullscreen"
+            onClick={toggleFullscreen}
+            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen mode'}
+            className="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 dark:border-border bg-slate-50 dark:bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-2xs cursor-pointer"
+          >
+            {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+          </button>
 
-            {/* Audit History Ledger Toggle */}
-            <button
-              data-testid="button-open-audit-ledger"
-              onClick={() => setAuditOpen(true)}
-              title="Open Clinical Audit History & Immutable Ledger"
-              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-2xs"
-            >
-              <History size={15} className="text-primary" />
-              <span className="hidden sm:inline mono text-[11px]">Audit History</span>
-            </button>
+          {/* Mobile Menu Toggle */}
+          <button
+            data-testid="button-open-menu"
+            onClick={() => setMobileMenuOpen((o) => !o)}
+            className="md:hidden inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 dark:border-border bg-slate-50 dark:bg-card text-muted-foreground"
+          >
+            {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+          </button>
+        </div>
+      </header>
 
-            {/* Fullscreen Mode Toggle */}
-            <button
-              data-testid="button-toggle-fullscreen"
-              onClick={toggleFullscreen}
-              title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen mode"}
-              className="inline-flex size-9 items-center justify-center rounded-md border border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-2xs"
-            >
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-            </button>
+      {/* Mobile Navigation Dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-b border-border bg-card p-3 space-y-2">
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 p-2 rounded-md hover:bg-muted text-xs font-semibold"
+          >
+            <Stethoscope size={14} /> Workspace
+          </Link>
+          <Link
+            href="/evaluation"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 p-2 rounded-md hover:bg-muted text-xs font-semibold"
+          >
+            <Gauge size={14} /> Clinical Benchmarks
+          </Link>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              setAuditOpen(true);
+            }}
+            className="flex items-center gap-2 p-2 rounded-md hover:bg-muted text-xs font-semibold w-full text-left"
+          >
+            <History size={14} /> Audit Ledger
+          </button>
+          <Link
+            href="/knowledge"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 p-2 rounded-md hover:bg-muted text-xs font-semibold"
+          >
+            <Database size={14} /> Evidence Corpus
+          </Link>
+        </div>
+      )}
 
-            <div className="flex size-8 items-center justify-center rounded-full border border-border bg-card text-xs font-semibold text-primary shadow-2xs">
-              CDS
-            </div>
-          </div>
-        </header>
-
-        {/* Fluid Edge-to-Edge Main Content Area */}
-        <main className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-7 transition-all duration-300">
-          {children}
-        </main>
-      </div>
+      {/* Strict Viewport Main Canvas Container */}
+      <main className="w-full h-[calc(100vh-4rem)] overflow-hidden bg-slate-50 dark:bg-background">
+        {children}
+      </main>
 
       {/* Slide-Over Clinical Audit Ledger Drawer */}
       <AuditHistoryDrawer
@@ -525,17 +473,19 @@ function Field({
   type?: string;
 }) {
   return (
-    <label className="block">
-      <span className="mb-1.5 block mono text-[10px] uppercase tracking-[.11em] text-muted-foreground">{label}</span>
+    <div className="space-y-1">
+      <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400">
+        {label}
+      </label>
       <input
         type={type}
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         data-testid={testId}
-        className="w-full rounded-sm border border-input bg-background px-3 py-2.5 text-sm outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground/55 focus:border-primary focus:ring-2 focus:ring-primary/15"
+        className="w-full rounded-lg border border-slate-200 dark:border-input bg-white dark:bg-background px-3 py-1.5 text-xs text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:ring-1 focus:ring-primary shadow-2xs"
       />
-    </label>
+    </div>
   );
 }
 
@@ -553,16 +503,18 @@ function TextArea({
   testId: string;
 }) {
   return (
-    <label className="block">
-      <span className="mb-1.5 block mono text-[10px] uppercase tracking-[.11em] text-muted-foreground">{label}</span>
+    <div className="space-y-1">
+      <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400">
+        {label}
+      </label>
       <textarea
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         data-testid={testId}
-        className="min-h-[74px] w-full resize-y rounded-sm border border-input bg-background px-3 py-2.5 text-sm leading-relaxed outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground/55 focus:border-primary focus:ring-2 focus:ring-primary/15"
+        className="min-h-[58px] w-full resize-y rounded-lg border border-slate-200 dark:border-input bg-white dark:bg-background px-3 py-1.5 text-xs leading-relaxed text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:ring-1 focus:ring-primary shadow-2xs"
       />
-    </label>
+    </div>
   );
 }
 
@@ -585,186 +537,250 @@ function CaseForm({
   onLoadDemo: (c: DemoCase) => void;
   onFold?: () => void;
 }) {
-  const [demoOpen, setDemoOpen] = useState(false);
   const update = (key: keyof PatientProfileInput, value: string) =>
-    setPatient(p => ({ ...p, [key]: key === 'age' ? Number(value) : value.split(',').map(x => x.trim()).filter(Boolean) }));
+    setPatient((p) => ({
+      ...p,
+      [key]: key === 'age' ? Number(value) : value.split(',').map((x) => x.trim()).filter(Boolean),
+    }));
+
+  const getLabVal = (name: string, fallback = '') => {
+    for (const [k, v] of Object.entries(patient.lab_values || {})) {
+      if (k.toLowerCase().includes(name.toLowerCase())) return String(v);
+    }
+    return fallback;
+  };
+
+  const setLabVal = (name: string, val: string) => {
+    setPatient((p) => {
+      const nextLabs = { ...(p.lab_values || {}) };
+      for (const k of Object.keys(nextLabs)) {
+        if (k.toLowerCase().includes(name.toLowerCase())) {
+          delete nextLabs[k];
+        }
+      }
+      if (val.trim()) {
+        nextLabs[name] = val.trim();
+      }
+      return { ...p, lab_values: nextLabs };
+    });
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onRun(patient);
   };
 
   return (
-    <Card className="glass-card overflow-hidden">
-      <div className="flex items-center justify-between border-b border-card-border bg-muted/40 px-5 py-4">
-        <div>
-          <SectionLabel icon={FileInput}>Clinical Case Vector</SectionLabel>
-          <h2 className="display mt-1 text-lg font-semibold tracking-tight">Patient Profile</h2>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="relative">
-            <Button variant="ghost" testId="button-demo-cases" onClick={() => setDemoOpen(v => !v)} className="text-xs">
-              <Sparkles size={14} className="text-amber-600" />
-              <span>Load benchmark case</span>
-              <ChevronDown size={13} className={cx('transition-transform duration-200', demoOpen && 'rotate-180')} />
-            </Button>
-            {demoOpen && (
-              <div className="absolute right-0 top-12 z-30 w-84 rounded-md border border-border bg-popover/98 p-2 shadow-2xl backdrop-blur-md">
-                <div className="px-2 py-1.5 mono text-[9px] uppercase tracking-[.15em] text-muted-foreground">
-                  Verified Polypharmacy Benchmark Cases
-                </div>
-                {isLoadingCases ? (
-                  <div className="p-4 mono text-xs text-muted-foreground">Querying clinical cohort…</div>
-                ) : demoCases?.length ? (
-                  <div className="space-y-1">
-                    {demoCases.map(c => (
-                      <button
-                        key={c.id}
-                        data-testid={`button-load-case-${c.id}`}
-                        onClick={() => {
-                          setPatient(c.patient);
-                          onLoadDemo(c);
-                          setDemoOpen(false);
-                        }}
-                        className="group flex w-full flex-col rounded-sm p-3 text-left transition-colors hover:bg-muted/80"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold group-hover:text-primary">{c.title}</span>
-                          <ChevronRight size={13} className="text-muted-foreground/50 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
-                        </div>
-                        <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">{c.description}</p>
-                        <div className="mt-2">
-                          <Pill
-                            tone={
-                              c.conflict_profile.includes('no major')
-                                ? 'teal'
-                                : c.conflict_profile.includes('renal')
-                                ? 'amber'
-                                : 'red'
-                            }
-                          >
-                            {c.conflict_profile}
-                          </Pill>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-4 text-xs text-muted-foreground">No benchmark cases available.</div>
-                )}
-              </div>
-            )}
+    <div className="space-y-4">
+      {/* Top Header & Fold Button */}
+      <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-border">
+        <div className="flex items-center gap-2">
+          <div className="grid size-7 place-items-center rounded-md bg-primary/10 text-primary">
+            <FileInput size={14} />
           </div>
-          {onFold && (
-            <button
-              type="button"
-              data-testid="button-fold-case-form"
-              onClick={onFold}
-              title="Fold input vector panel for full-screen results"
-              className="inline-flex size-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-2xs"
-            >
-              <PanelLeftClose size={15} />
-            </button>
-          )}
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-foreground block">
+              Patient Dossier & Intake
+            </span>
+            <span className="text-[10px] text-muted-foreground block">
+              Clinical parameters & biomarker profile
+            </span>
+          </div>
         </div>
+        {onFold && (
+          <button
+            type="button"
+            data-testid="button-fold-case-form"
+            onClick={onFold}
+            title="Fold patient dossier for full-width results"
+            className="inline-flex size-7 items-center justify-center rounded-md border border-slate-200 dark:border-border bg-slate-50 dark:bg-card text-muted-foreground hover:bg-slate-100 hover:text-foreground transition-all shadow-2xs cursor-pointer"
+          >
+            <PanelLeftClose size={14} />
+          </button>
+        )}
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4 p-5">
-        <div className="grid gap-3 sm:grid-cols-[100px_1fr]">
-          <Field label="Age" value={String(patient.age)} onChange={v => update('age', v)} type="number" testId="input-age" />
-          <Field label="Sex" value={patient.sex} onChange={v => update('sex', v)} placeholder="e.g. Female" testId="input-sex" />
+      {/* Preset Dropdown */}
+      <div className="space-y-1">
+        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400">
+          Load Case Preset
+        </label>
+        <select
+          data-testid="select-case-preset"
+          onChange={(e) => {
+            const found = demoCases?.find((c) => c.id === e.target.value);
+            if (found) {
+              setPatient(found.patient);
+              onLoadDemo(found);
+            }
+          }}
+          defaultValue=""
+          className="w-full rounded-lg border border-slate-200 dark:border-border bg-slate-50 dark:bg-card px-3 py-2 text-xs font-semibold text-foreground focus:border-primary focus:outline-none cursor-pointer shadow-2xs"
+        >
+          <option value="" disabled>
+            {isLoadingCases ? 'Loading clinical presets…' : 'Select Patient Preset (6 Demos & 23 Benchmarks)…'}
+          </option>
+          {demoCases?.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.title}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
+        {/* 2-Column: Age & Sex */}
+        <div className="grid grid-cols-2 gap-3">
+          <Field
+            label="Age"
+            value={String(patient.age)}
+            onChange={(v) => update('age', v)}
+            type="number"
+            placeholder="e.g., 67"
+            testId="input-age"
+          />
+          <Field
+            label="Sex"
+            value={patient.sex}
+            onChange={(v) => update('sex', v)}
+            placeholder="e.g., Female"
+            testId="input-sex"
+          />
         </div>
 
+        {/* 2-Column Structured Lab Grid */}
+        <div className="rounded-xl border border-slate-200 dark:border-border bg-slate-50/70 dark:bg-muted/10 p-3 space-y-2.5 shadow-2xs">
+          <span className="mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+            Key Organ Labs & Biomarkers:
+          </span>
+          <div className="grid grid-cols-2 gap-2.5">
+            <Field
+              label="eGFR (mL/min)"
+              value={getLabVal('eGFR', '')}
+              onChange={(v) => setLabVal('eGFR', v)}
+              placeholder="e.g., 24"
+              testId="input-lab-egfr"
+            />
+            <Field
+              label="K+ (mEq/L)"
+              value={getLabVal('potassium', getLabVal('k', ''))}
+              onChange={(v) => setLabVal('potassium', v)}
+              placeholder="e.g., 5.4"
+              testId="input-lab-potassium"
+            />
+            <Field
+              label="Creatinine (mg/dL)"
+              value={getLabVal('creatinine', getLabVal('cr', ''))}
+              onChange={(v) => setLabVal('creatinine', v)}
+              placeholder="e.g., 2.1"
+              testId="input-lab-creatinine"
+            />
+            <Field
+              label="QTc (ms)"
+              value={getLabVal('QTc', '')}
+              onChange={(v) => setLabVal('QTc', v)}
+              placeholder="e.g., 460"
+              testId="input-lab-qtc"
+            />
+            <Field
+              label="INR"
+              value={getLabVal('INR', '')}
+              onChange={(v) => setLabVal('INR', v)}
+              placeholder="e.g., 1.1"
+              testId="input-lab-inr"
+            />
+            <Field
+              label="ALT/AST (U/L)"
+              value={getLabVal('ALT', getLabVal('AST', ''))}
+              onChange={(v) => setLabVal('ALT', v)}
+              placeholder="e.g., 32"
+              testId="input-lab-alt"
+            />
+          </div>
+        </div>
+
+        {/* Diagnoses */}
         <TextArea
-          label="Active diagnoses / conditions"
+          label="Active Diagnoses & Conditions"
           value={patient.diseases.join(', ')}
-          onChange={v => update('diseases', v)}
-          placeholder="Separate conditions with commas"
+          onChange={(v) => update('diseases', v)}
+          placeholder="e.g., Type 2 Diabetes, CKD Stage 4, Atrial Fibrillation"
           testId="input-diseases"
         />
 
+        {/* Medications */}
         <TextArea
-          label="Active medications (Outpatient / Clinic Record)"
+          label="Active Outpatient Medications"
           value={patient.medications.join(', ')}
-          onChange={v => update('medications', v)}
-          placeholder="Include dose and frequency when known"
+          onChange={(v) => update('medications', v)}
+          placeholder="e.g., Metformin 1000mg BID, Lisinopril 20mg daily"
           testId="input-medications"
         />
 
+        {/* Secondary Meds */}
         <TextArea
-          label="Secondary / Inpatient / Discharge medications (for Reconciler)"
+          label="Secondary / Inpatient Orders (Reconciler)"
           value={(patient.secondary_medications || []).join(', ')}
-          onChange={v => setPatient(p => ({ ...p, secondary_medications: v.split(',').map(x => x.trim()).filter(Boolean) }))}
-          placeholder="Hospital admission/discharge orders for discrepancy checking"
+          onChange={(v) =>
+            setPatient((p) => ({
+              ...p,
+              secondary_medications: v.split(',').map((x) => x.trim()).filter(Boolean),
+            }))
+          }
+          placeholder="e.g., Glipizide 5mg daily, Apixaban 2.5mg BID"
           testId="input-secondary-medications"
         />
 
+        {/* Chief Complaint */}
         <TextArea
-          label="Chief complaint / Presenting inquiry"
+          label="Chief Complaint / Clinical Question"
           value={patient.symptoms.join(', ')}
-          onChange={v => update('symptoms', v)}
-          placeholder="What clinical intervention requires arbitration?"
+          onChange={(v) => update('symptoms', v)}
+          placeholder="e.g., Optimize glycemic control given declining renal function"
           testId="input-symptoms"
         />
 
-        <div className="grid gap-3 sm:grid-cols-2">
+        {/* Allergies & Comorbidities */}
+        <div className="grid grid-cols-2 gap-2.5">
           <TextArea
-            label="Documented allergies"
+            label="Documented Allergies"
             value={patient.allergies.join(', ')}
-            onChange={v => update('allergies', v)}
-            placeholder="Known drug/food allergies"
+            onChange={(v) => update('allergies', v)}
+            placeholder="e.g., Penicillin"
             testId="input-allergies"
           />
           <TextArea
-            label="Comorbidities & context"
+            label="Comorbidities & Notes"
             value={patient.conditions.join(', ')}
-            onChange={v => update('conditions', v)}
-            placeholder="Risk factors, recent clinical events"
+            onChange={(v) => update('conditions', v)}
+            placeholder="e.g., Prior TIA"
             testId="input-conditions"
           />
         </div>
 
-        <TextArea
-          label="Lab values & biomarkers"
-          value={Object.entries(patient.lab_values).map(([k, v]) => `${k}: ${v}`).join(', ')}
-          onChange={v =>
-            setPatient(p => ({
-              ...p,
-              lab_values: Object.fromEntries(
-                v
-                  .split(',')
-                  .map(x => {
-                    const [k, ...rest] = x.split(':');
-                    return [k?.trim(), rest.join(':').trim()];
-                  })
-                  .filter(([k]) => k)
-              ),
-            }))
-          }
-          placeholder="eGFR: 44, K+: 4.6, QTc: 460, hemoglobin: 11.8"
-          testId="input-labs"
-        />
-
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/70 pt-4">
-          <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+        {/* Submit Row */}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 dark:border-border pt-3">
+          <div className="flex items-center gap-1.5 mono text-[10px] text-muted-foreground">
             <ShieldCheck size={14} className="text-emerald-600" />
-            <span>HIPAA Secure: De-identified patient profile vector</span>
+            <span>HIPAA De-Identified</span>
           </div>
-          <Button type="submit" disabled={isRunning} testId="button-run-analysis" className="px-5 py-2.5">
+
+          <Button type="submit" disabled={isRunning} testId="button-run-analysis" className="px-5 py-2 text-xs">
             {isRunning ? (
               <>
-                <LoaderCircle size={15} className="animate-spin" />
-                <span>Arbitrating Evidence…</span>
+                <LoaderCircle size={14} className="animate-spin" />
+                <span>Arbitrating…</span>
               </>
             ) : (
               <>
-                <Play size={14} fill="currentColor" />
+                <Play size={13} fill="currentColor" />
                 <span>Run Clinical Arbitration</span>
               </>
             )}
           </Button>
         </div>
       </form>
-    </Card>
+    </div>
   );
 }
 
@@ -777,8 +793,8 @@ function AgentRail({ report, running }: { report?: AnalysisReport; running: bool
   ];
 
   return (
-    <Card className="glass-card overflow-hidden p-5">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-3">
+    <div className="rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-card p-5 shadow-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-border pb-3">
         <SectionLabel icon={BrainCircuit}>Clinical Pipeline Telemetry & Silo Resolution</SectionLabel>
         <span className="mono text-[10px] uppercase tracking-[.12em] text-muted-foreground">
           {running ? (
@@ -805,12 +821,12 @@ function AgentRail({ report, running }: { report?: AnalysisReport; running: bool
               key={s.agent}
               data-testid={`status-agent-${i}`}
               className={cx(
-                'relative flex flex-col justify-between rounded-md border p-3.5 transition-all',
+                'relative flex flex-col justify-between rounded-lg border p-3.5 transition-all',
                 done
-                  ? 'border-primary/30 bg-primary/[0.04]'
+                  ? 'border-emerald-500/30 bg-emerald-500/[0.04]'
                   : live
                   ? 'border-amber-500/40 bg-amber-500/[0.06]'
-                  : 'border-border/70 bg-card/60'
+                  : 'border-slate-200 dark:border-border bg-slate-50/50 dark:bg-muted/20'
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -818,18 +834,18 @@ function AgentRail({ report, running }: { report?: AnalysisReport; running: bool
                   className={cx(
                     'grid size-6 place-items-center rounded-full border text-xs font-semibold',
                     done
-                      ? 'border-primary/50 bg-primary text-primary-foreground'
+                      ? 'border-emerald-600 bg-emerald-600 text-white'
                       : live
                       ? 'border-amber-600/50 bg-amber-500/20 text-amber-800'
-                      : 'border-border bg-muted/60 text-muted-foreground'
+                      : 'border-slate-200 dark:border-border bg-slate-100 dark:bg-muted text-muted-foreground'
                   )}
                 >
                   {done ? <Check size={12} /> : live ? <LoaderCircle size={12} className="animate-spin" /> : <span>{i + 1}</span>}
                 </div>
-                <Pill tone={done ? 'teal' : live ? 'amber' : 'neutral'}>{s.status}</Pill>
+                <Pill tone={done ? 'emerald' : live ? 'amber' : 'neutral'}>{s.status}</Pill>
               </div>
               <div className="mt-2.5">
-                <div className="text-xs font-semibold">{s.agent}</div>
+                <div className="text-xs font-semibold text-foreground">{s.agent}</div>
                 <p className="mt-0.5 text-[11px] leading-tight text-muted-foreground">{s.summary}</p>
               </div>
             </div>
@@ -837,12 +853,12 @@ function AgentRail({ report, running }: { report?: AnalysisReport; running: bool
         })}
       </div>
       {running && (
-        <div className="mt-4 flex items-center justify-center gap-2 border-t border-border/50 pt-3 mono text-[10px] uppercase tracking-[.1em] text-amber-700">
+        <div className="mt-4 flex items-center justify-center gap-2 border-t border-slate-100 dark:border-border pt-3 mono text-[10px] uppercase tracking-[.1em] text-amber-700">
           <span className="size-2 animate-ping rounded-full bg-amber-500" />
           Deterministic evidence arbitration matrix evaluating candidates...
         </div>
       )}
-    </Card>
+    </div>
   );
 }
 
@@ -918,7 +934,7 @@ function EvidencePanel({ report }: { report: AnalysisReport }) {
           : 'space-y-5'
       )}>
         {displayedSilos.map(({ id, label, tone, icon: Icon, data, colorClass }) => (
-          <Card key={id} className="glass-card overflow-hidden">
+          <div key={id} className="bg-white dark:bg-card border border-slate-200 dark:border-border rounded-xl shadow-sm relative overflow-hidden">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-card-border px-5 py-4 bg-muted/20">
               <div className="flex items-center gap-3">
                 <div className={cx('grid size-9 place-items-center rounded-md border', colorClass)}>
@@ -1114,7 +1130,7 @@ function EvidencePanel({ report }: { report: AnalysisReport }) {
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
         ))}
       </div>
     </div>
@@ -1126,12 +1142,23 @@ function ReportView({
   patient,
   onReRun,
   isReRunning = false,
+  initialTab = 'arbitration',
 }: {
   report: AnalysisReport;
   patient?: PatientProfileInput;
   onReRun?: (modifiedPatient: PatientProfileInput, weights: { alpha: number; beta: number; gamma: number; delta: number }) => void;
   isReRunning?: boolean;
+  initialTab?: 'arbitration' | 'whatif' | 'evidence' | 'reconciler';
 }) {
+  const [reportTab, setReportTab] = useState<'arbitration' | 'whatif' | 'evidence' | 'reconciler'>(initialTab);
+  const [expandedCandidate, setExpandedCandidate] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (initialTab) {
+      setReportTab(initialTab);
+    }
+  }, [initialTab]);
+
   const top = report.dea.candidates[0];
 
   const confirmedConflicts = useMemo(
@@ -1157,487 +1184,396 @@ function ReportView({
     dataQualityAdvisories.length > 0 ||
     unknownAlerts.length > 0;
 
-  const advisoryCount = coverageGapAdvisories.length + dataQualityAdvisories.length + unknownAlerts.length;
-
   return (
-    <div className="animate-rise space-y-8">
-      {/* 1. Decoupled Red Safety Alert Banner (Above and Separate from Scores) */}
-      <SafetyAlertBanner report={report} />
-
-      {/* 2. 5-Second Patient Summary Card & Smart Routing Badge */}
+    <div className="flex flex-col gap-5 w-full">
+      {/* 5-Second Patient Summary Card (Crisp 2-Row White Card) */}
       <PatientSummaryCard report={report} patient={patient} />
 
-      {/* 3. Cryptographic Determinism & Reproducibility Verification Badge */}
-      <ReproducibilityBadge report={report} patient={patient} />
+      {/* Real-Time Safety & Contraindication Alert Banner */}
+      <SafetyAlertBanner report={report} />
 
-      {/* Hero Command Header */}
-      <Card className="glass-card overflow-hidden p-6 sm:p-7 border-primary/20 bg-gradient-to-br from-card via-card to-primary/[0.03]">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
-          <div className="flex items-center gap-2">
-            <Pill tone="teal" className="badge-glow-teal">
-              Clinical Arbitration #{report.id.slice(0, 8).toUpperCase()}
-            </Pill>
-            <span className="mono text-[10px] text-muted-foreground">
-              {new Date(report.generated_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            {confirmedConflicts.length === 0 ? (
-              <Pill tone="emerald">
-                <CheckCircle2 size={12} />
-                Zero Cross-Silo Conflicts
-              </Pill>
-            ) : (
-              <Pill tone="red" className="badge-glow-rose">
-                <AlertTriangle size={12} />
-                {confirmedConflicts.length} Verified Collision{confirmedConflicts.length > 1 ? 's' : ''}
-              </Pill>
+      {/* 4-Tab Navigation Bar cleanly below SafetyAlertBanner */}
+      <div className="mt-2 border-b border-slate-200 dark:border-border pb-2">
+        <div className="flex flex-wrap items-center gap-1 rounded-lg border border-slate-200 dark:border-border bg-white dark:bg-card p-1 text-xs shadow-xs w-fit">
+          <button
+            onClick={() => setReportTab('arbitration')}
+            data-testid="tab-report-arbitration"
+            className={cx(
+              'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer',
+              reportTab === 'arbitration'
+                ? 'bg-slate-100 dark:bg-muted text-primary shadow-xs font-black'
+                : 'text-muted-foreground hover:text-foreground'
             )}
-            <Pill tone="neutral">ClearDose Engine v1.2</Pill>
-          </div>
-        </div>
+          >
+            <Target size={13} />
+            <span>Arbitration & Ranking</span>
+            <span className="rounded bg-primary/10 dark:bg-white/20 px-1.5 py-0.2 text-[9px]">
+              {report.dea.candidates.length}
+            </span>
+          </button>
 
-        <div className="mt-5">
-          <div className="flex items-start gap-3">
-            <div className="mt-1 grid size-8 shrink-0 place-items-center rounded-md bg-primary/10 text-primary">
-              <Stethoscope size={18} />
-            </div>
-            <div>
-              <div className="mono text-[10px] font-semibold uppercase tracking-[.15em] text-muted-foreground">
-                Clinical Context & Synthesized Vector
+          <button
+            onClick={() => setReportTab('whatif')}
+            data-testid="tab-report-whatif"
+            className={cx(
+              'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer',
+              reportTab === 'whatif'
+                ? 'bg-slate-100 dark:bg-muted text-primary shadow-xs font-black'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <SlidersHorizontal size={13} />
+            <span>What-If Simulator</span>
+          </button>
+
+          <button
+            onClick={() => setReportTab('evidence')}
+            data-testid="tab-report-evidence"
+            className={cx(
+              'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer',
+              reportTab === 'evidence'
+                ? 'bg-slate-100 dark:bg-muted text-primary shadow-xs font-black'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Layers3 size={13} />
+            <span>Evidence Silos & Conflicts</span>
+            {confirmedConflicts.length > 0 && (
+              <span className="rounded bg-rose-500 text-white px-1.5 py-0.2 text-[9px] font-bold">
+                {confirmedConflicts.length}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setReportTab('reconciler')}
+            data-testid="tab-report-reconciler"
+            className={cx(
+              'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer',
+              reportTab === 'reconciler'
+                ? 'bg-slate-100 dark:bg-muted text-primary shadow-xs font-black'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <GitCompare size={13} />
+            <span>Medication Reconciler</span>
+            {report?.reconciliation?.has_discrepancy && (
+              <span className="rounded bg-amber-500 text-white px-1.5 py-0.2 text-[9px] font-bold">
+                !
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Active Tab Panel in normal document flow */}
+      <div className="space-y-4">
+        {/* Tab 1: Arbitration & Ranking */}
+        {reportTab === 'arbitration' && (
+          <div className="space-y-4">
+            {/* DEA Ranked Candidates Card */}
+            <div className="bg-white dark:bg-card border border-slate-200 dark:border-border rounded-xl shadow-sm relative overflow-hidden">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-border px-5 py-3.5 bg-slate-50 dark:bg-muted/40">
+                <div className="flex items-center gap-2">
+                  <Target size={15} className="text-primary" />
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
+                    DEA Ranked Treatment Pathways
+                  </h3>
+                  <span className="rounded bg-teal-500/10 border border-teal-500/20 px-2 py-0.2 mono text-[10px] font-bold text-teal-800 dark:text-teal-300">
+                    V = 0.35Q + 0.30S + 0.15T − 0.20P
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 mono text-[10px] text-muted-foreground">
+                  <span>Deterministic Arbitration</span>
+                  <span>•</span>
+                  <span>Zero Hallucination</span>
+                </div>
               </div>
-              <h2
-                data-testid="text-patient-summary"
-                className="display mt-1 text-xl sm:text-2xl font-bold leading-snug tracking-tight text-foreground"
-              >
-                {report.patient_summary}
-              </h2>
-            </div>
-          </div>
-        </div>
 
-        {/* 4 High-Precision KPI Cards */}
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Metric
-            label="Candidates Evaluated"
-            value={String(report.dea.candidates.length)}
-            sub="Ranked across 3 silos"
-            icon={Target}
-            tone="blue"
-          />
-          <Metric
-            label="Verified Conflicts"
-            value={String(confirmedConflicts.length)}
-            tone={confirmedConflicts.length ? 'red' : 'teal'}
-            sub={advisoryCount > 0 ? `+${advisoryCount} advisories` : 'Evidence-linked verified'}
-            icon={ShieldAlert}
-          />
-          <Metric
-            label="Top Ranked Score"
-            value={top ? top.score.toFixed(3) : '—'}
-            sub={top ? `Rank #1: ${top.candidate.slice(0, 18)}...` : 'Deterministic'}
-            icon={Sparkles}
-            tone="teal"
-          />
-          <Metric
-            label="Decision Arbitration"
-            value="DEA Matrix"
-            sub="Zero Hallucination / Python"
-            icon={Scale}
-            tone="blue"
-          />
-        </div>
-      </Card>
+              <div className="divide-y divide-slate-100 dark:divide-border/60">
+                {report.dea.candidates.map((c) => {
+                  const isRank1 = c.ranking === 1;
+                  const isContra = Boolean(c.contraindicated_flag);
+                  const isExpanded = expandedCandidate === c.ranking;
 
-      {/* Ranked Candidates Matrix (DEA) */}
-      <Card className="glass-card overflow-hidden">
-        <div className="border-b border-card-border bg-gradient-to-r from-[hsl(var(--foreground))] to-[hsl(var(--foreground)/0.92)] px-6 py-5 text-[hsl(var(--background))]">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2 mono text-[10px] font-semibold uppercase tracking-[.15em] text-teal-400">
-                <Target size={13} />
-                <span>Deterministic Evidence Arbitration (DEA)</span>
-              </div>
-              <h3 className="display mt-1 text-xl font-bold text-white">Ranked Candidate Options</h3>
-            </div>
-            <div className="flex items-center gap-2">
-              <Pill tone="amber">Mathematical Arbitration</Pill>
-              <Pill tone="teal">No LLM Hallucinations</Pill>
-            </div>
-          </div>
-          <p className="mt-2.5 max-w-3xl text-xs leading-relaxed text-white/70">
-            {report.dea.method_note} Candidates are ranked deterministically by evaluating Guideline Grade (Q),
-            Semantic Relevance (R), Literature Recency (T), and subtracting Patient-Specific Safety Risk (P).
-            Active contraindications receive an automatic clinical safety demotion.
-          </p>
-        </div>
-
-        <div className="divide-y divide-border/60">
-          {report.dea.candidates.map(c => {
-            const isRank1 = c.ranking === 1;
-            const isContraindicated = Boolean(c.contraindicated_flag);
-            return (
-              <div
-                key={c.ranking}
-                data-testid={`row-candidate-${c.ranking}`}
-                className={cx(
-                  'p-5 transition-colors',
-                  isContraindicated
-                    ? 'bg-red-500/[0.04] border-l-4 border-red-600'
-                    : isRank1
-                    ? 'bg-primary/[0.04]'
-                    : 'hover:bg-muted/30'
-                )}
-              >
-                {isRank1 ? (
-                  <div>
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-teal-600/30 bg-teal-500/15 px-2.5 py-0.5 mono text-[10px] font-bold uppercase tracking-wider text-teal-800 dark:text-teal-300">
-                          <Award size={12} />
-                          Rank #01 · Preferred Candidate
-                        </span>
-                        <Pill tone="neutral">{c.source}</Pill>
-                        {isContraindicated && (
-                          <span className="inline-flex items-center gap-1 rounded bg-red-600/15 border border-red-600/30 px-2 py-0.5 mono text-[10px] font-bold text-red-700 dark:text-red-400">
-                            <AlertOctagon size={11} />
-                            CONTRAINDICATED
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="mono text-[11px] text-muted-foreground uppercase">Composite Score:</span>
-                        <span className="mono text-2xl font-black text-primary display">{c.score.toFixed(3)}</span>
-                      </div>
-                    </div>
-
-                    <div className="mt-2 text-lg font-bold text-foreground">
-                      {c.candidate}
-                    </div>
-
-                    {c.safety_rationale && (
-                      <div className="mt-2 rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-xs text-rose-800 dark:text-rose-300">
-                        <strong>Clinical Safety Rationale:</strong> {c.safety_rationale}
-                      </div>
-                    )}
-
-                    {/* Score Bar */}
-                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted">
-                      <div
-                        className={cx(
-                          'h-full rounded-full transition-all duration-500',
-                          isContraindicated ? 'bg-red-600' : 'bg-gradient-to-r from-primary to-teal-500'
-                        )}
-                        style={{ width: `${Math.min(100, Math.max(15, c.score * 100))}%` }}
-                      />
-                    </div>
-
-                    {/* 4-Dimension Metric Breakdown */}
-                    <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                      <div className="rounded-md border border-teal-600/20 bg-teal-500/[0.05] p-3">
-                        <div className="flex items-center justify-between mono text-[10px] uppercase text-muted-foreground">
-                          <span>Q: Grade</span>
-                          <span className="font-bold text-foreground">{c.q_grade.toFixed(2)}</span>
-                        </div>
-                        <div className="mt-1.5 h-1 w-full rounded-full bg-muted">
-                          <div className="h-full rounded-full bg-teal-600" style={{ width: `${c.q_grade * 100}%` }} />
-                        </div>
-                        <div className="mt-1 text-[10px] text-muted-foreground">Guideline weight: 35%</div>
-                      </div>
-
-                      <div className="rounded-md border border-sky-600/20 bg-sky-500/[0.05] p-3">
-                        <div className="flex items-center justify-between mono text-[10px] uppercase text-muted-foreground">
-                          <span>R: Relevance</span>
-                          <span className="font-bold text-foreground">{c.s_rel.toFixed(2)}</span>
-                        </div>
-                        <div className="mt-1.5 h-1 w-full rounded-full bg-muted">
-                          <div className="h-full rounded-full bg-sky-600" style={{ width: `${c.s_rel * 100}%` }} />
-                        </div>
-                        <div className="mt-1 text-[10px] text-muted-foreground">Alignment weight: 30%</div>
-                      </div>
-
-                      <div className="rounded-md border border-indigo-600/20 bg-indigo-500/[0.05] p-3">
-                        <div className="flex items-center justify-between mono text-[10px] uppercase text-muted-foreground">
-                          <span>T: Recency</span>
-                          <span className="font-bold text-foreground">{c.t_recent.toFixed(2)}</span>
-                        </div>
-                        <div className="mt-1.5 h-1 w-full rounded-full bg-muted">
-                          <div className="h-full rounded-full bg-indigo-600" style={{ width: `${c.t_recent * 100}%` }} />
-                        </div>
-                        <div className="mt-1 text-[10px] text-muted-foreground">Literature recency: 15%</div>
-                      </div>
-
-                      <div className="rounded-md border border-rose-600/20 bg-rose-500/[0.05] p-3">
-                        <div className="flex items-center justify-between mono text-[10px] uppercase text-muted-foreground">
-                          <span>P: Risk Penalty</span>
-                          <span className="font-bold text-rose-700 dark:text-rose-400">-{c.p_risk.toFixed(2)}</span>
-                        </div>
-                        <div className="mt-1.5 h-1 w-full rounded-full bg-muted">
-                          <div className="h-full rounded-full bg-rose-600" style={{ width: `${c.p_risk * 100}%` }} />
-                        </div>
-                        <div className="mt-1 text-[10px] text-muted-foreground">Safety penalty: 20%</div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className={cx(
-                          'grid size-8 shrink-0 place-items-center rounded-full border mono text-xs font-bold',
-                          isContraindicated
-                            ? 'border-red-600 bg-red-600/10 text-red-700'
-                            : 'border-border bg-muted/60 text-muted-foreground'
-                        )}>
-                          {String(c.ranking).padStart(2, '0')}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-foreground">{c.candidate}</span>
-                            {isContraindicated && (
-                              <span className="inline-flex items-center gap-1 rounded bg-red-600/15 border border-red-600/30 px-2 py-0.5 mono text-[9px] font-bold text-red-700 dark:text-red-400">
-                                <AlertOctagon size={10} />
-                                DEMOTED (CONTRAINDICATED)
-                              </span>
+                  return (
+                    <div
+                      key={c.ranking}
+                      data-testid={`row-candidate-${c.ranking}`}
+                      className={cx(
+                        'p-4 transition-colors relative',
+                        isContra
+                          ? 'bg-rose-50 dark:bg-rose-950/40 border-l-4 border-l-rose-600'
+                          : isRank1
+                          ? 'bg-emerald-50 dark:bg-emerald-950/30 border-l-4 border-l-teal-600'
+                          : 'bg-white dark:bg-card hover:bg-slate-50/80 dark:hover:bg-muted/20'
+                      )}
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex items-start gap-3 flex-1 min-w-0">
+                          <div
+                            className={cx(
+                              'grid size-7 shrink-0 place-items-center rounded-md border mono text-xs font-bold',
+                              isContra
+                                ? 'border-rose-400 bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                                : isRank1
+                                ? 'border-teal-600 bg-teal-600 text-white'
+                                : 'border-slate-200 dark:border-border bg-slate-100 dark:bg-muted text-muted-foreground'
                             )}
+                          >
+                            {String(c.ranking).padStart(2, '0')}
                           </div>
-                          <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                            <Pill>Q {c.q_grade.toFixed(2)}</Pill>
-                            <Pill>R {c.s_rel.toFixed(2)}</Pill>
-                            <Pill>T {c.t_recent.toFixed(2)}</Pill>
-                            <Pill tone={c.p_risk > 0.5 ? 'red' : 'teal'}>P {c.p_risk.toFixed(2)}</Pill>
-                            <span className="mono text-[10px] text-muted-foreground uppercase">· {c.source}</span>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span
+                                className={cx(
+                                  'text-sm font-bold text-foreground cursor-pointer hover:underline',
+                                  isContra && 'line-through text-rose-900 dark:text-rose-300',
+                                  !isExpanded && 'line-clamp-2'
+                                )}
+                                onClick={() => setExpandedCandidate(isExpanded ? null : c.ranking)}
+                                title="Click to toggle full excerpt"
+                              >
+                                {c.candidate}
+                              </span>
+
+                              {isContra && (
+                                <span className="rounded bg-rose-600 px-1.5 py-0.2 mono text-[9px] font-black uppercase text-white shrink-0">
+                                  CONTRAINDICATED
+                                </span>
+                              )}
+                              {isRank1 && !isContra && (
+                                <span className="rounded bg-teal-600 px-1.5 py-0.2 mono text-[9px] font-bold uppercase text-white shrink-0">
+                                  RANK #1 PREFERRED
+                                </span>
+                              )}
+                            </div>
+
+                            {c.safety_rationale && (
+                              <div className="mt-1 text-xs text-rose-700 dark:text-rose-300 font-medium">
+                                ⚠️ {c.safety_rationale}
+                              </div>
+                            )}
+
+                            {/* Dimension breakdown in font-mono tabular-nums */}
+                            <div className="mt-2 flex flex-wrap items-center gap-1.5 font-mono text-[10px] tabular-nums">
+                              <span className="rounded bg-slate-100 dark:bg-muted px-2 py-0.5 font-semibold text-slate-700 dark:text-slate-300">
+                                Q: {c.q_grade.toFixed(2)}
+                              </span>
+                              <span className="rounded bg-slate-100 dark:bg-muted px-2 py-0.5 font-semibold text-slate-700 dark:text-slate-300">
+                                S: {c.s_rel.toFixed(2)}
+                              </span>
+                              <span className="rounded bg-slate-100 dark:bg-muted px-2 py-0.5 font-semibold text-slate-700 dark:text-slate-300">
+                                T: {c.t_recent.toFixed(2)}
+                              </span>
+                              <span
+                                className={cx(
+                                  'rounded px-2 py-0.5 font-bold',
+                                  c.p_risk > 0.5
+                                    ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                                    : 'bg-slate-100 dark:bg-muted text-slate-700 dark:text-slate-300'
+                                )}
+                              >
+                                P: -{c.p_risk.toFixed(2)}
+                              </span>
+                              <span className="text-muted-foreground ml-1 uppercase text-[9px]">
+                                · {c.source}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="mono text-lg font-bold text-foreground">{c.score.toFixed(3)}</div>
-                        {top && (
-                          <div className="mono text-[10px] text-muted-foreground">
-                            -{(top.score - c.score).toFixed(3)} vs #1
+
+                        {/* Composite V_score Pill */}
+                        <div className="text-right shrink-0">
+                          <div className="flex items-center gap-1.5 justify-end">
+                            <span className="mono text-[10px] text-muted-foreground uppercase">Score:</span>
+                            <span
+                              className={cx(
+                                'mono text-lg font-black tabular-nums display',
+                                isContra ? 'text-rose-600' : isRank1 ? 'text-primary' : 'text-foreground'
+                              )}
+                            >
+                              {c.score.toFixed(3)}
+                            </span>
                           </div>
-                        )}
+                          {top && c.ranking > 1 && (
+                            <div className="mono text-[10px] text-muted-foreground">
+                              -{(top.score - c.score).toFixed(3)} vs #1
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    {c.safety_rationale && (
-                      <div className="ml-11 rounded border border-rose-500/25 bg-rose-500/5 p-2 text-xs text-rose-800 dark:text-rose-300">
-                        {c.safety_rationale}
-                      </div>
-                    )}
-                  </div>
-                )}
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-
-        {/* Weights Parameter Footer */}
-        <div className="grid gap-3 border-t border-border/80 bg-muted/30 px-6 py-4 sm:grid-cols-4">
-          {Object.entries(report.dea.weights).map(([key, val]) => (
-            <div key={key} className="flex items-center justify-between rounded border border-border/50 bg-card/60 px-3 py-2 mono text-[10px] uppercase text-muted-foreground">
-              <span>Weight {key} ({key === 'alpha' ? 'Grade' : key === 'beta' ? 'Relevance' : key === 'gamma' ? 'Recency' : 'Risk'})</span>
-              <span className="font-bold text-foreground">{val.toFixed(2)}</span>
             </div>
-          ))}
-        </div>
 
-        {/* 4. Interactive What-If Clinical Simulator Panel */}
-        <div className="border-t border-border/80 p-5 bg-card/40">
-          <WhatIfSimulator
-            initialPatient={patient || fallbackPatient}
-            initialCandidates={report.dea.candidates}
-            initialWeights={report.dea.weights}
-            onRerun={(modPatient, weights) => {
-              if (onReRun) {
-                onReRun(modPatient, weights);
-              }
-            }}
-            isRunning={isReRunning}
-          />
-        </div>
-      </Card>
+            {/* Verified Clinical Synthesis */}
+            <div className="bg-white dark:bg-card border border-slate-200 dark:border-border rounded-xl shadow-sm relative overflow-hidden">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-border px-5 py-3.5 bg-slate-50 dark:bg-muted/40">
+                <div className="flex items-center gap-2">
+                  <Sparkles size={15} className="text-primary" />
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
+                    Arbitration Synthesis & Claim Verification
+                  </h3>
+                  <span className="rounded bg-teal-500/10 border border-teal-500/20 px-2 py-0.2 mono text-[10px] font-bold text-teal-800 dark:text-teal-300">
+                    Deterministic Grounding
+                  </span>
+                </div>
+              </div>
+              <div className="p-4">
+                <ClaimChecker report={report} />
+              </div>
+            </div>
+          </div>
+        )}
 
-      {/* Responsive 2-Column: Conflict Register & Sentence-Level Claim Checker */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Conflict Register Card */}
-        <Card className="glass-card p-6">
-          <SectionLabel icon={AlertTriangle}>Conflict Register & Safety Governance</SectionLabel>
+        {/* Tab 2: What-If Simulator */}
+        {reportTab === 'whatif' && (
+          <div className="relative">
+            <WhatIfSimulator
+              initialPatient={patient || fallbackPatient}
+              initialCandidates={report.dea.candidates}
+              initialWeights={report.dea.weights}
+              onRerun={(modPatient, weights) => {
+                if (onReRun) onReRun(modPatient, weights);
+              }}
+              isRunning={isReRunning}
+            />
+          </div>
+        )}
 
-          {hasActiveFindings ? (
-            <div className="mt-4 space-y-4">
-              {confirmedConflicts.length > 0 && (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 mono text-[10px] font-bold uppercase tracking-[.14em] text-red-700 dark:text-red-400">
-                    <span className="size-2 rounded-full bg-red-600" />
-                    Evidence-Confirmed Conflicts ({confirmedConflicts.length})
-                  </div>
+        {/* Tab 3: Evidence Silos & Conflicts */}
+        {reportTab === 'evidence' && (
+          <div className="space-y-4">
+            {/* Conflict Register Card */}
+            <div className="bg-white dark:bg-card border border-slate-200 dark:border-border rounded-xl p-5 shadow-sm relative space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-border pb-3 mb-3">
+                <div className="flex items-center gap-2">
+                  <AlertTriangle size={15} className="text-rose-600" />
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
+                    Cross-Silo Conflict Register
+                  </h3>
+                  <span className="rounded bg-rose-500/10 border border-rose-500/20 px-2 py-0.2 mono text-[10px] font-bold text-rose-800 dark:text-rose-300">
+                    {confirmedConflicts.length} Confirmed Conflict{confirmedConflicts.length === 1 ? '' : 's'}
+                  </span>
+                </div>
+              </div>
+
+              {hasActiveFindings ? (
+                <div className="space-y-2.5">
                   {confirmedConflicts.map((c, i) => (
                     <div
-                      key={`confirmed-${i}`}
-                      data-testid={`conflict-confirmed-${i}`}
-                      className="rounded-md border-l-4 border-red-600 bg-red-500/[0.05] p-3.5 border border-border/70"
+                      key={`conf-${i}`}
+                      className="rounded-md border-l-4 border-l-rose-600 border border-slate-200 dark:border-border p-3 text-xs bg-white dark:bg-card relative"
                     >
-                      <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-                        <span className="text-foreground">{c.conflict_type}</span>
-                        <Pill tone="red">{c.severity}</Pill>
-                        <Pill tone="teal">Verified Linkage</Pill>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="font-bold text-foreground">{c.conflict_type}</div>
+                        <div className="flex items-center gap-1.5">
+                          <Pill tone="red">{c.severity}</Pill>
+                          <Pill tone="teal">Verified Linkage</Pill>
+                        </div>
                       </div>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{c.description}</p>
-                      <div className="mt-2.5 inline-flex items-center gap-1.5 rounded bg-red-600/10 px-2 py-0.5 mono text-[10px] font-bold text-red-800 dark:text-red-300">
-                        <span>AFFECTS:</span>
-                        <span>{c.affected_treatment}</span>
+                      <p className="mt-1.5 text-muted-foreground leading-relaxed text-xs">{c.description}</p>
+                      <div className="mt-2 flex items-center justify-between mono text-[10px]">
+                        <span className="font-semibold text-rose-700 dark:text-rose-400">
+                          Affects: {c.affected_treatment}
+                        </span>
+                        <span>Risk factor: {c.risk_factor}</span>
                       </div>
                     </div>
                   ))}
-                </div>
-              )}
 
-              {coverageGapAdvisories.length > 0 && (
-                <div className="space-y-3 border-t border-border/60 pt-4">
-                  <div className="flex items-center gap-2 mono text-[10px] font-bold uppercase tracking-[.14em] text-sky-700 dark:text-sky-400">
-                    <span className="size-2 rounded-full bg-sky-600" />
-                    Retrieval Coverage-Gap Advisories ({coverageGapAdvisories.length})
-                  </div>
-                  <p className="text-[11px] leading-relaxed text-muted-foreground italic">
-                    Active risk alert flagged by deterministic rule, but retrieved evidence did not verify the specific warning text.
-                  </p>
                   {coverageGapAdvisories.map((c, i) => (
                     <div
                       key={`gap-${i}`}
-                      data-testid={`advisory-coverage-gap-${i}`}
-                      className="rounded-md border-l-4 border-sky-600 bg-sky-500/[0.05] p-3.5 border border-border/70"
+                      className="rounded-md border-l-4 border-l-sky-500 border border-slate-200 dark:border-border p-3 text-xs bg-white dark:bg-card relative"
                     >
-                      <div className="flex items-center gap-2 text-xs font-semibold">
-                        <span className="text-foreground">{c.conflict_type}</span>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="font-bold text-foreground">{c.conflict_type}</div>
                         <Pill tone="blue">Coverage Gap</Pill>
                       </div>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{c.description}</p>
-                      <div className="mt-2.5 inline-flex items-center gap-1.5 rounded bg-sky-600/10 px-2 py-0.5 mono text-[10px] font-bold text-sky-800 dark:text-sky-300">
-                        <span>AFFECTS:</span>
-                        <span>{c.affected_treatment}</span>
+                      <p className="mt-1.5 text-muted-foreground leading-relaxed text-xs">{c.description}</p>
+                      <div className="mt-2 mono text-[10px] text-sky-700 dark:text-sky-400">
+                        Affects: {c.affected_treatment}
                       </div>
                     </div>
                   ))}
-                </div>
-              )}
 
-              {dataQualityAdvisories.length > 0 && (
-                <div className="space-y-3 border-t border-border/60 pt-4">
-                  <div className="flex items-center gap-2 mono text-[10px] font-bold uppercase tracking-[.14em] text-amber-700 dark:text-amber-400">
-                    <span className="size-2 rounded-full bg-amber-500" />
-                    Data-Quality Advisories ({dataQualityAdvisories.length})
-                  </div>
-                  <p className="text-[11px] leading-relaxed text-muted-foreground italic">
-                    Missing, malformed, incompatible-unit, or conflicting patient measurements require clinical confirmation.
-                  </p>
                   {dataQualityAdvisories.map((c, i) => (
                     <div
                       key={`dq-${i}`}
-                      data-testid={`advisory-data-quality-${i}`}
-                      className="rounded-md border-l-4 border-amber-600 bg-amber-500/[0.05] p-3.5 border border-border/70"
+                      className="rounded-md border-l-4 border-l-amber-500 border border-slate-200 dark:border-border p-3 text-xs bg-white dark:bg-card relative"
                     >
-                      <div className="flex items-center gap-2 text-xs font-semibold">
-                        <span className="text-foreground">{c.conflict_type}</span>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="font-bold text-foreground">{c.conflict_type}</div>
                         <Pill tone="amber">Data Quality</Pill>
                       </div>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{c.description}</p>
-                      <div className="mt-2.5 inline-flex items-center gap-1.5 rounded bg-amber-600/10 px-2 py-0.5 mono text-[10px] font-bold text-amber-800 dark:text-amber-300">
-                        <span>AFFECTS:</span>
-                        <span>{c.affected_treatment}</span>
+                      <p className="mt-1.5 text-muted-foreground leading-relaxed text-xs">{c.description}</p>
+                      <div className="mt-2 mono text-[10px] text-amber-700 dark:text-amber-400">
+                        Affects: {c.affected_treatment}
                       </div>
                     </div>
                   ))}
                 </div>
-              )}
-
-              {unknownAlerts.length > 0 && (
-                <div className="space-y-3 border-t border-border/60 pt-4">
-                  <div className="flex items-center gap-2 mono text-[10px] font-bold uppercase tracking-[.14em] text-amber-800 dark:text-amber-300">
-                    <span className="size-2 rounded-full bg-amber-700" />
-                    Unverified / Legacy Alerts ({unknownAlerts.length})
-                  </div>
-                  <p className="text-[11px] leading-relaxed text-muted-foreground italic">
-                    Alert lacks explicit status metadata; treated conservatively as unverified rather than safe.
-                  </p>
-                  {unknownAlerts.map((c, i) => (
-                    <div
-                      key={`unknown-${i}`}
-                      data-testid={`alert-unverified-${i}`}
-                      className="rounded-md border-l-4 border-amber-700 bg-amber-600/[0.05] p-3.5 border border-border/70"
-                    >
-                      <div className="flex items-center gap-2 text-xs font-semibold">
-                        <span className="text-foreground">{c.conflict_type}</span>
-                        <Pill tone="amber">{c.severity || 'unverified'}</Pill>
-                      </div>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{c.description}</p>
-                      <div className="mt-2.5 inline-flex items-center gap-1.5 rounded bg-amber-700/10 px-2 py-0.5 mono text-[10px] font-bold text-amber-800 dark:text-amber-300">
-                        <span>AFFECTS:</span>
-                        <span>{c.affected_treatment}</span>
-                      </div>
-                    </div>
-                  ))}
+              ) : (
+                <div className="rounded border border-teal-500/20 bg-teal-500/5 p-4 text-xs flex items-center gap-2.5 text-teal-900 dark:text-teal-200">
+                  <CheckCircle2 size={16} className="text-teal-600 shrink-0" />
+                  <span>Zero cross-silo contradictions or safety collisions detected under retrieved evidence.</span>
                 </div>
               )}
             </div>
-          ) : (
-            <div className="mt-4 space-y-3">
-              <div className="flex items-start gap-3 rounded-md border border-teal-600/25 bg-teal-500/[0.07] p-4 text-xs text-foreground">
-                <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-primary" />
-                <div>
-                  <div className="font-bold text-primary text-sm">
-                    0 cross-silo conflicts detected under available evidence.
-                  </div>
-                  <p className="mt-1 leading-relaxed text-muted-foreground">
-                    Deterministic rule calibration confirmed 0 active contradictions or safety violations between clinical guidelines, drug safety, and recent literature.
-                  </p>
-                </div>
-              </div>
-              <div className="mono text-[9px] uppercase tracking-[.08em] text-muted-foreground pl-1">
-                Bound to retrieved evidence · Does not guarantee overall clinical safety
-              </div>
-            </div>
-          )}
-        </Card>
 
-        {/* 5. Sentence-Level Claim Checker with Green / Yellow / Red Evidence Grounding */}
-        <Card className="glass-card p-6 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-4">
-              <SectionLabel icon={Sparkles}>Arbitration Synthesis & Claim Verification</SectionLabel>
-              <Pill tone="teal">Deterministic Grounding</Pill>
-            </div>
-            <ClaimChecker report={report} />
+            {/* Specialist Evidence Silos */}
+            <EvidencePanel report={report} />
           </div>
-          <div className="mt-6 rounded border border-border/60 bg-muted/30 p-3 mono text-[10px] text-muted-foreground">
-            <span className="font-semibold text-foreground">Audit Trace:</span> Calibrated via ClearDose Python Kernel. All candidate scoring and claims are 100% reproducible, verifiable, and linked to authoritative PMIDs/DailyMed SetIDs.
+        )}
+
+        {/* Tab 4: Medication Reconciler */}
+        {reportTab === 'reconciler' && (
+          <div className="relative">
+            <MedicationReconciler
+              initialClinicMeds={patient?.medications || []}
+              initialDischargeMeds={
+                patient?.secondary_medications && patient.secondary_medications.length > 0
+                  ? patient.secondary_medications
+                  : [
+                      'Metformin 1000 mg twice daily',
+                      'Lisinopril 20 mg daily',
+                      'Apixaban 2.5 mg twice daily',
+                      'Atorvastatin 40 mg daily',
+                    ]
+              }
+              patient={patient || fallbackPatient}
+              initialReport={report?.reconciliation}
+              onConfirmMerge={(newMeds) => {
+                if (patient && onReRun) {
+                  const updated = { ...patient, medications: newMeds };
+                  onReRun(updated, report.dea.weights);
+                  setReportTab('arbitration');
+                }
+              }}
+            />
           </div>
-        </Card>
+        )}
       </div>
 
-      {/* Independent Evidence Silos Full View */}
-      <EvidencePanel report={report} />
+      {/* Action Bar Anchored in Canvas Flow */}
+      <div className="space-y-4 pt-2">
+        <ReproducibilityBadge report={report} patient={patient} />
+        <DoctorSignOff report={report} patient={patient} candidates={report.dea.candidates} />
+      </div>
 
-      {/* 7. Clinician Final Sign-Off Action Bar */}
-      <DoctorSignOff report={report} patient={patient} candidates={report.dea.candidates} />
-
-      {/* Limitations & Safety Boundary Card */}
-      <Card className="border-border bg-muted/20 p-6 glass-card">
-        <SectionLabel icon={ShieldCheck}>Clinical Decision Support Safety Boundary</SectionLabel>
-        <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-          {report.limitations.map((x, i) => (
-            <div key={i} className="flex items-start gap-2.5 rounded border border-border/60 bg-background/70 p-3 text-xs leading-relaxed text-foreground/80">
-              <span className="mono font-bold text-primary">0{i + 1}</span>
-              <span>{x}</span>
-            </div>
-          ))}
-        </div>
-        <div
-          data-testid="text-disclaimer"
-          className="mt-5 border-t border-border/60 pt-4 text-xs font-semibold leading-relaxed text-foreground/80"
-        >
-          Clinical Decision Support System • AI Finds the Evidence, Math Ranks It, Doctors Decide • Final Prescribing Authority Resides with the Attending Clinician.
-        </div>
-      </Card>
+      {/* Clean Compact Clinical CDS Footer */}
+      <div
+        data-testid="text-disclaimer"
+        className="pt-2 text-center mono text-[10px] text-muted-foreground"
+      >
+        Clinical Decision Support System • AI Finds the Evidence, Math Ranks It, Doctors Decide • Final Prescribing Authority Resides with the Attending Clinician.
+      </div>
     </div>
   );
 }
@@ -1703,170 +1639,239 @@ function Workspace() {
   }, []);
 
   return (
-    <>
-      {/* Workspace Header */}
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-5 border-b border-border/60 pb-6">
-        <div>
-          <div className="mb-3 flex items-center gap-2">
-            <Pill tone="teal">
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              CLEARDOSE CDS WORKSTATION
-            </Pill>
-            <span className="mono text-[10px] uppercase tracking-[.15em] text-muted-foreground">
-              Hospital-Grade Clinical Decision Support • Multi-Silo Arbitration
-            </span>
-          </div>
-          <h1 className="display max-w-2xl text-3xl font-extrabold tracking-tight md:text-5xl text-foreground">
-            AI Finds the Evidence.<br />
-            <span className="text-primary">Math Ranks It. Doctors Decide.</span>
-          </h1>
-          <p className="mt-3 max-w-xl text-xs sm:text-sm leading-relaxed text-muted-foreground">
-            Hospital-grade clinical decision support integrating multi-silo biomedical retrieval, deterministic mathematical arbitration, safety gating, and sentence-level evidence verification.
-          </p>
-        </div>
+    <div className="flex h-full w-full overflow-hidden bg-slate-50 dark:bg-background">
+      {/* Left Column: Patient Dossier & Intake Drawer (w-96, collapsible) */}
+      <aside
+        className={cx(
+          'w-96 shrink-0 border-r border-slate-200 dark:border-border bg-white dark:bg-card overflow-y-auto p-5 space-y-4 transition-all duration-300',
+          inputFolded ? 'hidden' : 'block'
+        )}
+      >
+        <CaseForm
+          patient={currentPatient}
+          setPatient={setCurrentPatient}
+          onRun={run}
+          demoCases={demoQuery.data}
+          isLoadingCases={demoQuery.isLoading}
+          isRunning={analyze.isPending}
+          onLoadDemo={(c) => {
+            setLoadedCase(c);
+            setCurrentPatient(c.patient);
+          }}
+          onFold={() => setInputFolded(true)}
+        />
 
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Workspace Tab Switcher */}
-          <div className="flex items-center gap-1 rounded-md border border-border bg-card p-1 shadow-2xs">
-            <button
-              onClick={() => setWorkspaceTab('arbitration')}
-              data-testid="tab-arbitration-view"
-              className={cx(
-                'inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 mono text-[11px] font-semibold uppercase tracking-wider transition-all',
-                workspaceTab === 'arbitration'
-                  ? 'bg-primary text-primary-foreground shadow-xs'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              <Microscope size={14} />
-              <span>Arbitration Workspace</span>
-            </button>
-            <button
-              onClick={() => setWorkspaceTab('reconciler')}
-              data-testid="tab-reconciler-view"
-              className={cx(
-                'inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 mono text-[11px] font-semibold uppercase tracking-wider transition-all',
-                workspaceTab === 'reconciler'
-                  ? 'bg-primary text-primary-foreground shadow-xs'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              <GitCompare size={14} />
-              <span>Medication Reconciler</span>
-              {report?.reconciliation?.has_discrepancy && (
-                <span className="rounded-full bg-amber-500 text-white px-1.5 py-0.2 text-[9px] font-bold">
-                  {(report.reconciliation.missing_in_discharge?.length || 0) +
-                    (report.reconciliation.added_in_discharge?.length || 0) +
-                    (report.reconciliation.dose_discrepancy?.length || 0) +
-                    (report.reconciliation.therapeutic_duplications?.length || 0) || '!'}
-                </span>
-              )}
-            </button>
-          </div>
-
-          <button
-            data-testid="button-toggle-input-layout"
-            onClick={() => setInputFolded(f => !f)}
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-1.5 mono text-[11px] font-semibold text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-2xs"
-            title={inputFolded ? "Show Patient Profile Vector Form" : "Fold Patient Form for Full-Screen Results View"}
+        {loadedCase && (
+          <div
+            data-testid="status-loaded-case"
+            className="flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-50/50 dark:bg-amber-950/20 p-3 text-xs leading-relaxed text-foreground/80 shadow-2xs"
           >
-            {inputFolded ? (
-              <>
-                <PanelLeftOpen size={14} className="text-primary" />
-                <span>Show Patient Profile Form</span>
-              </>
-            ) : (
-              <>
-                <PanelLeftClose size={14} className="text-primary" />
-                <span>Full-Screen Results View</span>
-              </>
-            )}
-          </button>
-
-          <button
-            data-testid="button-workspace-audit-history"
-            onClick={() => {
-              window.dispatchEvent(new CustomEvent('cleardose:open_audit_drawer'));
-            }}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 mono text-[11px] font-semibold text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-2xs"
-            title="View immutable SHA-256 case audit records and clinician sign-offs"
-          >
-            <History size={14} className="text-primary" />
-            <span>Audit Ledger</span>
-          </button>
-
-          <div className="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 mono text-[10px] uppercase tracking-[.1em] text-primary">
-            <span className="size-2 rounded-full bg-primary animate-pulse" />
-            <span>ClearDose Python Kernel Live</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 6. Medication Reconciler Full View */}
-      {workspaceTab === 'reconciler' ? (
-        <div className="space-y-6 animate-rise">
-          <div className="flex items-center justify-between border-b border-border/60 pb-4">
+            <Sparkles size={15} className="mt-0.5 shrink-0 text-amber-600" />
             <div>
-              <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">Inpatient & Discharge Transition Safety</div>
-              <h2 className="display text-2xl font-bold">Medication List Reconciler</h2>
+              <strong className="font-semibold text-foreground">{loadedCase.title}</strong>
+              <p className="mt-0.5 text-muted-foreground text-[11px]">Loaded from verified clinical benchmark cohort.</p>
             </div>
-            <Button variant="ghost" testId="button-switch-to-workspace" onClick={() => setWorkspaceTab('arbitration')}>
-              <Microscope size={14} />
-              <span>Back to Clinical Arbitration</span>
-            </Button>
           </div>
-          <MedicationReconciler
-            initialClinicMeds={currentPatient.medications}
-            initialDischargeMeds={
-              currentPatient.secondary_medications && currentPatient.secondary_medications.length > 0
-                ? currentPatient.secondary_medications
-                : [
-                    'Metformin 1000 mg twice daily',
-                    'Lisinopril 20 mg daily',
-                    'Apixaban 2.5 mg twice daily',
-                    'Atorvastatin 40 mg daily',
-                    'Omeprazole 20 mg daily',
-                  ]
-            }
-            patient={currentPatient}
-            initialReport={report?.reconciliation}
-            onConfirmMerge={(newMeds) => {
-              const updated: PatientProfileInput = { ...currentPatient, medications: newMeds };
-              setCurrentPatient(updated);
-              setWorkspaceTab('arbitration');
-              run(updated);
-            }}
-          />
-        </div>
-      ) : (
-        <>
-          {/* Folded Input Vector Notification Banner */}
-          {inputFolded && (
-            <div
-              data-testid="banner-input-folded"
-              className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/25 bg-card/90 px-4 py-3 shadow-xs glass-card animate-rise"
+        )}
+
+        {analyze.isError && (
+          <div
+            data-testid="status-analysis-error"
+            className="flex items-start gap-2.5 rounded-xl border border-rose-500/30 bg-rose-50/50 dark:bg-rose-950/20 p-3.5 text-xs text-rose-800 dark:text-rose-300 shadow-2xs"
+          >
+            <AlertTriangle size={16} className="shrink-0 text-rose-600 mt-0.5" />
+            <div>
+              <strong>Arbitration could not complete.</strong>
+              <p className="mt-1 text-xs">The clinical server returned an error. Check connectivity and retry.</p>
+              <button
+                data-testid="button-dismiss-analysis-error"
+                onClick={() => analyze.reset()}
+                className="mt-2 text-xs font-semibold underline hover:no-underline cursor-pointer"
+              >
+                Dismiss Error
+              </button>
+            </div>
+          </div>
+        )}
+      </aside>
+
+      {/* Right Column: Clinical Arbitration Canvas (flex-1) */}
+      <section className="flex-1 h-full overflow-y-auto bg-slate-50 dark:bg-background">
+        <div className="max-w-5xl mx-auto px-6 py-6 space-y-5">
+          {/* Workspace Sub-Header Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-border pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="display text-xl font-bold tracking-tight text-foreground">
+                Clinical Arbitration Workspace
+              </span>
+              <span className="hidden sm:inline-block rounded bg-primary/10 px-2 py-0.5 mono text-[10px] font-bold text-primary">
+                Multi-Silo Evidence & Deterministic DEA Arbitration
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              AI Finds the Evidence. Math Ranks It. Doctors Decide. • Final prescribing authority resides with attending clinician.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* Workspace Tab Switcher */}
+            <div className="flex items-center gap-1 rounded-lg border border-slate-200 dark:border-border bg-white dark:bg-card p-1 shadow-2xs text-xs">
+              <button
+                onClick={() => setWorkspaceTab('arbitration')}
+                data-testid="tab-arbitration-view"
+                className={cx(
+                  'inline-flex items-center gap-1.5 rounded-md px-3 py-1 mono text-[11px] font-semibold uppercase tracking-wider transition-all cursor-pointer',
+                  workspaceTab === 'arbitration'
+                    ? 'bg-primary text-primary-foreground shadow-xs'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <Microscope size={13} />
+                <span>Arbitration Workspace</span>
+              </button>
+              <button
+                onClick={() => setWorkspaceTab('reconciler')}
+                data-testid="tab-reconciler-view"
+                className={cx(
+                  'inline-flex items-center gap-1.5 rounded-md px-3 py-1 mono text-[11px] font-semibold uppercase tracking-wider transition-all cursor-pointer',
+                  workspaceTab === 'reconciler'
+                    ? 'bg-primary text-primary-foreground shadow-xs'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <GitCompare size={13} />
+                <span>Medication Reconciler</span>
+                {report?.reconciliation?.has_discrepancy && (
+                  <span className="rounded-full bg-amber-500 text-white px-1.5 py-0.2 text-[9px] font-bold">
+                    {(report.reconciliation.missing_in_discharge?.length || 0) +
+                      (report.reconciliation.added_in_discharge?.length || 0) +
+                      (report.reconciliation.dose_discrepancy?.length || 0) +
+                      (report.reconciliation.therapeutic_duplications?.length || 0) || '!'}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            <button
+              data-testid="button-toggle-input-layout"
+              onClick={() => setInputFolded((f) => !f)}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-border bg-white dark:bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-slate-100 dark:hover:bg-muted hover:text-foreground transition-all shadow-2xs cursor-pointer"
+              title={inputFolded ? 'Open Patient Dossier' : 'Fold Patient Dossier for Full-Width Canvas'}
             >
-              <div className="flex items-center gap-3">
-                <div className="grid size-8 place-items-center rounded-md bg-primary/10 text-primary">
-                  <Stethoscope size={16} />
+              {inputFolded ? (
+                <>
+                  <PanelLeftOpen size={14} className="text-primary" />
+                  <span>Open Patient Dossier</span>
+                </>
+              ) : (
+                <>
+                  <PanelLeftClose size={14} className="text-primary" />
+                  <span>Fold Dossier</span>
+                </>
+              )}
+            </button>
+
+            <button
+              data-testid="button-workspace-audit-history"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('cleardose:open_audit_drawer'));
+              }}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-border bg-white dark:bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-slate-100 dark:hover:bg-muted hover:text-foreground transition-all shadow-2xs cursor-pointer"
+              title="View immutable SHA-256 case audit records and clinician sign-offs"
+            >
+              <History size={13} className="text-primary" />
+              <span>Audit Ledger</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Medication Reconciler Tab Content */}
+        {workspaceTab === 'reconciler' ? (
+          <div className="space-y-6 animate-rise">
+            <div className="flex items-center justify-between border-b border-border/60 pb-4">
+              <div>
+                <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                  Inpatient & Discharge Transition Safety
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-foreground">
-                      {loadedCase ? loadedCase.title : 'Active Patient Profile Vector'}
-                    </span>
-                    <Pill tone="teal">Full-Screen Mode Active</Pill>
-                  </div>
-                  <p className="mono text-[10px] text-muted-foreground mt-0.5">
-                    Input vector panel folded. Results, telemetry, and evidence arbitration matrix taking 100% display width.
-                  </p>
-                </div>
+                <h2 className="display text-2xl font-bold">Medication List Reconciler</h2>
               </div>
-              <div className="flex items-center gap-2">
+              <Button variant="ghost" testId="button-switch-to-workspace" onClick={() => setWorkspaceTab('arbitration')}>
+                <Microscope size={14} />
+                <span>Back to Clinical Arbitration</span>
+              </Button>
+            </div>
+            <MedicationReconciler
+              initialClinicMeds={currentPatient.medications}
+              initialDischargeMeds={
+                currentPatient.secondary_medications && currentPatient.secondary_medications.length > 0
+                  ? currentPatient.secondary_medications
+                  : [
+                      'Metformin 1000 mg twice daily',
+                      'Lisinopril 20 mg daily',
+                      'Apixaban 2.5 mg twice daily',
+                      'Atorvastatin 40 mg daily',
+                      'Omeprazole 20 mg daily',
+                    ]
+              }
+              patient={currentPatient}
+              initialReport={report?.reconciliation}
+              onConfirmMerge={(newMeds) => {
+                const updated: PatientProfileInput = { ...currentPatient, medications: newMeds };
+                setCurrentPatient(updated);
+                setWorkspaceTab('arbitration');
+                run(updated);
+              }}
+            />
+          </div>
+        ) : (
+          <>
+            {/* Folded Input Vector Notification Banner */}
+            {inputFolded && (
+              <div
+                data-testid="banner-input-folded"
+                className="w-full flex items-center justify-between gap-3 rounded-xl border border-primary/25 bg-primary/[0.04] p-3 text-xs shadow-2xs"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="grid size-7 place-items-center rounded-lg bg-primary/10 text-primary">
+                    <Stethoscope size={15} />
+                  </div>
+                  <div>
+                    <span className="font-bold text-foreground">
+                      Patient Dossier Folded • Full-Width Clinical Arbitration Canvas Active
+                    </span>
+                    <span className="text-muted-foreground ml-2 text-[11px]">
+                      ({loadedCase ? loadedCase.title : `${currentPatient.age}yo ${currentPatient.sex}`})
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setInputFolded(false)}
+                  data-testid="button-unfold-input-panel"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-white dark:bg-card px-2.5 py-1 text-xs font-semibold text-primary hover:bg-slate-100 transition-all cursor-pointer shadow-2xs"
+                >
+                  <PanelLeftOpen size={13} />
+                  <span>Expand Patient Dossier</span>
+                </button>
+              </div>
+            )}
+
+            {/* Right Column Content */}
+            <AgentRail report={report} running={analyze.isPending} />
+
+            {!report && !analyze.isPending && (
+              <Card className="flex min-h-[360px] flex-col items-center justify-center p-8 text-center border-dashed">
+                <div className="mb-4 grid size-16 place-items-center rounded-2xl border border-primary/25 bg-primary/5 text-primary shadow-inner">
+                  <FlaskConical size={28} />
+                </div>
+                <div className="display text-xl font-bold text-foreground">Awaiting Clinical Case Vector</div>
+                <p className="mt-2 max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                  Select a preset patient case or customize the profile on the left to initialize multi-silo biomedical retrieval and deterministic mathematical DEA arbitration.
+                </p>
                 {demoQuery.data && demoQuery.data.length > 0 && (
-                  <div className="hidden sm:flex items-center gap-1.5 mr-2">
-                    <span className="mono text-[10px] text-muted-foreground">Quick Switch:</span>
-                    {demoQuery.data.slice(0, 3).map(c => (
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                    <span className="mono text-[10px] uppercase text-muted-foreground mr-1">Quick Presets:</span>
+                    {demoQuery.data.slice(0, 4).map((c) => (
                       <button
                         key={c.id}
                         onClick={() => {
@@ -1874,155 +1879,56 @@ function Workspace() {
                           setCurrentPatient(c.patient);
                           run(c.patient);
                         }}
-                        className="rounded-full border border-border bg-card px-2.5 py-0.5 mono text-[10px] font-semibold hover:border-primary hover:text-primary transition-colors"
+                        className="rounded-lg border border-border bg-white dark:bg-card px-3 py-1 text-xs font-semibold hover:border-primary hover:text-primary transition-colors cursor-pointer shadow-2xs"
                       >
                         {c.title.split('/')[1]?.trim() ?? c.title}
                       </button>
                     ))}
                   </div>
                 )}
-                <Button
-                  variant="ghost"
-                  onClick={() => setInputFolded(false)}
-                  testId="button-unfold-input-panel"
-                  className="text-xs gap-1.5 py-1.5"
-                >
-                  <PanelLeftOpen size={14} />
-                  <span>Expand Profile Form</span>
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {/* Main Responsive Workspace Layout */}
-          <div
-            className={cx(
-              'gap-7 items-start transition-all duration-300',
-              inputFolded ? 'block w-full' : 'grid xl:grid-cols-[minmax(380px,430px)_1fr]'
-            )}
-          >
-            {/* Left Column: Case Form & Inputs (Docked & Sticky on desktop) */}
-            {!inputFolded && (
-              <div className="space-y-5 xl:sticky xl:top-[88px] xl:self-start xl:max-h-[calc(100vh-108px)] xl:overflow-y-auto subtle-scroll pr-1">
-                <CaseForm
-                  patient={currentPatient}
-                  setPatient={setCurrentPatient}
-                  onRun={run}
-                  demoCases={demoQuery.data}
-                  isLoadingCases={demoQuery.isLoading}
-                  isRunning={analyze.isPending}
-                  onLoadDemo={(c) => {
-                    setLoadedCase(c);
-                    setCurrentPatient(c.patient);
-                  }}
-                  onFold={() => setInputFolded(true)}
-                />
-
-                {loadedCase && (
-                  <div
-                    data-testid="status-loaded-case"
-                    className="flex items-start gap-3 rounded-md border border-amber-600/30 bg-amber-500/10 p-3.5 text-xs leading-relaxed text-foreground/80 glass-card"
-                  >
-                    <Sparkles size={16} className="mt-0.5 shrink-0 text-amber-700" />
-                    <div>
-                      <strong className="font-semibold text-foreground">{loadedCase.title}</strong> loaded from benchmark cohort.
-                      Modify parameters or run arbitration to evaluate the candidate options.
-                    </div>
-                  </div>
-                )}
-
-                {analyze.isError && (
-                  <div
-                    data-testid="status-analysis-error"
-                    className="flex items-start gap-3 rounded-md border border-red-700/30 bg-red-700/10 p-4 text-xs text-red-800 dark:text-red-300"
-                  >
-                    <AlertTriangle size={18} className="shrink-0" />
-                    <div>
-                      <strong>Arbitration could not complete.</strong>
-                      <p className="mt-1 text-xs">The clinical server returned an error. Confirm the API server is available and retry.</p>
-                      <button
-                        data-testid="button-dismiss-analysis-error"
-                        onClick={() => analyze.reset()}
-                        className="mt-2 text-xs font-semibold underline hover:no-underline"
-                      >
-                        Dismiss Error
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              </Card>
             )}
 
-            {/* Right Column: Telemetry & Results Report */}
-            <div className="space-y-6 min-w-0 w-full">
-              <AgentRail report={report} running={analyze.isPending} />
-
-              {!report && !analyze.isPending && (
-                <Card className="instrument-grid flex min-h-[380px] flex-col items-center justify-center p-8 text-center glass-card border-dashed">
-                  <div className="mb-4 grid size-16 place-items-center rounded-full border border-primary/30 bg-primary/5 text-primary shadow-inner">
-                    <FlaskConical size={28} />
+            {analyze.isPending && (
+              <Card className="p-8">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <LoaderCircle size={18} className="animate-spin text-primary" />
+                    <span className="mono text-xs uppercase tracking-wider font-semibold text-primary">
+                      Multi-Silo Retrieval & Deterministic DEA Ranking in progress…
+                    </span>
                   </div>
-                  <div className="display text-xl font-bold text-foreground">Awaiting Clinical Case Vector</div>
-                  <p className="mt-2 max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
-                    Load a verified benchmark case or submit the patient profile to initialize multi-silo retrieval.
-                    The resulting report synthesizes each silo’s evidence, candidate ranking, contraindication check, and claim grounding trace.
-                  </p>
-                  {demoQuery.data && demoQuery.data.length > 0 && (
-                    <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-                      <span className="mono text-[10px] uppercase text-muted-foreground mr-1">Quick Load:</span>
-                      {demoQuery.data.slice(0, 3).map(c => (
-                        <button
-                          key={c.id}
-                          onClick={() => {
-                            setLoadedCase(c);
-                            setCurrentPatient(c.patient);
-                            run(c.patient);
-                          }}
-                          className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold hover:border-primary hover:text-primary transition-colors"
-                        >
-                          {c.title.split('/')[1]?.trim() ?? c.title}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </Card>
-              )}
+                  <div className="h-4 w-1/3 animate-pulse rounded-md bg-muted" />
+                  <div className="h-8 w-3/4 animate-pulse rounded-md bg-muted" />
+                  <div className="h-24 animate-pulse rounded-md bg-muted" />
+                  <div className="h-12 w-1/2 animate-pulse rounded-md bg-muted" />
+                </div>
+              </Card>
+            )}
 
-              {analyze.isPending && (
-                <Card className="p-8 glass-card">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <LoaderCircle size={18} className="animate-spin text-primary" />
-                      <span className="mono text-xs uppercase tracking-wider font-semibold text-primary">
-                        Cross-Silo Querying & Deterministic Clinical Arbitration in progress…
-                      </span>
-                    </div>
-                    <div className="h-4 w-1/3 animate-pulse rounded bg-muted" />
-                    <div className="h-8 w-3/4 animate-pulse rounded bg-muted" />
-                    <div className="h-24 animate-pulse rounded bg-muted" />
-                    <div className="h-12 w-1/2 animate-pulse rounded bg-muted" />
-                  </div>
-                </Card>
-              )}
-
-              {report && (
-                <ReportView
-                  report={report}
-                  patient={currentPatient}
-                  onReRun={run}
-                  isReRunning={analyze.isPending}
-                />
-              )}
-            </div>
-          </div>
-        </>
-      )}
-    </>
+            {report && (
+              <ReportView
+                report={report}
+                patient={currentPatient}
+                onReRun={run}
+                isReRunning={analyze.isPending}
+                initialTab="arbitration"
+              />
+            )}
+          </>
+        )}
+        </div>
+      </section>
+    </div>
   );
 }
 
 function Evaluation() {
-  return <EvaluationDashboard />;
+  return (
+    <div className="h-full overflow-y-auto p-6 max-w-7xl mx-auto space-y-6">
+      <EvaluationDashboard />
+    </div>
+  );
 }
 
 function Knowledge() {
@@ -2068,7 +1974,7 @@ function Knowledge() {
   }))).map(s => ({ ...s, ...siloDetails[s.domain as keyof typeof siloDetails], key: s.domain }));
 
   return (
-    <div className="animate-rise">
+    <div className="h-full overflow-y-auto p-6 max-w-7xl mx-auto space-y-6 animate-rise">
       <div className="mb-8">
         <div className="mb-3 flex items-center gap-2">
           <Pill tone="teal">CORPUS CONTROL</Pill>

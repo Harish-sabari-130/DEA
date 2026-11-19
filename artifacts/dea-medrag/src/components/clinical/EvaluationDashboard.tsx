@@ -108,7 +108,7 @@ function Metric({
   label: string;
   value: string;
   sub?: string;
-  tone?: 'teal' | 'amber' | 'red' | 'blue' | 'emerald';
+  tone?: 'teal' | 'amber' | 'red' | 'blue' | 'emerald' | 'purple';
   icon?: typeof Activity;
 }) {
   return (
@@ -125,7 +125,8 @@ function Metric({
               tone === 'emerald' && 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400',
               tone === 'amber' && 'bg-amber-500/15 text-amber-700',
               tone === 'red' && 'bg-red-600/10 text-red-700',
-              tone === 'blue' && 'bg-sky-600/10 text-sky-700'
+              tone === 'blue' && 'bg-sky-600/10 text-sky-700',
+              tone === 'purple' && 'bg-purple-500/15 text-purple-700 dark:text-purple-400'
             )}
           >
             <Icon size={12} />
@@ -139,7 +140,8 @@ function Metric({
           tone === 'amber' && 'text-amber-700 dark:text-amber-400',
           tone === 'red' && 'text-red-700 dark:text-red-400',
           tone === 'teal' && 'text-primary',
-          tone === 'blue' && 'text-sky-700 dark:text-sky-400'
+          tone === 'blue' && 'text-sky-700 dark:text-sky-400',
+          tone === 'purple' && 'text-purple-700 dark:text-purple-400'
         )}
       >
         {value}
@@ -441,35 +443,35 @@ export function EvaluationDashboard() {
         </form>
       </div>
 
-      {/* 4 Summary KPI Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 4 High-Impact Summary KPI Cards */}
+      <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
         <Metric
-          label="Controlled Arms"
-          value="03 Arms"
-          sub="Single vs Naive vs ClearDose"
-          icon={Layers3}
-          tone="blue"
-        />
-        <Metric
-          label="Safety Violations in Arm C"
-          value="0 / 14 (0.0%)"
-          sub="100% Contraindication Suppression"
+          label="Safety Violation Rate"
+          value="0.0% SVR"
+          sub="0 / 14 Violations • 100% Safety Gate"
           icon={ShieldCheck}
           tone="emerald"
         />
         <Metric
-          label="Clinical Arbitration Accuracy"
+          label="Arbitration Accuracy"
           value="95.7%"
-          sub="+47.8% vs Naive Baselines (47.8%)"
+          sub="22 / 23 Guideline Decisions"
           icon={Award}
           tone="teal"
         />
         <Metric
-          label="Deterministic Stability"
+          label="Conflict Sensitivity"
           value="100.0%"
-          sub="Bitwise Invariant (Zero LLM Jury Drift)"
-          icon={Scale}
+          sub="14 / 14 Collisions Detected"
+          icon={Target}
           tone="blue"
+        />
+        <Metric
+          label="Bitwise Determinism"
+          value="1.000"
+          sub="Deterministic Stability (S_det = 1.0)"
+          icon={Scale}
+          tone="purple"
         />
       </div>
 
